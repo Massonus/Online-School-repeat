@@ -5,6 +5,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardOpenOption;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
 
@@ -16,7 +17,7 @@ public class LogService {
         try {
             strings = Files.readAllLines(path);
         } catch (IOException e) {
-            e.printStackTrace();
+            Arrays.stream(e.getStackTrace()).forEach(System.out::println);
         }
         return strings;
     }
@@ -31,7 +32,7 @@ public class LogService {
             Files.write(path, System.getProperty("line.separator").getBytes(), StandardOpenOption.APPEND);
             Files.write(path, stringLog.getBytes(), StandardOpenOption.APPEND);
         } catch (IOException e) {
-            e.printStackTrace();
+            Arrays.stream(e.getStackTrace()).forEach(System.out::println);
         }
     }
 
@@ -49,7 +50,7 @@ public class LogService {
         try {
             Files.write(path, currentLogs);
         } catch (IOException e) {
-            e.printStackTrace();
+            Arrays.stream(e.getStackTrace()).forEach(System.out::println);
         }
     }
 }

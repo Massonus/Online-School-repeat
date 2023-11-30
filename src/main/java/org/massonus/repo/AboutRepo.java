@@ -84,7 +84,7 @@ public interface AboutRepo<T extends SuperSchool> {
             System.out.println("Please create an Array");
             return null;
         }
-        System.out.println("Enter id of Material");
+        System.out.println("Enter id of Element");
         int id;
         try {
             Scanner scanner = new Scanner(System.in);

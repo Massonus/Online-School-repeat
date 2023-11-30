@@ -13,6 +13,7 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.Arrays;
 import java.util.Iterator;
 import java.util.Objects;
 
@@ -59,7 +60,7 @@ public class Server {
                 }
             }
         } catch (IOException e) {
-            e.printStackTrace();
+            Arrays.stream(e.getStackTrace()).forEach(System.out::println);
         }
     }
 
@@ -105,7 +106,7 @@ public class Server {
             buffer.flip();
             socketChannel.write(buffer);
         } catch (IOException e) {
-            e.printStackTrace();
+            Arrays.stream(e.getStackTrace()).forEach(System.out::println);
         }
         key.interestOps(SelectionKey.OP_READ);
     }
@@ -127,8 +128,8 @@ public class Server {
                     return true;
                 }
             }
-        } catch (IOException ex) {
-            ex.printStackTrace();
+        } catch (IOException e) {
+            Arrays.stream(e.getStackTrace()).forEach(System.out::println);
         }
         return false;
     }

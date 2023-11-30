@@ -1,5 +1,8 @@
 package org.massonus.log;
 
+import lombok.Getter;
+
+@Getter
 public enum LogLevel {
 
     ERROR("ERROR", 3),
@@ -16,11 +19,4 @@ public enum LogLevel {
         this.levelId = levelId;
     }
 
-    public String getField() {
-        return field;
-    }
-
-    public int getLevelId() {
-        return levelId;
-    }
 }

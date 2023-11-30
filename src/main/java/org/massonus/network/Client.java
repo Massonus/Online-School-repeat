@@ -6,6 +6,7 @@ import java.io.InputStreamReader;
 import java.net.InetSocketAddress;
 import java.nio.ByteBuffer;
 import java.nio.channels.SocketChannel;
+import java.util.Arrays;
 
 public class Client {
     public static void main(String[] args) {
@@ -40,7 +41,7 @@ public class Client {
             }
             socketChannel.close();
         } catch (IOException e) {
-            e.printStackTrace();
+            Arrays.stream(e.getStackTrace()).forEach(System.out::println);
         }
     }
 

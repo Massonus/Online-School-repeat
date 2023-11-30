@@ -1,11 +1,11 @@
 package org.massonus.service;
 
 import org.massonus.entity.Course;
-import org.massonus.log.Logger;
 import org.massonus.repo.LectureRepo;
 import org.massonus.repo.PersonRepo;
 
 import java.io.*;
+import java.util.Arrays;
 import java.util.NoSuchElementException;
 import java.util.Random;
 import java.util.Scanner;
@@ -13,7 +13,6 @@ import java.util.Scanner;
 public class CourseService {
     static int courseId;
     static String courseName;
-    Logger logger = new Logger("CourseService");
     Course course;
 
     public Course createElementByUser() {
@@ -74,7 +73,7 @@ public class CourseService {
             outputStream.writeObject(course);
             System.out.println("serial completed successfully \n" + course);
         } catch (IOException e) {
-            e.printStackTrace();
+            Arrays.stream(e.getStackTrace()).forEach(System.out::println);
         }
     }
 
@@ -85,7 +84,7 @@ public class CourseService {
             deSer = (Course) inputStream.readObject();
             System.out.println("deSer completed successfully ");
         } catch (IOException | ClassNotFoundException e) {
-            e.printStackTrace();
+            Arrays.stream(e.getStackTrace()).forEach(System.out::println);
         }
         return deSer;
     }

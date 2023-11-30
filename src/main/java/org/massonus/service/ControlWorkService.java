@@ -90,7 +90,7 @@ public class ControlWorkService {
         try {
             Thread.sleep(2000);
         } catch (InterruptedException e) {
-            e.printStackTrace();
+            Arrays.stream(e.getStackTrace()).forEach(System.out::println);
         }
         searchWorseTime(timesOfWork);
     }
