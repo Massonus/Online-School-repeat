@@ -1,6 +1,5 @@
 package org.massonus.utils;
 
-import org.massonus.comparators.ComparatorById;
 import org.massonus.entity.*;
 import org.massonus.log.Logger;
 import org.massonus.repo.CourseRepo;
@@ -26,8 +25,6 @@ public class CourseController {
     final Logger logger = new Logger("CourseController");
 
     public void mainMenu() {
-
-        Comparator<Course> courseComparator = new ComparatorById();
 
         while (true) {
             System.out.println("\n What you want to do?");
@@ -70,7 +67,9 @@ public class CourseController {
 
                 case "4":
                     try {
-                        CourseRepo.courses.sort(courseComparator);
+                        CourseRepo.courses = CourseRepo.courses.stream()
+                                .sorted(Comparator.comparing(Course::getId))
+                                .toList();
                     } catch (NullPointerException e) {
                         logger.warning("can't sort because array is empty ", e);
                         break;
@@ -158,7 +157,7 @@ public class CourseController {
         try (RandomAccessFile raf = new RandomAccessFile("src/main/java/org/massonus/log/logs.txt", "rw")) {
             raf.setLength(0);
         } catch (IOException e) {
-            e.printStackTrace();
+            Arrays.stream(e.getStackTrace()).forEach(System.out::println);
         }
         System.out.println("Do you want to create the Course?");
         System.out.println("Enter Y or any key");

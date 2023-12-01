@@ -1,6 +1,5 @@
 package org.massonus.view;
 
-import org.massonus.comparators.ComparatorHomeworkByLectureId;
 import org.massonus.entity.Homework;
 import org.massonus.repo.HomeworkRepo;
 
@@ -59,7 +58,6 @@ public class HomeworkView {
     }
 
     public static void workWithAllHomework(List<Homework> allHomework) {
-        Comparator<Homework> comparatorByLectureId = new ComparatorHomeworkByLectureId();
 
         while (true) {
             System.out.println("\n1. To print all homework as List");
@@ -81,8 +79,12 @@ public class HomeworkView {
 
                 case "2":
                     if (allHomework != null) {
-                        allHomework.sort(comparatorByLectureId);
+                        allHomework = allHomework.stream()
+                                .sorted(Comparator.comparing(Homework::getLectureId))
+                                .toList();
+                        allHomework.forEach(System.out::println);
                     }
+
                     break;
 
                 case "3":
