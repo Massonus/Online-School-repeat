@@ -11,7 +11,6 @@ public class PersonView {
     final static PersonRepo personRepo = new PersonRepo();
 
     public void workWithPerson() {
-
         while (true) {
             System.out.println("\n What you want to do?");
             System.out.println("1. Print all People");
