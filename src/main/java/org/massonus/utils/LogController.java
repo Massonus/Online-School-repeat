@@ -30,7 +30,7 @@ public class LogController {
                     break;
                 case "2":
                     readLogs.stream()
-                            .filter(l -> l.startsWith("INFO", 24))
+                            .filter(l -> l.startsWith("INFO", 23))
                             .forEach(System.out::println);
 
                     break;
