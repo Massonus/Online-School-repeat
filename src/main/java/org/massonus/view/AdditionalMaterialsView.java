@@ -1,7 +1,5 @@
 package org.massonus.view;
 
-import org.massonus.comparators.ComparatorByName;
-import org.massonus.comparators.ComparatorByType;
 import org.massonus.entity.AdditionalMaterial;
 import org.massonus.log.Logger;
 import org.massonus.repo.AdditionalMaterialsRepo;
@@ -14,10 +12,6 @@ public class AdditionalMaterialsView {
     final AdditionalMaterialsRepo materialsRepo = new AdditionalMaterialsRepo();
 
     public void workWithMaterial() {
-
-        Comparator<AdditionalMaterial> comparatorByType = new ComparatorByType();
-
-        Comparator<AdditionalMaterial> comparatorByName = new ComparatorByName();
 
         while (true) {
             System.out.println("\n What you want to do with Material?");
@@ -70,12 +64,18 @@ public class AdditionalMaterialsView {
                     break;
 
                 case "8":
-                    AdditionalMaterialsRepo.materials.sort(comparatorByType);
+                    List<AdditionalMaterial> list = AdditionalMaterialsRepo.materials.stream()
+                            .sorted(Comparator.comparing(a -> a.getResourceType().toString()))
+                            .toList();
+                    list.forEach(System.out::println);
                     logger.info("sorted by type");
                     break;
 
                 case "9":
-                    AdditionalMaterialsRepo.materials.sort(comparatorByName);
+                    List<AdditionalMaterial> list1 = AdditionalMaterialsRepo.materials.stream()
+                            .sorted(Comparator.comparing(AdditionalMaterial::getName))
+                            .toList();
+                    list1.forEach(System.out::println);
                     logger.info("sorted by name");
                     break;
 
