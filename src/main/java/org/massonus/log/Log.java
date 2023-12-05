@@ -1,8 +1,10 @@
 package org.massonus.log;
 
+import lombok.Data;
+
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-
+@Data
 public class Log {
 
     private final String name;
