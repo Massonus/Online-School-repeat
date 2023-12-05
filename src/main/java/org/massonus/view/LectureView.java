@@ -5,7 +5,6 @@ import org.massonus.entity.Person;
 import org.massonus.repo.AdditionalMaterialsRepo;
 import org.massonus.repo.HomeworkRepo;
 import org.massonus.repo.LectureRepo;
-import org.massonus.repo.PersonRepo;
 
 import java.util.Collections;
 import java.util.List;
@@ -18,9 +17,8 @@ public class LectureView {
     final AdditionalMaterialsView additionalMaterialsView = new AdditionalMaterialsView();
     final LectureRepo lectureRepo = new LectureRepo();
 
-    public void workWithLecture() {
+    public void workWithLecture(List<Lecture> lectures, List<Person> people) {
 
-        PersonRepo.people = null;
         while (true) {
             System.out.println("\n What you want to do with Lecture?");
             System.out.println("1. Get Lecture by id to work with Homework");
@@ -40,7 +38,7 @@ public class LectureView {
             switch (choice) {
 
                 case "1":
-                    Lecture lectureForHomework = lectureRepo.getById(LectureRepo.lectures);
+                    Lecture lectureForHomework = lectureRepo.getById(lectures);
                     System.out.println(lectureForHomework);
                     try {
                         HomeworkRepo.homeworks = lectureForHomework.getHomeworks();
@@ -52,7 +50,7 @@ public class LectureView {
                     break;
 
                 case "2":
-                    Lecture lectureForMaterial = lectureRepo.getById(LectureRepo.lectures);
+                    Lecture lectureForMaterial = lectureRepo.getById(lectures);
                     System.out.println(lectureForMaterial);
                     try {
                         AdditionalMaterialsRepo.materials = lectureForMaterial.getMaterials();
@@ -64,32 +62,32 @@ public class LectureView {
                     break;
 
                 case "3":
-                    lectureRepo.getAll(LectureRepo.lectures);
+                    lectureRepo.getAll(lectures);
                     break;
 
                 case "4":
                     int index = lectureRepo.choiceIndex();
-                    lectureRepo.add(index);
+                    lectureRepo.add(people, index);
                     break;
 
                 case "5":
-                    lectureRepo.add();
+                    lectureRepo.add(people);
                     break;
 
                 case "6":
-                    lectureRepo.removeById(LectureRepo.lectures);
+                    lectureRepo.removeById(lectures);
                     break;
 
                 case "7":
-                    System.out.println(LectureRepo.lectures.isEmpty());
+                    System.out.println(lectures.isEmpty());
                     break;
 
                 case "8":
-                    System.out.println(LectureRepo.lectures.size());
+                    System.out.println(lectures.size());
                     break;
 
                 case "9":
-                    Collections.sort(LectureRepo.lectures);
+                    Collections.sort(lectures);
                     break;
 
                 case "0":

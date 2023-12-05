@@ -11,6 +11,7 @@ public class CourseRepo implements AboutRepo<Course> {
     public static List<Course> courses;
     final CourseService courseService = new CourseService();
     final LectureRepo lectureRepo = new LectureRepo();
+    final PersonRepo personRepo = new PersonRepo();
     final Logger logger = new Logger("CourseRepo");
 
     public void createAndFillCourseAuto() {
@@ -19,15 +20,18 @@ public class CourseRepo implements AboutRepo<Course> {
         courseSet = new HashSet<>();
         for (int i = 0; i < lengthMas; i++) {
             CourseService.createCourseIdAuto();
-            lectureRepo.createAndFillListAuto();
             Course course = courseService.createElementAuto();
-            course.setPeople(PersonRepo.people);
-            course.setLectures(LectureRepo.lectures);
+            List<Person> people = personRepo.createAndFillListAuto();
+            course.setPeople(people);
+
+            List<Lecture> lectures = lectureRepo.createAndFillListAuto(people);
+            course.setLectures(lectures);
+
+
             logger.info("course created automatically with index: " + i + " id: " + course.getId());
-            boolean add = courseSet.add(course);
-            logger.info("course was added - " + add);
-            logger.info("lectures: " + course.getLectures().size());
-            logger.info("people: " + course.getPeople().size());
+            logger.info("course was added - " + courseSet.add(course));
+            logger.info("lectures: " + lectures.size());
+            logger.info("people: " + people.size());
         }
         logger.info("Created " + courseSet.size() + " courses");
         courses = new ArrayList<>(courseSet);
@@ -42,8 +46,8 @@ public class CourseRepo implements AboutRepo<Course> {
             CourseService.createCourseNameByUser();
             lectureRepo.createAndFillListByUser();
             Course course = courseService.createElementByUser();
-            course.setPeople(PersonRepo.people);
-            course.setLectures(LectureRepo.lectures);
+            /*course.setPeople(PersonRepo.people);*/
+            /*course.setLectures(LectureRepo.lectures);*/
             CourseRepo.courses.add(course);
             logger.info("course created by user with index: " + i + " id: " + course.getId());
 
