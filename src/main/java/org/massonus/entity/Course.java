@@ -17,7 +17,7 @@ public class Course extends SuperSchool implements Comparable<Course>, Serializa
     @Override
     public String toString() {
         return "Course{" +
-                "id=" + getId() +
+                "id=" + id +
                 " name='" + name + '\'' +
                 ", people=" + people +
                 ", lectures=" + lectures +

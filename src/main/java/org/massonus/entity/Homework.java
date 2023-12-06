@@ -25,7 +25,7 @@ public class Homework extends SuperSchool implements Serializable {
     @Override
     public String toString() {
         return "Homework{" +
-                "id=" + getId() +
+                "id=" + id +
                 ", lectureId=" + lectureId +
                 ", task='" + task + '\'' +
                 /*", deadline=" + formatterDeadline.format(deadline) +*/
@@ -37,11 +37,11 @@ public class Homework extends SuperSchool implements Serializable {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Homework homework = (Homework) o;
-        return Objects.equals(getId(), homework.getId());
+        return Objects.equals(id, homework.getId());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getId());
+        return Objects.hash(id);
     }
 }

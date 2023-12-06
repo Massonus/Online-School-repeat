@@ -19,7 +19,7 @@ public class AdditionalMaterial extends SuperSchool implements Comparable<Additi
     @Override
     public String toString() {
         return "AdditionalMaterial{" +
-                "id=" + getId() +
+                "id=" + id +
                 " name='" + name + '\'' +
                 ", courseId=" + courseId +
                 ", lectureId=" + lectureId +
@@ -29,6 +29,6 @@ public class AdditionalMaterial extends SuperSchool implements Comparable<Additi
 
     @Override
     public int compareTo(AdditionalMaterial o) {
-        return getId() - o.getId();
+        return this.id - o.getId();
     }
 }
