@@ -7,7 +7,6 @@ import java.util.List;
 import java.util.Objects;
 @Data
 public class Course extends SuperSchool implements Comparable<Course>, Serializable {
-
     private String name;
 
     private List<Person> people;
@@ -17,7 +16,7 @@ public class Course extends SuperSchool implements Comparable<Course>, Serializa
     @Override
     public String toString() {
         return "Course{" +
-                "id=" + getId() +
+                "id=" + id +
                 " name='" + name + '\'' +
                 ", people=" + people +
                 ", lectures=" + lectures +

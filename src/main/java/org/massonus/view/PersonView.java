@@ -10,7 +10,7 @@ import java.util.Scanner;
 public class PersonView {
     final static PersonRepo personRepo = new PersonRepo();
 
-    public void workWithPerson() {
+    public void workWithPerson(List<Person> people) {
 
         while (true) {
             System.out.println("\n What you want to do?");
@@ -29,7 +29,7 @@ public class PersonView {
             switch (choice) {
 
                 case "1":
-                    personRepo.getAll(PersonRepo.people);
+                    personRepo.getAll(people);
                     break;
 
                 case "2":
@@ -42,19 +42,19 @@ public class PersonView {
                     break;
 
                 case "4":
-                    personRepo.removeById(PersonRepo.people);
+                    personRepo.removeById(people);
                     break;
 
                 case "5":
-                    System.out.println(PersonRepo.people.isEmpty());
+                    System.out.println(people.isEmpty());
                     break;
 
                 case "6":
-                    System.out.println(PersonRepo.people.size());
+                    System.out.println(people.size());
                     break;
 
                 case "7":
-                    Collections.sort(PersonRepo.people);
+                    Collections.sort(people);
                     break;
 
                 case "0":

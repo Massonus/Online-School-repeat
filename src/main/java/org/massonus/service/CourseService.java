@@ -1,8 +1,6 @@
 package org.massonus.service;
 
 import org.massonus.entity.Course;
-import org.massonus.repo.LectureRepo;
-import org.massonus.repo.PersonRepo;
 
 import java.io.*;
 import java.util.Arrays;
@@ -19,8 +17,6 @@ public class CourseService {
         course = new Course();
         course.setId(courseId);
         course.setName(courseName);
-        course.setPeople(PersonRepo.people);
-        course.setLectures(LectureRepo.lectures);
 
         return course;
     }
@@ -40,8 +36,6 @@ public class CourseService {
         } else if (courseId == 5) {
             course.setName("Fives");
         }
-        course.setPeople(PersonRepo.people);
-        course.setLectures(LectureRepo.lectures);
         return course;
     }
 

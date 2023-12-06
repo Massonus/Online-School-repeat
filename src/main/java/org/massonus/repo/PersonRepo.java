@@ -13,19 +13,20 @@ import java.util.*;
 public class PersonRepo implements AboutRepo<Person> {
 
     Set<Person> personSet;
-    public static List<Person> people;
+    public List<Person> people;
     PersonService personService = new PersonService();
     final Logger logger = new Logger("LectureRepo");
 
-    public void createAndFillListAuto() {
+    public List<Person> createAndFillListAuto() {
         Random random = new Random();
-        int lengthMas = random.nextInt(1, 69);
+        int lengthMas = random.nextInt(1, 30);
         personSet = new HashSet<>();
         for (int i = 0; i < lengthMas; i++) {
             personSet.add(personService.createElementAuto());
         }
         people = new ArrayList<>(personSet);
         logger.info("List created successful, size : " + lengthMas);
+        return people;
     }
 
     public void createAndFillListByUser() {

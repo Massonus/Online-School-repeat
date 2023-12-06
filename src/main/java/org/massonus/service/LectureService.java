@@ -7,10 +7,7 @@ import org.massonus.repo.AdditionalMaterialsRepo;
 import org.massonus.repo.HomeworkRepo;
 import org.massonus.repo.PersonRepo;
 
-import java.util.Arrays;
-import java.util.Optional;
-import java.util.Random;
-import java.util.Scanner;
+import java.util.*;
 
 public class LectureService {
     final HomeworkRepo homeworkRepo = new HomeworkRepo();
@@ -44,16 +41,16 @@ public class LectureService {
         lecture.setMaterials(AdditionalMaterialsRepo.materials);
 
 
-        Person person = Optional.ofNullable(getPersonForLectureByUser())
+        /*Person person = Optional.ofNullable(getPersonForLectureByUser())
                 .orElseGet(personService::createElementByUser);
 
         lecture.setPerson(person);
-        lecture.setPersonId(person.getId());
+        lecture.setPersonId(person.getId());*/
 
         return lecture;
     }
 
-    public Lecture createElementAuto() {
+    public Lecture createElementAuto(List<Person> people) {
         lecture = new Lecture();
         Random random = new Random();
         int id = random.nextInt(1, 50);
@@ -76,7 +73,7 @@ public class LectureService {
         lecture.setHomeworks(HomeworkRepo.homeworks);
         lecture.setMaterials(AdditionalMaterialsRepo.materials);
 
-        Person person = Optional.ofNullable(getPersonForLectureAuto())
+        Person person = Optional.ofNullable(getPersonForLectureAuto(people))
                 .orElseGet(personService::createElementAuto);
 
         lecture.setPerson(person);
@@ -85,7 +82,7 @@ public class LectureService {
         return lecture;
     }
 
-    public Person getPersonForLectureByUser() {
+    public Person getPersonForLectureByUser(List<Person> people) {
         System.out.println("Enter id of Person that will be in the Lecture");
         Scanner scanner = new Scanner(System.in);
         int id;
@@ -96,7 +93,7 @@ public class LectureService {
             id = 0;
         }
 
-        for (Person person : PersonRepo.people) {
+        for (Person person : people) {
             if (id == person.getId()) {
                 logger.info("person set " + person);
                 return person;
@@ -104,19 +101,19 @@ public class LectureService {
         }
         System.out.println("Incorrect id, try again");
         logger.warning("incorrect id " + id);
-        for (Person person : PersonRepo.people) {
+        for (Person person : people) {
             System.out.println(person);
         }
-        return getPersonForLectureByUser();
+        return getPersonForLectureByUser(people);
     }
 
-    public Person getPersonForLectureAuto() {
-        if (PersonRepo.people == null) {
+    public Person getPersonForLectureAuto(List<Person> people) {
+        if (people == null) {
             return null;
         }
-        int[] ints = new int[PersonRepo.people.size()];
-        for (int i = 0; i < PersonRepo.people.size(); i++) {
-            Person person = PersonRepo.people.get(i);
+        int[] ints = new int[people.size()];
+        for (int i = 0; i < people.size(); i++) {
+            Person person = people.get(i);
             ints[i] = person.getId();
         }
         Arrays.sort(ints);
@@ -126,10 +123,10 @@ public class LectureService {
         try {
             id = random.nextInt(ints[0], ints[ints.length - 1]);
         } catch (IllegalArgumentException e) {
-            id = PersonRepo.people.get(0).getId();
+            id = people.get(0).getId();
         }
 
-        for (Person person : PersonRepo.people) {
+        for (Person person : people) {
             if (person == null) {
                 continue;
             }
@@ -137,6 +134,6 @@ public class LectureService {
                 return person;
             }
         }
-        return getPersonForLectureAuto();
+        return getPersonForLectureAuto(people);
     }
 }

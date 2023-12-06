@@ -7,6 +7,6 @@ import lombok.Setter;
 @Getter
 public class SuperSchool {
 
-    private Integer id;
+    protected Integer id;
 
 }

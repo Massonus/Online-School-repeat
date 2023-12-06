@@ -32,7 +32,7 @@ public class Person extends SuperSchool implements Comparable<Person>, Serializa
     @Override
     public String toString() {
         return "Person{" +
-                "id=" + getId() +
+                "id=" + id +
                 ", firstName='" + firstName + '\'' +
                 ", lastName='" + lastName + '\'' +
                 ", phone='" + phone + '\'' +

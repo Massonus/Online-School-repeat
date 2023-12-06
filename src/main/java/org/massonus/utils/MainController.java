@@ -1,12 +1,15 @@
 package org.massonus.utils;
 
 import org.massonus.entity.Course;
+import org.massonus.entity.Lecture;
+import org.massonus.entity.Person;
 import org.massonus.log.Logger;
 import org.massonus.repo.LectureRepo;
 import org.massonus.repo.PersonRepo;
 import org.massonus.view.LectureView;
 import org.massonus.view.PersonView;
 
+import java.util.List;
 import java.util.Scanner;
 
 public class MainController {
@@ -15,6 +18,8 @@ public class MainController {
     final Logger logger = new Logger("MainController");
 
     public void workWithCourseElements(Course course) {
+        List<Lecture> lectures;
+        List<Person> people = course.getPeople();
 
         while (true) {
             System.out.println("\n Make your choice (use only numbers)");
@@ -36,23 +41,18 @@ public class MainController {
 
             switch (select) {
                 case 1:
+
                     try {
-                        LectureRepo.lectures = course.getLectures();
+                        lectures = course.getLectures();
                     } catch (NullPointerException e) {
                         System.out.println("Incorrect id " + e);
                         break;
                     }
-                    lectureView.workWithLecture();
+                    lectureView.workWithLecture(lectures, people);
                     break;
 
                 case 2:
-                    try {
-                        PersonRepo.people = course.getPeople();
-                    } catch (NullPointerException e) {
-                        System.out.println("Incorrect id " + e);
-                        break;
-                    }
-                    personView.workWithPerson();
+                    personView.workWithPerson(people);
                     break;
 
                 case 69:

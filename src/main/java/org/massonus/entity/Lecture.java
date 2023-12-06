@@ -32,7 +32,7 @@ public class Lecture extends SuperSchool implements Comparable<Lecture>, Seriali
     @Override
     public String toString() {
         return "\n Lecture{" +
-                "id=" + getId() +
+                "id=" + id +
                 ", name='" + name + '\'' +
                 /*", lectureDate=" + formatter.format(lectureDate) +*/
                 ", person=" + person +
@@ -49,12 +49,12 @@ public class Lecture extends SuperSchool implements Comparable<Lecture>, Seriali
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Lecture lecture = (Lecture) o;
-        return Objects.equals(getId(), lecture.getId());
+        return Objects.equals(id, lecture.getId());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getId());
+        return Objects.hash(id);
     }
 
     @Override
