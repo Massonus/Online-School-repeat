@@ -4,8 +4,6 @@ import org.massonus.entity.Course;
 import org.massonus.entity.Lecture;
 import org.massonus.entity.Person;
 import org.massonus.log.Logger;
-import org.massonus.repo.LectureRepo;
-import org.massonus.repo.PersonRepo;
 import org.massonus.view.LectureView;
 import org.massonus.view.PersonView;
 

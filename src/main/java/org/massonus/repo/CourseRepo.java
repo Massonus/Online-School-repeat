@@ -21,6 +21,7 @@ public class CourseRepo implements AboutRepo<Course> {
         for (int i = 0; i < lengthMas; i++) {
             CourseService.createCourseIdAuto();
             Course course = courseService.createElementAuto();
+
             List<Person> people = personRepo.createAndFillListAuto();
             course.setPeople(people);
 
@@ -45,10 +46,14 @@ public class CourseRepo implements AboutRepo<Course> {
         for (int i = 0; i < length; i++) {
             CourseService.createCourseIdByUser();
             CourseService.createCourseNameByUser();
-            lectureRepo.createAndFillListByUser();
             Course course = courseService.createElementByUser();
-            /*course.setPeople(PersonRepo.people);*/
-            /*course.setLectures(LectureRepo.lectures);*/
+
+            List<Person> people = personRepo.createAndFillListByUser();
+            course.setPeople(people);
+
+            List<Lecture> lectures = lectureRepo.createAndFillListByUser(people);
+            course.setLectures(lectures);
+
             courses.add(course);
             logger.info("course created by user with index: " + i + " id: " + course.getId());
 

@@ -8,11 +8,12 @@ import java.util.*;
 public class HomeworkRepo implements AboutRepo<Homework> {
     final HomeworkService homeworkService = new HomeworkService();
     private List<Homework> homeworks;
+    private Set<Homework> homeworkSet;
 
     public List<Homework> createAndFillListAuto(int lectureId) {
         Random random = new Random();
         int lengthMas = random.nextInt(1, 30);
-        Set<Homework> homeworkSet = new HashSet<>();
+        homeworkSet = new HashSet<>();
         for (int i = 0; i < lengthMas; i++) {
             Homework element = homeworkService.createElementAuto();
             element.setLectureId(lectureId);
@@ -22,14 +23,17 @@ public class HomeworkRepo implements AboutRepo<Homework> {
         return homeworks;
     }
 
-    public void createAndFillListByUser(int lectureId) {
+    public List<Homework> createAndFillListByUser(int lectureId) {
         System.out.println("Homework:");
         int lengthMas = lengthMas();
+        homeworkSet = new HashSet<>();
         for (int i = 0; i < lengthMas; i++) {
             Homework element = homeworkService.createElementByUser();
             element.setLectureId(lectureId);
-            homeworks.add(element);
+            homeworkSet.add(element);
         }
+        homeworks = new ArrayList<>(homeworkSet);
+        return homeworks;
     }
 
     public void add() {

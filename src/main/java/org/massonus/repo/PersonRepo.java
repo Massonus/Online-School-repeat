@@ -12,7 +12,7 @@ import java.util.*;
 
 public class PersonRepo implements AboutRepo<Person> {
 
-    Set<Person> personSet;
+    private Set<Person> personSet;
     public List<Person> people;
     private final PersonService personService = new PersonService();
     private final Logger logger = new Logger("LectureRepo");
@@ -29,12 +29,16 @@ public class PersonRepo implements AboutRepo<Person> {
         return people;
     }
 
-    public void createAndFillListByUser() {
+    public List<Person> createAndFillListByUser() {
         System.out.println("Person:");
         int lengthMas = lengthMas();
+        personSet = new HashSet<>();
         for (int i = 0; i < lengthMas; i++) {
-            people.add(personService.createElementByUser());
+            personSet.add(personService.createElementByUser());
         }
+        people = new ArrayList<>(personSet);
+        logger.info("List created successful, size : " + lengthMas);
+        return people;
     }
 
     public void add() {

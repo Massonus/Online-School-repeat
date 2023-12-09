@@ -5,18 +5,17 @@ import org.massonus.entity.Person;
 import org.massonus.log.Logger;
 import org.massonus.repo.AdditionalMaterialsRepo;
 import org.massonus.repo.HomeworkRepo;
-import org.massonus.repo.PersonRepo;
 
 import java.util.*;
 
 public class LectureService {
-    final HomeworkRepo homeworkRepo = new HomeworkRepo();
-    final AdditionalMaterialsRepo materialsRepo = new AdditionalMaterialsRepo();
-    final PersonService personService = new PersonService();
-    final Logger logger = new Logger("LectureService");
-    Lecture lecture;
+    private final HomeworkRepo homeworkRepo = new HomeworkRepo();
+    private final AdditionalMaterialsRepo materialsRepo = new AdditionalMaterialsRepo();
+    private final PersonService personService = new PersonService();
+    private final Logger logger = new Logger("LectureService");
+    private Lecture lecture;
 
-    public Lecture createElementByUser() {
+    public Lecture createElementByUser(List<Person> people) {
         lecture = new Lecture();
         System.out.println("Now create the Lecture");
         System.out.println("Enter id of lecture");
@@ -35,15 +34,15 @@ public class LectureService {
         lecture.setDescription(description);
         lecture.setCourseId(CourseService.courseId);
 
-        lecture.setHomeworks(homeworkRepo.createAndFillListAuto(id));
-        lecture.setMaterials(materialsRepo.createAndFillListAuto(id));
+        lecture.setHomeworks(homeworkRepo.createAndFillListByUser(id));
+        lecture.setMaterials(materialsRepo.createAndFillListByUser(id));
 
 
-        /*Person person = Optional.ofNullable(getPersonForLectureByUser())
+        Person person = Optional.ofNullable(getPersonForLectureByUser(people))
                 .orElseGet(personService::createElementByUser);
 
         lecture.setPerson(person);
-        lecture.setPersonId(person.getId());*/
+        lecture.setPersonId(person.getId());
 
         return lecture;
     }
