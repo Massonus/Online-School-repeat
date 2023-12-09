@@ -4,15 +4,15 @@ import org.massonus.entity.AdditionalMaterial;
 import org.massonus.log.Logger;
 import org.massonus.repo.AdditionalMaterialsRepo;
 
-import java.util.*;
-import java.util.stream.Collectors;
+import java.util.List;
+import java.util.Map;
+import java.util.Scanner;
 
 public class AdditionalMaterialsView {
     final static Logger logger = new Logger("AdditionalMaterialsView");
-    final AdditionalMaterialsRepo materialsRepo = new AdditionalMaterialsRepo();
+    private static final AdditionalMaterialsRepo materialsRepo = new AdditionalMaterialsRepo();
 
     public void workWithMaterial(List<AdditionalMaterial> materials) {
-
         while (true) {
             System.out.println("\n What you want to do with Material?");
             System.out.println("1. Print all Materials");
@@ -59,23 +59,17 @@ public class AdditionalMaterialsView {
                     break;
 
                 case "7":
-                    Collections.sort(materials);
+                    materials = materialsRepo.sortMaterialsById(materials);
                     logger.info("sorted by id");
                     break;
 
                 case "8":
-                    List<AdditionalMaterial> list = materials.stream()
-                            .sorted(Comparator.comparing(a -> a.getResourceType().toString()))
-                            .toList();
-                    list.forEach(System.out::println);
+                    materials = materialsRepo.sortMaterialsByType(materials);
                     logger.info("sorted by type");
                     break;
 
                 case "9":
-                    List<AdditionalMaterial> list1 = materials.stream()
-                            .sorted(Comparator.comparing(AdditionalMaterial::getName))
-                            .toList();
-                    list1.forEach(System.out::println);
+                    materials = materialsRepo.sortMaterialsByName(materials);
                     logger.info("sorted by name");
                     break;
 
@@ -87,8 +81,7 @@ public class AdditionalMaterialsView {
     }
 
     public static void workWithAllMaterials(List<AdditionalMaterial> allMaterials) {
-        Map<Integer, List<AdditionalMaterial>> materialMap = allMaterials.stream()
-                .collect(Collectors.groupingBy(AdditionalMaterial::getLectureId));
+        Map<Integer, List<AdditionalMaterial>> materialsAsMap = materialsRepo.groupingMaterialsAsMap(allMaterials);
 
         while (true) {
             System.out.println("\n1. To print all materials as List");
@@ -107,23 +100,19 @@ public class AdditionalMaterialsView {
                     break;
 
                 case "2":
-                    List<AdditionalMaterial> list = allMaterials.stream()
-                            .sorted(Comparator.comparing(AdditionalMaterial::getLectureId))
-                            .toList();
-                    list.forEach(System.out::println);
-
+                    allMaterials = materialsRepo.sortMaterialsByLectureId(allMaterials);
                     logger.info("sorted by lectureId");
                     break;
 
                 case "3":
-                    materialMap.forEach((k, v) -> System.out.println("lectureID: " + k + " " + v));
+                    materialsAsMap.forEach((k, v) -> System.out.println("lectureID: " + k + " " + v));
                     logger.info("printed");
                     break;
 
                 case "4":
                     Scanner scanner1 = new Scanner(System.in);
                     int i = scanner1.nextInt();
-                    List<AdditionalMaterial> materials = materialMap.get(i);
+                    List<AdditionalMaterial> materials = materialsAsMap.get(i);
                     materials.forEach(System.out::println);
                     logger.info("printed map by key: " + i);
                     break;

@@ -4,6 +4,7 @@ import org.massonus.entity.AdditionalMaterial;
 import org.massonus.service.AdditionalMaterialsService;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class AdditionalMaterialsRepo implements AboutRepo<AdditionalMaterial> {
     final AdditionalMaterialsService materialsService = new AdditionalMaterialsService();
@@ -58,5 +59,34 @@ public class AdditionalMaterialsRepo implements AboutRepo<AdditionalMaterial> {
             logger.info("added: " + elementByUser);
             materials.add(index, elementByUser);
         }
+    }
+
+    public List<AdditionalMaterial> sortMaterialsById(List<AdditionalMaterial> materials) {
+        return materials.stream()
+                .sorted(Comparator.comparing(AdditionalMaterial::getId))
+                .toList();
+    }
+
+    public List<AdditionalMaterial> sortMaterialsByType(List<AdditionalMaterial> materials) {
+        return materials.stream()
+                .sorted(Comparator.comparing(a -> a.getResourceType().toString()))
+                .toList();
+    }
+
+    public List<AdditionalMaterial> sortMaterialsByName(List<AdditionalMaterial> materials) {
+        return materials.stream()
+                .sorted(Comparator.comparing(AdditionalMaterial::getName))
+                .toList();
+    }
+
+    public List<AdditionalMaterial> sortMaterialsByLectureId(List<AdditionalMaterial> materials) {
+        return materials.stream()
+                .sorted(Comparator.comparing(AdditionalMaterial::getLectureId))
+                .toList();
+    }
+
+    public Map<Integer, List<AdditionalMaterial>> groupingMaterialsAsMap(List<AdditionalMaterial> materials) {
+        return materials.stream()
+                .collect(Collectors.groupingBy(AdditionalMaterial::getLectureId));
     }
 }

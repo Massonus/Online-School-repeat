@@ -39,7 +39,6 @@ public class MainController {
 
             switch (select) {
                 case 1:
-
                     try {
                         lectures = course.getLectures();
                     } catch (NullPointerException e) {

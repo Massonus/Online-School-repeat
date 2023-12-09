@@ -4,6 +4,7 @@ import org.massonus.entity.Homework;
 import org.massonus.service.HomeworkService;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class HomeworkRepo implements AboutRepo<Homework> {
     final HomeworkService homeworkService = new HomeworkService();
@@ -58,5 +59,16 @@ public class HomeworkRepo implements AboutRepo<Homework> {
             logger.info("added: " + elementByUser);
             homeworks.add(index, elementByUser);
         }
+    }
+
+    public List<Homework> sortHomeworkByLectureId(List<Homework> homeworks) {
+        return homeworks.stream()
+                .sorted(Comparator.comparing(Homework::getLectureId))
+                .toList();
+    }
+
+    public Map<Integer, List<Homework>> groupHomeworksByLectureId(List<Homework> homeworks) {
+        return homeworks.stream()
+                .collect(Collectors.groupingBy(Homework::getLectureId));
     }
 }

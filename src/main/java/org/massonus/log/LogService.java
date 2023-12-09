@@ -29,7 +29,7 @@ public class LogService {
                 final Path done = Files.createFile(path);
                 System.out.println("File created: " + done);
             }
-            Files.write(path, System.getProperty("line.separator").getBytes(), StandardOpenOption.APPEND);
+            Files.write(path, System.lineSeparator().getBytes(), StandardOpenOption.APPEND);
             Files.write(path, stringLog.getBytes(), StandardOpenOption.APPEND);
         } catch (IOException e) {
             Arrays.stream(e.getStackTrace()).forEach(System.out::println);
@@ -52,5 +52,11 @@ public class LogService {
         } catch (IOException e) {
             Arrays.stream(e.getStackTrace()).forEach(System.out::println);
         }
+    }
+
+    public void printCurrentInfoLogs(List<String> currentLogs) {
+        currentLogs.stream()
+                .filter(l -> l.startsWith("INFO", 23))
+                .forEach(System.out::println);
     }
 }

@@ -10,12 +10,11 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
-import java.util.stream.Collectors;
 
 public class LectureView {
-    final HomeworkView homeworkView = new HomeworkView();
-    final AdditionalMaterialsView additionalMaterialsView = new AdditionalMaterialsView();
-    final LectureRepo lectureRepo = new LectureRepo();
+    private final HomeworkView homeworkView = new HomeworkView();
+    private final AdditionalMaterialsView additionalMaterialsView = new AdditionalMaterialsView();
+    private static final LectureRepo lectureRepo = new LectureRepo();
 
     public void workWithLecture(List<Lecture> lectures, List<Person> people) {
 
@@ -99,6 +98,7 @@ public class LectureView {
     }
 
     public static void workWithAllLectures(List<Lecture> allLectures) {
+        Map<Person, List<Lecture>> lecturesAsMap = lectureRepo.groupLectureByPerson(allLectures);
 
         while (true) {
             System.out.println("\n1. To print all lectures as List");
@@ -115,20 +115,13 @@ public class LectureView {
                     break;
 
                 case "2":
-                    Lecture lecture = allLectures.stream()
-                            .max(Lecture::compareTo)
-                            .orElseGet(Lecture::new);
-
-                    System.out.println(lecture);
-                    System.out.println(lecture.getMaterials().size());
+                    Lecture firstLecture = lectureRepo.findFirstLecture(allLectures);
+                    System.out.println(firstLecture);
+                    System.out.println(firstLecture.getMaterials().size());
                     break;
 
                 case "3":
-                    Map<Person, List<Lecture>> collect = allLectures.stream()
-                            .collect(Collectors.groupingBy(Lecture::getPerson));
-
-                    collect.forEach((k, v) -> System.out.println(k + " " + v));
-
+                    lecturesAsMap.forEach((k, v) -> System.out.println(k + " " + v));
                     break;
 
                 case "0":

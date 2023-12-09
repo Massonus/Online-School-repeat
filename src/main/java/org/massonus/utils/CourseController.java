@@ -67,9 +67,7 @@ public class CourseController {
 
                 case "4":
                     try {
-                        courses = courses.stream()
-                                .sorted(Comparator.comparing(Course::getId))
-                                .toList();
+                        courses = courseRepo.sortCoursesById();
                     } catch (NullPointerException e) {
                         logger.warning("can't sort because array is empty ", e);
                         break;

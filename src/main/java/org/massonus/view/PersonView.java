@@ -81,23 +81,16 @@ public class PersonView {
                     break;
 
                 case "2":
-                    allPeople.stream()
-                            .filter(t -> !t.getLastName().startsWith("N"))
-                            .forEach(System.out::println);
+                    personRepo.printFilteredEmails(allPeople);
                     break;
 
                 case "3":
-                    List<String> collect = allPeople.stream()
-                            .map(Person::getEmail)
-                            .toList();
-                    personRepo.writeEmailsToTheFile(collect);
+                    List<String> emails = personRepo.emailsToList(allPeople);
+                    personRepo.writeEmailsToTheFile(emails);
                     break;
 
                 case "4":
-                    List<String> list = allPeople.stream()
-                            .map(a -> a.getFirstName() + " " + a.getLastName() + ": " + a.getEmail())
-                            .toList();
-                    list.forEach(System.out::println);
+                    personRepo.printEmailAndFullName(allPeople);
                     break;
 
                 case "0":

@@ -6,6 +6,7 @@ import org.massonus.log.Logger;
 import org.massonus.service.LectureService;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class LectureRepo implements AboutRepo<Lecture> {
 
@@ -62,5 +63,16 @@ public class LectureRepo implements AboutRepo<Lecture> {
             logger.info("added: " + elementByUser);
             lectures.add(index, elementByUser);
         }
+    }
+
+    public Lecture findFirstLecture(List<Lecture> lectures) {
+        return lectures.stream()
+                .max(Lecture::compareTo)
+                .orElseGet(Lecture::new);
+    }
+
+    public Map<Person, List<Lecture>> groupLectureByPerson(List<Lecture> lectures) {
+        return lectures.stream()
+                .collect(Collectors.groupingBy(Lecture::getPerson));
     }
 }

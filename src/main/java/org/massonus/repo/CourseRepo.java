@@ -96,4 +96,10 @@ public class CourseRepo implements AboutRepo<Course> {
         logger.info("List of people created " + people.size());
         return people;
     }
+
+    public List<Course> sortCoursesById() {
+        return courses = courses.stream()
+                .sorted(Comparator.comparing(Course::getId))
+                .toList();
+    }
 }

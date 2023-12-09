@@ -3,14 +3,12 @@ package org.massonus.view;
 import org.massonus.entity.Homework;
 import org.massonus.repo.HomeworkRepo;
 
-import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
-import java.util.stream.Collectors;
 
 public class HomeworkView {
-    final HomeworkRepo homeworkRepo = new HomeworkRepo();
+    private static final HomeworkRepo homeworkRepo = new HomeworkRepo();
 
     public void workWithHomework(List<Homework> homeworks) {
         while (true) {
@@ -60,6 +58,7 @@ public class HomeworkView {
     }
 
     public static void workWithAllHomework(List<Homework> allHomework) {
+        Map<Integer, List<Homework>> homeworksAsMap = homeworkRepo.groupHomeworksByLectureId(allHomework);
 
         while (true) {
             System.out.println("\n1. To print all homework as List");
@@ -72,29 +71,15 @@ public class HomeworkView {
 
             switch (choice) {
                 case "1":
-                    if (allHomework != null) {
-                        for (Homework homework : allHomework) {
-                            System.out.println(homework);
-                        }
-                    }
+                    allHomework.forEach(System.out::println);
                     break;
 
                 case "2":
-                    if (allHomework != null) {
-                        allHomework = allHomework.stream()
-                                .sorted(Comparator.comparing(Homework::getLectureId))
-                                .toList();
-                        allHomework.forEach(System.out::println);
-                    }
-
+                    allHomework = homeworkRepo.sortHomeworkByLectureId(allHomework);
                     break;
 
                 case "3":
-                    if (allHomework != null) {
-                        Map<Integer, List<Homework>> collect = allHomework.stream()
-                                .collect(Collectors.groupingBy(Homework::getLectureId));
-                        collect.forEach((k, v) -> System.out.println("lectureId " + k + " " + v));
-                    }
+                    homeworksAsMap.forEach((k, v) -> System.out.println("lectureId " + k + " " + v));
                     break;
 
                 case "0":

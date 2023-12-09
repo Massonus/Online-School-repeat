@@ -13,7 +13,7 @@ import java.util.*;
 public class PersonRepo implements AboutRepo<Person> {
 
     private Set<Person> personSet;
-    public List<Person> people;
+    private List<Person> people;
     private final PersonService personService = new PersonService();
     private final Logger logger = new Logger("LectureRepo");
 
@@ -84,5 +84,23 @@ public class PersonRepo implements AboutRepo<Person> {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    public void printFilteredEmails(List<Person> people) {
+        people.stream()
+                .filter(t -> !t.getLastName().startsWith("N"))
+                .forEach(System.out::println);
+    }
+
+    public List<String> emailsToList(List<Person> people) {
+        return people.stream()
+                .map(Person::getEmail)
+                .toList();
+    }
+
+    public void printEmailAndFullName(List<Person> people) {
+        people.stream()
+                .map(a -> a.getFirstName() + " " + a.getLastName() + ": " + a.getEmail())
+                .forEach(System.out::println);
     }
 }
