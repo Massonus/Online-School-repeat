@@ -11,7 +11,7 @@ public class AdditionalMaterialsView {
     final static Logger logger = new Logger("AdditionalMaterialsView");
     final AdditionalMaterialsRepo materialsRepo = new AdditionalMaterialsRepo();
 
-    public void workWithMaterial() {
+    public void workWithMaterial(List<AdditionalMaterial> materials) {
 
         while (true) {
             System.out.println("\n What you want to do with Material?");
@@ -32,7 +32,7 @@ public class AdditionalMaterialsView {
             switch (choice) {
 
                 case "1":
-                    materialsRepo.getAll(AdditionalMaterialsRepo.materials);
+                    materialsRepo.getAll(materials);
                     break;
 
                 case "2":
@@ -45,26 +45,26 @@ public class AdditionalMaterialsView {
                     break;
 
                 case "4":
-                    materialsRepo.removeById(AdditionalMaterialsRepo.materials);
+                    materialsRepo.removeById(materials);
                     break;
 
                 case "5":
-                    System.out.println(AdditionalMaterialsRepo.materials.isEmpty());
+                    System.out.println(materials.isEmpty());
                     logger.info("checked for empty");
                     break;
 
                 case "6":
-                    System.out.println(AdditionalMaterialsRepo.materials.size());
+                    System.out.println(materials.size());
                     logger.info("checked size");
                     break;
 
                 case "7":
-                    Collections.sort(AdditionalMaterialsRepo.materials);
+                    Collections.sort(materials);
                     logger.info("sorted by id");
                     break;
 
                 case "8":
-                    List<AdditionalMaterial> list = AdditionalMaterialsRepo.materials.stream()
+                    List<AdditionalMaterial> list = materials.stream()
                             .sorted(Comparator.comparing(a -> a.getResourceType().toString()))
                             .toList();
                     list.forEach(System.out::println);
@@ -72,7 +72,7 @@ public class AdditionalMaterialsView {
                     break;
 
                 case "9":
-                    List<AdditionalMaterial> list1 = AdditionalMaterialsRepo.materials.stream()
+                    List<AdditionalMaterial> list1 = materials.stream()
                             .sorted(Comparator.comparing(AdditionalMaterial::getName))
                             .toList();
                     list1.forEach(System.out::println);

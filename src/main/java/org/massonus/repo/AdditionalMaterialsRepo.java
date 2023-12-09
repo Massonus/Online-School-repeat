@@ -7,12 +7,11 @@ import java.util.*;
 
 public class AdditionalMaterialsRepo implements AboutRepo<AdditionalMaterial> {
     final AdditionalMaterialsService materialsService = new AdditionalMaterialsService();
-    public static List<AdditionalMaterial> materials;
-    Set<AdditionalMaterial> materialSet;
+    private List<AdditionalMaterial> materials;
 
-    public void createAndFillListAuto(int lectureId) {
+    public List<AdditionalMaterial> createAndFillListAuto(int lectureId) {
         Random random = new Random();
-        materialSet = new HashSet<>();
+        Set<AdditionalMaterial> materialSet = new HashSet<>();
         int lengthMas = random.nextInt(1, 30);
         for (int i = 0; i < lengthMas; i++) {
             AdditionalMaterial element = materialsService.createElementAuto();
@@ -20,6 +19,7 @@ public class AdditionalMaterialsRepo implements AboutRepo<AdditionalMaterial> {
             materialSet.add(element);
         }
         materials = new ArrayList<>(materialSet);
+        return materials;
     }
 
     public void createAndFillListByUser(int lectureId) {

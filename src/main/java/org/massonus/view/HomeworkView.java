@@ -5,12 +5,14 @@ import org.massonus.repo.HomeworkRepo;
 
 import java.util.Comparator;
 import java.util.List;
+import java.util.Map;
 import java.util.Scanner;
+import java.util.stream.Collectors;
 
 public class HomeworkView {
     final HomeworkRepo homeworkRepo = new HomeworkRepo();
 
-    public void workWithHomework() {
+    public void workWithHomework(List<Homework> homeworks) {
         while (true) {
             System.out.println("\n What you want to do with Homework?");
             System.out.println("1. Print all Homeworks");
@@ -27,7 +29,7 @@ public class HomeworkView {
             switch (choice) {
 
                 case "1":
-                    homeworkRepo.getAll(HomeworkRepo.homeworks);
+                    homeworkRepo.getAll(homeworks);
                     break;
 
                 case "2":
@@ -40,15 +42,15 @@ public class HomeworkView {
                     break;
 
                 case "4":
-                    homeworkRepo.removeById(HomeworkRepo.homeworks);
+                    homeworkRepo.removeById(homeworks);
                     break;
 
                 case "5":
-                    System.out.println(HomeworkRepo.homeworks.isEmpty());
+                    System.out.println(homeworks.isEmpty());
                     break;
 
                 case "6":
-                    System.out.println(HomeworkRepo.homeworks.size());
+                    System.out.println(homeworks.size());
                     break;
 
                 case "0":
@@ -88,7 +90,11 @@ public class HomeworkView {
                     break;
 
                 case "3":
-                    HomeworkRepo.homeworkMap.forEach((k, v) -> System.out.println("lectureID: " + k + " " + v));
+                    if (allHomework != null) {
+                        Map<Integer, List<Homework>> collect = allHomework.stream()
+                                .collect(Collectors.groupingBy(Homework::getLectureId));
+                        collect.forEach((k, v) -> System.out.println("lectureId " + k + " " + v));
+                    }
                     break;
 
                 case "0":

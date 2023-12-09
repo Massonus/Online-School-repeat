@@ -8,13 +8,13 @@ import java.util.*;
 
 public class CourseRepo implements AboutRepo<Course> {
     Set<Course> courseSet;
-    public static List<Course> courses;
+    public List<Course> courses;
     final CourseService courseService = new CourseService();
     final LectureRepo lectureRepo = new LectureRepo();
     final PersonRepo personRepo = new PersonRepo();
     final Logger logger = new Logger("CourseRepo");
 
-    public void createAndFillCourseAuto() {
+    public List<Course> createAndFillCourseAuto() {
         Random random = new Random();
         int lengthMas = random.nextInt(1, 5);
         courseSet = new HashSet<>();
@@ -36,9 +36,10 @@ public class CourseRepo implements AboutRepo<Course> {
         logger.info("Created " + courseSet.size() + " courses");
         courses = new ArrayList<>(courseSet);
         logger.info("List created successful, size : " + lengthMas);
+        return courses;
     }
 
-    public void createAndFillCourseByUser() {
+    public List<Course> createAndFillCourseByUser() {
         int length = lengthMas();
         courses = new ArrayList<>();
         for (int i = 0; i < length; i++) {
@@ -48,10 +49,11 @@ public class CourseRepo implements AboutRepo<Course> {
             Course course = courseService.createElementByUser();
             /*course.setPeople(PersonRepo.people);*/
             /*course.setLectures(LectureRepo.lectures);*/
-            CourseRepo.courses.add(course);
+            courses.add(course);
             logger.info("course created by user with index: " + i + " id: " + course.getId());
 
         }
+        return courses;
     }
 
     public List<AdditionalMaterial> getAllMaterials() {

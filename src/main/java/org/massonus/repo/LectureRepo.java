@@ -10,9 +10,9 @@ import java.util.*;
 public class LectureRepo implements AboutRepo<Lecture> {
 
     private List<Lecture> lectures;
-    final private LectureService lectureService = new LectureService();
-    final private PersonRepo personRepo = new PersonRepo();
-    final private Logger logger = new Logger("LectureRepo");
+    private final LectureService lectureService = new LectureService();
+    private final PersonRepo personRepo = new PersonRepo();
+    private final Logger logger = new Logger("LectureRepo");
 
     public List<Lecture> createAndFillListAuto(List<Person> people) {
         Random random = new Random();

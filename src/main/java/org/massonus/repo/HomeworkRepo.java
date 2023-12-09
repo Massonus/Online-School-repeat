@@ -7,21 +7,19 @@ import java.util.*;
 
 public class HomeworkRepo implements AboutRepo<Homework> {
     final HomeworkService homeworkService = new HomeworkService();
-    Set<Homework> homeworkSet;
-    public static List<Homework> homeworks;
-    public static SortedMap<Integer, List<Homework>> homeworkMap = new TreeMap<>();
+    private List<Homework> homeworks;
 
-    public void createAndFillListAuto(int lectureId) {
+    public List<Homework> createAndFillListAuto(int lectureId) {
         Random random = new Random();
         int lengthMas = random.nextInt(1, 30);
-        homeworkSet = new HashSet<>();
+        Set<Homework> homeworkSet = new HashSet<>();
         for (int i = 0; i < lengthMas; i++) {
             Homework element = homeworkService.createElementAuto();
             element.setLectureId(lectureId);
             homeworkSet.add(element);
         }
         homeworks = new ArrayList<>(homeworkSet);
-        homeworkMap.put(lectureId, homeworks);
+        return homeworks;
     }
 
     public void createAndFillListByUser(int lectureId) {

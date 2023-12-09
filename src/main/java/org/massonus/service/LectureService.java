@@ -34,11 +34,9 @@ public class LectureService {
         String description = scanner2.nextLine();
         lecture.setDescription(description);
         lecture.setCourseId(CourseService.courseId);
-        homeworkRepo.createAndFillListByUser(id);
-        materialsRepo.createAndFillListByUser(id);
 
-        lecture.setHomeworks(HomeworkRepo.homeworks);
-        lecture.setMaterials(AdditionalMaterialsRepo.materials);
+        lecture.setHomeworks(homeworkRepo.createAndFillListAuto(id));
+        lecture.setMaterials(materialsRepo.createAndFillListAuto(id));
 
 
         /*Person person = Optional.ofNullable(getPersonForLectureByUser())
@@ -68,10 +66,8 @@ public class LectureService {
         }
         lecture.setCourseId(CourseService.courseId);
 
-        homeworkRepo.createAndFillListAuto(id);
-        materialsRepo.createAndFillListAuto(id);
-        lecture.setHomeworks(HomeworkRepo.homeworks);
-        lecture.setMaterials(AdditionalMaterialsRepo.materials);
+        lecture.setHomeworks(homeworkRepo.createAndFillListAuto(id));
+        lecture.setMaterials(materialsRepo.createAndFillListAuto(id));
 
         Person person = Optional.ofNullable(getPersonForLectureAuto(people))
                 .orElseGet(personService::createElementAuto);

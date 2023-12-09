@@ -14,8 +14,8 @@ public class PersonRepo implements AboutRepo<Person> {
 
     Set<Person> personSet;
     public List<Person> people;
-    PersonService personService = new PersonService();
-    final Logger logger = new Logger("LectureRepo");
+    private final PersonService personService = new PersonService();
+    private final Logger logger = new Logger("LectureRepo");
 
     public List<Person> createAndFillListAuto() {
         Random random = new Random();

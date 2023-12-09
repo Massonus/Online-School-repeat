@@ -1,9 +1,9 @@
 package org.massonus.view;
 
+import org.massonus.entity.AdditionalMaterial;
+import org.massonus.entity.Homework;
 import org.massonus.entity.Lecture;
 import org.massonus.entity.Person;
-import org.massonus.repo.AdditionalMaterialsRepo;
-import org.massonus.repo.HomeworkRepo;
 import org.massonus.repo.LectureRepo;
 
 import java.util.Collections;
@@ -40,25 +40,27 @@ public class LectureView {
                 case "1":
                     Lecture lectureForHomework = lectureRepo.getById(lectures);
                     System.out.println(lectureForHomework);
+                    List<Homework> homeworks;
                     try {
-                        HomeworkRepo.homeworks = lectureForHomework.getHomeworks();
+                        homeworks = lectureForHomework.getHomeworks();
                     } catch (NullPointerException e) {
                         System.out.println("Incorrect id " + e);
                         break;
                     }
-                    homeworkView.workWithHomework();
+                    homeworkView.workWithHomework(homeworks);
                     break;
 
                 case "2":
                     Lecture lectureForMaterial = lectureRepo.getById(lectures);
                     System.out.println(lectureForMaterial);
+                    List<AdditionalMaterial> materials;
                     try {
-                        AdditionalMaterialsRepo.materials = lectureForMaterial.getMaterials();
+                        materials = lectureForMaterial.getMaterials();
                     } catch (NullPointerException e) {
                         System.out.println("Incorrect id " + e.getMessage());
                         break;
                     }
-                    additionalMaterialsView.workWithMaterial();
+                    additionalMaterialsView.workWithMaterial(materials);
                     break;
 
                 case "3":

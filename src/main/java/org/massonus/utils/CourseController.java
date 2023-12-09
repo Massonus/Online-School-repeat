@@ -24,7 +24,7 @@ public class CourseController {
 
     final Logger logger = new Logger("CourseController");
 
-    public void mainMenu() {
+    public void mainMenu(List<Course> courses) {
 
         while (true) {
             System.out.println("\n What you want to do?");
@@ -47,10 +47,10 @@ public class CourseController {
 
             switch (choice) {
                 case "1":
-                    courseRepo.getAll(CourseRepo.courses);
+                    courseRepo.getAll(courses);
                     break;
                 case "2":
-                    Course course = Optional.ofNullable(courseRepo.getById(CourseRepo.courses))
+                    Course course = Optional.ofNullable(courseRepo.getById(courses))
                             .orElse(new Course());
                     logger.info("chose course " + course.getName());
                     mainController.workWithCourseElements(course);
@@ -58,7 +58,7 @@ public class CourseController {
 
                 case "3":
                     try {
-                        Collections.sort(CourseRepo.courses);
+                        Collections.sort(courses);
                     } catch (NullPointerException e) {
                         logger.warning("can't sort because array is empty ", e);
                         break;
@@ -67,7 +67,7 @@ public class CourseController {
 
                 case "4":
                     try {
-                        CourseRepo.courses = CourseRepo.courses.stream()
+                        courses = courses.stream()
                                 .sorted(Comparator.comparing(Course::getId))
                                 .toList();
                     } catch (NullPointerException e) {
@@ -133,7 +133,7 @@ public class CourseController {
                     break;
 
                 case "11":
-                    Course byId = courseRepo.getById(CourseRepo.courses);
+                    Course byId = courseRepo.getById(courses);
                     courseService.serial(byId);
                     break;
 
@@ -153,12 +153,13 @@ public class CourseController {
         }
     }
 
-    public void firstCreate() {
+    public List<Course> firstCreate() {
         try (RandomAccessFile raf = new RandomAccessFile("src/main/java/org/massonus/log/logs.txt", "rw")) {
             raf.setLength(0);
         } catch (IOException e) {
             Arrays.stream(e.getStackTrace()).forEach(System.out::println);
         }
+        List<Course> courses = null;
         System.out.println("Do you want to create the Course?");
         System.out.println("Enter Y or any key");
         Scanner scanner = new Scanner(System.in);
@@ -167,11 +168,12 @@ public class CourseController {
             System.out.println("First you must create a Course");
             String choice = courseRepo.choice();
             if (choice.equals("2")) {
-                courseRepo.createAndFillCourseAuto();
-                courseRepo.getAll(CourseRepo.courses);
+                courses = courseRepo.createAndFillCourseAuto();
+                courseRepo.getAll(courses);
             } else {
-                courseRepo.createAndFillCourseByUser();
+                courses = courseRepo.createAndFillCourseByUser();
             }
         }
+        return courses;
     }
 }
