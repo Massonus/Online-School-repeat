@@ -16,7 +16,7 @@ public class LectureView {
     private final AdditionalMaterialsView additionalMaterialsView = new AdditionalMaterialsView();
     private static final LectureService lectureService = new LectureService();
 
-    public void workWithLecture(List<Lecture> lectures, List<Person> people) {
+    public void workWithLecture(List<Lecture> lectures) {
 
         while (true) {
             System.out.println("\n What you want to do with Lecture?");
@@ -37,7 +37,8 @@ public class LectureView {
             switch (choice) {
 
                 case "1":
-                    Lecture lectureForHomework = lectureService.getById(lectures);
+                    int id1 = lectureService.choiceId();
+                    Lecture lectureForHomework = lectureService.getById(lectures, id1);
                     System.out.println(lectureForHomework);
                     List<Homework> homeworks;
                     try {
@@ -50,7 +51,8 @@ public class LectureView {
                     break;
 
                 case "2":
-                    Lecture lectureForMaterial = lectureService.getById(lectures);
+                    int id2 = lectureService.choiceId();
+                    Lecture lectureForMaterial = lectureService.getById(lectures, id2);
                     System.out.println(lectureForMaterial);
                     List<AdditionalMaterial> materials;
                     try {
@@ -68,15 +70,18 @@ public class LectureView {
 
                 case "4":
                     int index = lectureService.choiceIndex();
-                    lectureService.add(lectures, people, index);
+                    String mode = lectureService.choice();
+                    lectureService.add(lectures, index, mode);
                     break;
 
                 case "5":
-                    lectureService.add(lectures, people);
+                    String mode1 = lectureService.choice();
+                    lectureService.add(lectures, mode1);
                     break;
 
                 case "6":
-                    lectureService.removeById(lectures);
+                    int id = lectureService.choiceId();
+                    lectureService.removeById(lectures, id);
                     break;
 
                 case "7":

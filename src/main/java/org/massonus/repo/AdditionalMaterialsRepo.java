@@ -25,7 +25,7 @@ public class AdditionalMaterialsRepo implements UniversalRepository {
 
     public List<AdditionalMaterial> createAndFillListByUser(int lectureId) {
         System.out.println("Additional material:");
-        int lengthMas = lengthMas();
+        int lengthMas = lengthMasByUser();
         materialSet = new HashSet<>();
         for (int i = 0; i < lengthMas; i++) {
             AdditionalMaterial element = materialsService.createElementByUser();

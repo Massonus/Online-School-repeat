@@ -45,7 +45,7 @@ public class MainController {
                         System.out.println("Incorrect id " + e);
                         break;
                     }
-                    lectureView.workWithLecture(lectures, people);
+                    lectureView.workWithLecture(lectures);
                     break;
 
                 case 2:

@@ -30,22 +30,24 @@ public interface UniversalService<T extends SuperSchool> {
         return scanner.nextInt();
     }
 
-    default boolean removeById(List<T> list) {
-        if (list == null) {
-            System.out.println("Please create the List");
-            logger.warning("array is empty");
-            return false;
-        }
+    default int choiceId() {
         System.out.println("Enter id of Element");
-        int id;
+        int id = 0;
         try {
             Scanner scanner = new Scanner(System.in);
             id = scanner.nextInt();
         } catch (Exception e) {
             logger.error("mismatch " + e);
+        }
+        return id;
+    }
+
+    default boolean removeById(List<T> list, int id) {
+        if (list == null) {
+            System.out.println("Please create the List");
+            logger.warning("array is empty");
             return false;
         }
-
         for (int i = 0; i < list.size(); i++) {
             T element = list.get(i);
             if (id == element.getId()) {
@@ -58,18 +60,9 @@ public interface UniversalService<T extends SuperSchool> {
         return false;
     }
 
-    default T getById(List<T> list) {
+    default T getById(List<T> list, int id) {
         if (list == null) {
             System.out.println("Please create an Array");
-            return null;
-        }
-        System.out.println("Enter id of Element");
-        int id;
-        try {
-            Scanner scanner = new Scanner(System.in);
-            id = scanner.nextInt();
-        } catch (Exception e) {
-            logger.error("mismatch " + e);
             return null;
         }
 

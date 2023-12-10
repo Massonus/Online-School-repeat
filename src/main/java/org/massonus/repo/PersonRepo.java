@@ -1,21 +1,25 @@
 package org.massonus.repo;
 
+import lombok.Getter;
 import org.massonus.entity.Person;
 import org.massonus.log.Logger;
 import org.massonus.service.PersonService;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 public class PersonRepo implements UniversalRepository {
 
+    @Getter
+    public List<Person> people;
     private Set<Person> personSet;
-    private List<Person> people;
     private final PersonService personService = new PersonService();
     private final Logger logger = new Logger("LectureRepo");
 
-    public List<Person> createAndFillListAuto() {
-        Random random = new Random();
-        int lengthMas = random.nextInt(1, 30);
+    public List<Person> createAndFillListAuto(int lengthMas) {
+
         personSet = new HashSet<>();
         for (int i = 0; i < lengthMas; i++) {
             personSet.add(personService.createElementAuto());
@@ -25,9 +29,8 @@ public class PersonRepo implements UniversalRepository {
         return people;
     }
 
-    public List<Person> createAndFillListByUser() {
+    public List<Person> createAndFillListByUser(int lengthMas) {
         System.out.println("Person:");
-        int lengthMas = lengthMas();
         personSet = new HashSet<>();
         for (int i = 0; i < lengthMas; i++) {
             personSet.add(personService.createElementByUser());

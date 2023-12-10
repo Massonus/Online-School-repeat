@@ -40,7 +40,8 @@ public class HomeworkView {
                     break;
 
                 case "4":
-                    homeworkService.removeById(homeworks);
+                    int id = homeworkService.choiceId();
+                    homeworkService.removeById(homeworks, id);
                     break;
 
                 case "5":

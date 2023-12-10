@@ -50,7 +50,8 @@ public class CourseController {
                     courseService.getAll(courses);
                     break;
                 case "2":
-                    Course course = Optional.ofNullable(courseService.getById(courses))
+                    int id = courseService.choiceId();
+                    Course course = Optional.ofNullable(courseService.getById(courses, id))
                             .orElse(new Course());
                     logger.info("chose course " + course.getName());
                     mainController.workWithCourseElements(course);
@@ -131,7 +132,8 @@ public class CourseController {
                     break;
 
                 case "11":
-                    Course byId = courseService.getById(courses);
+                    int id1 = courseService.choiceId();
+                    Course byId = courseService.getById(courses, id1);
                     courseService.serial(byId);
                     break;
 

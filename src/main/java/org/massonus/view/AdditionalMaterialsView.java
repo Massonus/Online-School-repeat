@@ -45,7 +45,8 @@ public class AdditionalMaterialsView {
                     break;
 
                 case "4":
-                    materialService.removeById(materials);
+                    int id = materialService.choiceId();
+                    materialService.removeById(materials, id);
                     break;
 
                 case "5":

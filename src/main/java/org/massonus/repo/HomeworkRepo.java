@@ -25,7 +25,7 @@ public class HomeworkRepo implements UniversalRepository {
 
     public List<Homework> createAndFillListByUser(int lectureId) {
         System.out.println("Homework:");
-        int lengthMas = lengthMas();
+        int lengthMas = lengthMasByUser();
         homeworkSet = new HashSet<>();
         for (int i = 0; i < lengthMas; i++) {
             Homework element = homeworkService.createElementByUser();

@@ -42,7 +42,8 @@ public class PersonView {
                     break;
 
                 case "4":
-                    personService.removeById(people);
+                    int id = personService.choiceId();
+                    personService.removeById(people, id);
                     break;
 
                 case "5":
