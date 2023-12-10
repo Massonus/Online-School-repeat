@@ -10,7 +10,7 @@ public class LogController {
     List<String> previousLogs = logService.readLogs();
 
     public void loggerMenu() {
-        List<String> readLogs = logService.readLogs();
+        List<String> currentLogs = logService.readLogs();
 
         while (true) {
             System.out.println("What do you want?");
@@ -26,13 +26,10 @@ public class LogController {
 
             switch (choice) {
                 case "1":
-                    readLogs.forEach(System.out::println);
+                    currentLogs.forEach(System.out::println);
                     break;
                 case "2":
-                    readLogs.stream()
-                            .filter(l -> l.startsWith("INFO", 23))
-                            .forEach(System.out::println);
-
+                    logService.printCurrentInfoLogs(currentLogs);
                     break;
 
                 case "3":
@@ -44,7 +41,7 @@ public class LogController {
                     break;
 
                 case "5":
-                    List<String> list = readLogs.subList(readLogs.size() / 2, readLogs.size());
+                    List<String> list = currentLogs.subList(currentLogs.size() / 2, currentLogs.size());
                     list.forEach(System.out::println);
                     int size = list.size();
                     System.out.println(size);

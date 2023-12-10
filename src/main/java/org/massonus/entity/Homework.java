@@ -19,6 +19,7 @@ public class Homework extends SuperSchool implements Serializable {
     private transient final LocalDateTime deadline = LocalDateTime.of(LocalDate.now().getYear(), LocalDate.now().getMonth(), LocalDate.now().getDayOfMonth(), 12, 0, LocalTime.now().getSecond());
 
     private transient final DateTimeFormatter formatterDeadline = DateTimeFormatter.ofPattern("MMM d, HH:mm");
+
     public Homework() {
     }
 

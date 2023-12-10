@@ -4,8 +4,6 @@ import org.massonus.entity.Course;
 import org.massonus.entity.Lecture;
 import org.massonus.entity.Person;
 import org.massonus.log.Logger;
-import org.massonus.repo.LectureRepo;
-import org.massonus.repo.PersonRepo;
 import org.massonus.view.LectureView;
 import org.massonus.view.PersonView;
 
@@ -41,14 +39,13 @@ public class MainController {
 
             switch (select) {
                 case 1:
-
                     try {
                         lectures = course.getLectures();
                     } catch (NullPointerException e) {
                         System.out.println("Incorrect id " + e);
                         break;
                     }
-                    lectureView.workWithLecture(lectures, people);
+                    lectureView.workWithLecture(lectures);
                     break;
 
                 case 2:

@@ -24,7 +24,7 @@ public class CourseController {
 
     final Logger logger = new Logger("CourseController");
 
-    public void mainMenu() {
+    public void mainMenu(List<Course> courses) {
 
         while (true) {
             System.out.println("\n What you want to do?");
@@ -33,7 +33,7 @@ public class CourseController {
             System.out.println("3. To sort by name");
             System.out.println("4. To sort by id");
             System.out.println("5. To work with all lectures");
-            System.out.println("6. To print work with all people");
+            System.out.println("6. To work with all people");
             System.out.println("7. To work with all materials");
             System.out.println("8. To work with all homework");
             System.out.println("9. To work with logs");
@@ -47,10 +47,11 @@ public class CourseController {
 
             switch (choice) {
                 case "1":
-                    courseRepo.getAll(CourseRepo.courses);
+                    courseService.getAll(courses);
                     break;
                 case "2":
-                    Course course = Optional.ofNullable(courseRepo.getById(CourseRepo.courses))
+                    int id = courseService.choiceId();
+                    Course course = Optional.ofNullable(courseService.getById(courses, id))
                             .orElse(new Course());
                     logger.info("chose course " + course.getName());
                     mainController.workWithCourseElements(course);
@@ -58,7 +59,7 @@ public class CourseController {
 
                 case "3":
                     try {
-                        Collections.sort(CourseRepo.courses);
+                        Collections.sort(courses);
                     } catch (NullPointerException e) {
                         logger.warning("can't sort because array is empty ", e);
                         break;
@@ -67,9 +68,7 @@ public class CourseController {
 
                 case "4":
                     try {
-                        CourseRepo.courses = CourseRepo.courses.stream()
-                                .sorted(Comparator.comparing(Course::getId))
-                                .toList();
+                        courses = courseService.sortCoursesById(courses);
                     } catch (NullPointerException e) {
                         logger.warning("can't sort because array is empty ", e);
                         break;
@@ -79,7 +78,7 @@ public class CourseController {
                 case "5":
                     List<Lecture> allLectures;
                     try {
-                        allLectures = courseRepo.getAllLectures();
+                        allLectures = courseService.getAllLectures(courses);
                     } catch (NullPointerException e) {
                         logger.warning("List<Lecture> don't created " + e);
                         System.out.println("First create an array");
@@ -91,7 +90,7 @@ public class CourseController {
                 case "6":
                     List<Person> allPeople;
                     try {
-                        allPeople = courseRepo.getAllPeople();
+                        allPeople = courseService.getAllPeople(courses);
                     } catch (NullPointerException e) {
                         logger.warning("List<Person> don't created " + e);
                         System.out.println("First create an array");
@@ -103,7 +102,7 @@ public class CourseController {
                 case "7":
                     List<AdditionalMaterial> allMaterials;
                     try {
-                        allMaterials = courseRepo.getAllMaterials();
+                        allMaterials = courseService.getAllMaterials(courses);
                     } catch (NullPointerException e) {
                         logger.warning("List<AdditionalMaterial> don't created " + e);
                         System.out.println("First create an array");
@@ -115,7 +114,7 @@ public class CourseController {
                 case "8":
                     List<Homework> allHomework;
                     try {
-                        allHomework = courseRepo.getAllHomework();
+                        allHomework = courseService.getAllHomework(courses);
                     } catch (NullPointerException e) {
                         logger.warning("List<Homework> don't created " + e);
                         System.out.println("First create an array");
@@ -133,7 +132,8 @@ public class CourseController {
                     break;
 
                 case "11":
-                    Course byId = courseRepo.getById(CourseRepo.courses);
+                    int id1 = courseService.choiceId();
+                    Course byId = courseService.getById(courses, id1);
                     courseService.serial(byId);
                     break;
 
@@ -153,25 +153,27 @@ public class CourseController {
         }
     }
 
-    public void firstCreate() {
+    public List<Course> firstCreate() {
         try (RandomAccessFile raf = new RandomAccessFile("src/main/java/org/massonus/log/logs.txt", "rw")) {
             raf.setLength(0);
         } catch (IOException e) {
             Arrays.stream(e.getStackTrace()).forEach(System.out::println);
         }
+        List<Course> courses = null;
         System.out.println("Do you want to create the Course?");
         System.out.println("Enter Y or any key");
         Scanner scanner = new Scanner(System.in);
         String s = scanner.nextLine();
         if (s.equals("Y") || s.equals("y")) {
             System.out.println("First you must create a Course");
-            String choice = courseRepo.choice();
+            String choice = courseService.choice();
             if (choice.equals("2")) {
-                courseRepo.createAndFillCourseAuto();
-                courseRepo.getAll(CourseRepo.courses);
+                courses = courseRepo.createAndFillCourseAuto();
+                courseService.getAll(courses);
             } else {
-                courseRepo.createAndFillCourseByUser();
+                courses = courseRepo.createAndFillCourseByUser();
             }
         }
+        return courses;
     }
 }

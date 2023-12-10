@@ -4,6 +4,7 @@ import lombok.Data;
 
 import java.io.Serializable;
 import java.util.Objects;
+
 @Data
 public class Person extends SuperSchool implements Comparable<Person>, Serializable {
 

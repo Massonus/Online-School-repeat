@@ -1,12 +1,18 @@
 package org.massonus.service;
 
+import org.apache.commons.lang3.RandomStringUtils;
 import org.massonus.entity.Person;
 import org.massonus.entity.Role;
 
+import java.io.BufferedWriter;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.util.List;
 import java.util.Random;
 import java.util.Scanner;
 
-public class PersonService {
+public class PersonService implements UniversalService<Person> {
 
     Person person;
 
@@ -59,23 +65,96 @@ public class PersonService {
             person.setFirstName("John");
             person.setLastName("Smith");
             person.setPhone("Samsung");
-            person.setEmail("johnson31@gmail.com");
             person.setRole(Role.TEACHER);
         } else if (id < 20 || id > 30) {
             person.setFirstName("Nick");
             person.setLastName("Nikolos");
             person.setPhone("Xiaomi");
-            person.setEmail("adams85@gmail.com");
+
             person.setRole(Role.STUDENT);
         } else {
             person.setFirstName("Max");
             person.setLastName("Collins");
             person.setPhone("iPhone");
-            person.setEmail("collins245@gmail.com");
             person.setRole(Role.TEACHER);
         }
+        person.setEmail(generateRandomString() + "@gmail.com");
         person.setCourseId(CourseService.courseId);
 
         return person;
     }
+
+    public String generateRandomString() {
+        int length = 10;
+        boolean useLetters = true;
+        boolean useNumbers = false;
+        return RandomStringUtils.random(length, useLetters, useNumbers);
+    }
+
+
+    public boolean add(List<Person> people) {
+        if (choice().equals("2")) {
+            person = createElementAuto();
+        } else {
+            person = createElementByUser();
+        }
+        boolean isExist = people.stream()
+                .map(Person::getEmail)
+                .anyMatch(m -> m.equals(person.getEmail()));
+        if (isExist) {
+            System.out.println("This email is already exist");
+            return false;
+        }
+        people.add(person);
+        logger.info("added: " + person);
+        return true;
+    }
+
+    public boolean add(List<Person> people, int index) {
+        if (choice().equals("2")) {
+            person = createElementAuto();
+        } else {
+            person = createElementByUser();
+        }
+        boolean isExist = people.stream()
+                .map(Person::getEmail)
+                .anyMatch(m -> m.equals(person.getEmail()));
+        if (isExist) {
+            System.out.println("This email is already exist");
+            return false;
+        }
+        people.add(index, person);
+        logger.info("added: " + person);
+        return true;
+    }
+
+    public boolean writeEmailsToTheFile(List<String> collect) {
+        Path path = Path.of("src/org.massonus.view/emails.txt");
+        try (BufferedWriter writer = Files.newBufferedWriter(path)) {
+            writer.write(collect.toString());
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        return true;
+    }
+
+    public void printFilteredEmails(List<Person> people) {
+        people.stream()
+                .filter(t -> !t.getLastName().startsWith("N"))
+                .forEach(System.out::println);
+    }
+
+    public List<String> emailsToList(List<Person> people) {
+        return people.stream()
+                .map(Person::getEmail)
+                .toList();
+    }
+
+    public void printEmailAndFullName(List<Person> people) {
+        people.stream()
+                .map(a -> a.getFirstName() + " " + a.getLastName() + ": " + a.getEmail())
+                .forEach(System.out::println);
+    }
+
+
 }

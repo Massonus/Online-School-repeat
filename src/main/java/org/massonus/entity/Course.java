@@ -5,6 +5,7 @@ import lombok.Data;
 import java.io.Serializable;
 import java.util.List;
 import java.util.Objects;
+
 @Data
 public class Course extends SuperSchool implements Comparable<Course>, Serializable {
     private String name;

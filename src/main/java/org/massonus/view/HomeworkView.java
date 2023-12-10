@@ -1,16 +1,16 @@
 package org.massonus.view;
 
 import org.massonus.entity.Homework;
-import org.massonus.repo.HomeworkRepo;
+import org.massonus.service.HomeworkService;
 
-import java.util.Comparator;
 import java.util.List;
+import java.util.Map;
 import java.util.Scanner;
 
 public class HomeworkView {
-    final HomeworkRepo homeworkRepo = new HomeworkRepo();
+    private static final HomeworkService homeworkService = new HomeworkService();
 
-    public void workWithHomework() {
+    public void workWithHomework(List<Homework> homeworks) {
         while (true) {
             System.out.println("\n What you want to do with Homework?");
             System.out.println("1. Print all Homeworks");
@@ -27,28 +27,29 @@ public class HomeworkView {
             switch (choice) {
 
                 case "1":
-                    homeworkRepo.getAll(HomeworkRepo.homeworks);
+                    homeworkService.getAll(homeworks);
                     break;
 
                 case "2":
-                    int index = homeworkRepo.choiceIndex();
-                    homeworkRepo.add(index);
+                    int index = homeworkService.choiceIndex();
+                    homeworkService.add(homeworks, index);
                     break;
 
                 case "3":
-                    homeworkRepo.add();
+                    homeworkService.add(homeworks);
                     break;
 
                 case "4":
-                    homeworkRepo.removeById(HomeworkRepo.homeworks);
+                    int id = homeworkService.choiceId();
+                    homeworkService.removeById(homeworks, id);
                     break;
 
                 case "5":
-                    System.out.println(HomeworkRepo.homeworks.isEmpty());
+                    System.out.println(homeworks.isEmpty());
                     break;
 
                 case "6":
-                    System.out.println(HomeworkRepo.homeworks.size());
+                    System.out.println(homeworks.size());
                     break;
 
                 case "0":
@@ -58,10 +59,11 @@ public class HomeworkView {
     }
 
     public static void workWithAllHomework(List<Homework> allHomework) {
+        Map<Integer, List<Homework>> homeworksAsMap = homeworkService.groupHomeworksByLectureId(allHomework);
 
         while (true) {
             System.out.println("\n1. To print all homework as List");
-            System.out.println("2. To sort all homework");
+            System.out.println("2. To sort all homework by id");
             System.out.println("3. To print all homework as Map");
             System.out.println("0. To return");
 
@@ -70,25 +72,15 @@ public class HomeworkView {
 
             switch (choice) {
                 case "1":
-                    if (allHomework != null) {
-                        for (Homework homework : allHomework) {
-                            System.out.println(homework);
-                        }
-                    }
+                    allHomework.forEach(System.out::println);
                     break;
 
                 case "2":
-                    if (allHomework != null) {
-                        allHomework = allHomework.stream()
-                                .sorted(Comparator.comparing(Homework::getLectureId))
-                                .toList();
-                        allHomework.forEach(System.out::println);
-                    }
-
+                    allHomework = homeworkService.sortHomeworkByLectureId(allHomework);
                     break;
 
                 case "3":
-                    HomeworkRepo.homeworkMap.forEach((k, v) -> System.out.println("lectureID: " + k + " " + v));
+                    homeworksAsMap.forEach((k, v) -> System.out.println("lectureID " + k + " " + v));
                     break;
 
                 case "0":

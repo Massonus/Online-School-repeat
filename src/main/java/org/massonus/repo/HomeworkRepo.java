@@ -5,13 +5,12 @@ import org.massonus.service.HomeworkService;
 
 import java.util.*;
 
-public class HomeworkRepo implements AboutRepo<Homework> {
+public class HomeworkRepo implements UniversalRepository {
     final HomeworkService homeworkService = new HomeworkService();
-    Set<Homework> homeworkSet;
-    public static List<Homework> homeworks;
-    public static SortedMap<Integer, List<Homework>> homeworkMap = new TreeMap<>();
+    private List<Homework> homeworks;
+    private Set<Homework> homeworkSet;
 
-    public void createAndFillListAuto(int lectureId) {
+    public List<Homework> createAndFillListAuto(int lectureId) {
         Random random = new Random();
         int lengthMas = random.nextInt(1, 30);
         homeworkSet = new HashSet<>();
@@ -21,40 +20,19 @@ public class HomeworkRepo implements AboutRepo<Homework> {
             homeworkSet.add(element);
         }
         homeworks = new ArrayList<>(homeworkSet);
-        homeworkMap.put(lectureId, homeworks);
+        return homeworks;
     }
 
-    public void createAndFillListByUser(int lectureId) {
+    public List<Homework> createAndFillListByUser(int lectureId) {
         System.out.println("Homework:");
-        int lengthMas = lengthMas();
+        int lengthMas = lengthMasByUser();
+        homeworkSet = new HashSet<>();
         for (int i = 0; i < lengthMas; i++) {
             Homework element = homeworkService.createElementByUser();
             element.setLectureId(lectureId);
-            homeworks.add(element);
+            homeworkSet.add(element);
         }
-    }
-
-    public void add() {
-        if (choice().equals("2")) {
-            Homework elementAuto = homeworkService.createElementAuto();
-            logger.info("added: " + elementAuto);
-            homeworks.add(elementAuto);
-        } else {
-            Homework elementByUser = homeworkService.createElementByUser();
-            logger.info("added: " + elementByUser);
-            homeworks.add(elementByUser);
-        }
-    }
-
-    public void add(int index) {
-        if (choice().equals("2")) {
-            Homework elementAuto = homeworkService.createElementAuto();
-            logger.info("added: " + elementAuto);
-            homeworks.add(index, elementAuto);
-        } else {
-            Homework elementByUser = homeworkService.createElementByUser();
-            logger.info("added: " + elementByUser);
-            homeworks.add(index, elementByUser);
-        }
+        homeworks = new ArrayList<>(homeworkSet);
+        return homeworks;
     }
 }

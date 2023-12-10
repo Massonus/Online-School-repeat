@@ -5,12 +5,12 @@ import org.massonus.service.AdditionalMaterialsService;
 
 import java.util.*;
 
-public class AdditionalMaterialsRepo implements AboutRepo<AdditionalMaterial> {
-    final AdditionalMaterialsService materialsService = new AdditionalMaterialsService();
-    public static List<AdditionalMaterial> materials;
-    Set<AdditionalMaterial> materialSet;
+public class AdditionalMaterialsRepo implements UniversalRepository {
+    private final AdditionalMaterialsService materialsService = new AdditionalMaterialsService();
+    private List<AdditionalMaterial> materials;
+    private Set<AdditionalMaterial> materialSet;
 
-    public void createAndFillListAuto(int lectureId) {
+    public List<AdditionalMaterial> createAndFillListAuto(int lectureId) {
         Random random = new Random();
         materialSet = new HashSet<>();
         int lengthMas = random.nextInt(1, 30);
@@ -20,40 +20,19 @@ public class AdditionalMaterialsRepo implements AboutRepo<AdditionalMaterial> {
             materialSet.add(element);
         }
         materials = new ArrayList<>(materialSet);
+        return materials;
     }
 
-    public void createAndFillListByUser(int lectureId) {
+    public List<AdditionalMaterial> createAndFillListByUser(int lectureId) {
         System.out.println("Additional material:");
-        int lengthMas = lengthMas();
-        materials = new ArrayList<>();
+        int lengthMas = lengthMasByUser();
+        materialSet = new HashSet<>();
         for (int i = 0; i < lengthMas; i++) {
             AdditionalMaterial element = materialsService.createElementByUser();
             element.setLectureId(lectureId);
-            materials.add(element);
+            materialSet.add(element);
         }
-    }
-
-    public void add() {
-        if (choice().equals("2")) {
-            AdditionalMaterial elementAuto = materialsService.createElementAuto();
-            logger.info("added: " + elementAuto);
-            materials.add(elementAuto);
-        } else {
-            AdditionalMaterial elementByUser = materialsService.createElementByUser();
-            logger.info("added: " + elementByUser);
-            materials.add(elementByUser);
-        }
-    }
-
-    public void add(int index) {
-        if (choice().equals("2")) {
-            AdditionalMaterial elementAuto = materialsService.createElementAuto();
-            logger.info("added: " + elementAuto);
-            materials.add(index, elementAuto);
-        } else {
-            AdditionalMaterial elementByUser = materialsService.createElementByUser();
-            logger.info("added: " + elementByUser);
-            materials.add(index, elementByUser);
-        }
+        materials = new ArrayList<>(materialSet);
+        return materials;
     }
 }

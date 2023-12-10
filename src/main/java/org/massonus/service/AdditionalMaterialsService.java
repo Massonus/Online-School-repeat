@@ -3,10 +3,10 @@ package org.massonus.service;
 import org.massonus.entity.AdditionalMaterial;
 import org.massonus.entity.ResourceType;
 
-import java.util.Random;
-import java.util.Scanner;
+import java.util.*;
+import java.util.stream.Collectors;
 
-public class AdditionalMaterialsService {
+public class AdditionalMaterialsService implements UniversalService<AdditionalMaterial> {
     AdditionalMaterial material;
 
     public AdditionalMaterial createElementByUser() {
@@ -59,5 +59,64 @@ public class AdditionalMaterialsService {
         material.setCourseId(CourseService.courseId);
 
         return material;
+    }
+
+    public boolean add(List<AdditionalMaterial> materials) {
+        if (choice().equals("2")) {
+            AdditionalMaterial elementAuto = createElementAuto();
+            logger.info("added: " + elementAuto);
+            materials.add(elementAuto);
+            return true;
+        } else if (choice().equals("1")) {
+            AdditionalMaterial elementByUser = createElementByUser();
+            logger.info("added: " + elementByUser);
+            materials.add(elementByUser);
+            return true;
+        }
+        return false;
+    }
+
+    public boolean add(List<AdditionalMaterial> materials, int index) {
+        if (choice().equals("2")) {
+            AdditionalMaterial elementAuto = createElementAuto();
+            logger.info("added: " + elementAuto);
+            materials.add(index, elementAuto);
+            return true;
+        } else if (choice().equals("1")) {
+            AdditionalMaterial elementByUser = createElementByUser();
+            logger.info("added: " + elementByUser);
+            materials.add(index, elementByUser);
+            return true;
+        }
+        return false;
+    }
+
+    public List<AdditionalMaterial> sortMaterialsById(List<AdditionalMaterial> materials) {
+        return materials.stream()
+                .sorted(Comparator.comparing(AdditionalMaterial::getId))
+                .toList();
+    }
+
+    public List<AdditionalMaterial> sortMaterialsByType(List<AdditionalMaterial> materials) {
+        return materials.stream()
+                .sorted(Comparator.comparing(a -> a.getResourceType().toString()))
+                .toList();
+    }
+
+    public List<AdditionalMaterial> sortMaterialsByName(List<AdditionalMaterial> materials) {
+        return materials.stream()
+                .sorted(Comparator.comparing(AdditionalMaterial::getName))
+                .toList();
+    }
+
+    public List<AdditionalMaterial> sortMaterialsByLectureId(List<AdditionalMaterial> materials) {
+        return materials.stream()
+                .sorted(Comparator.comparing(AdditionalMaterial::getLectureId))
+                .toList();
+    }
+
+    public Map<Integer, List<AdditionalMaterial>> groupingMaterialsAsMap(List<AdditionalMaterial> materials) {
+        return materials.stream()
+                .collect(Collectors.groupingBy(AdditionalMaterial::getLectureId));
     }
 }

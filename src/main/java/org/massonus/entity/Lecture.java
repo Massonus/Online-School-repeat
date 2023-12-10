@@ -29,6 +29,14 @@ public class Lecture extends SuperSchool implements Comparable<Lecture>, Seriali
 
     private transient final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MMM d, EEEE HH:mm:ss");
 
+    public Lecture() {
+    }
+
+    public Lecture(String name, Person person) {
+        this.name = name;
+        this.person = person;
+    }
+
     @Override
     public String toString() {
         return "\n Lecture{" +

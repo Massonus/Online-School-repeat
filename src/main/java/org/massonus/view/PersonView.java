@@ -1,14 +1,14 @@
 package org.massonus.view;
 
 import org.massonus.entity.Person;
-import org.massonus.repo.PersonRepo;
+import org.massonus.service.PersonService;
 
 import java.util.Collections;
 import java.util.List;
 import java.util.Scanner;
 
 public class PersonView {
-    final static PersonRepo personRepo = new PersonRepo();
+    private static final PersonService personService = new PersonService();
 
     public void workWithPerson(List<Person> people) {
 
@@ -29,20 +29,21 @@ public class PersonView {
             switch (choice) {
 
                 case "1":
-                    personRepo.getAll(people);
+                    personService.getAll(people);
                     break;
 
                 case "2":
-                    int index = personRepo.choiceIndex();
-                    personRepo.add(index);
+                    int index = personService.choiceIndex();
+                    personService.add(people, index);
                     break;
 
                 case "3":
-                    personRepo.add();
+                    personService.add(people);
                     break;
 
                 case "4":
-                    personRepo.removeById(people);
+                    int id = personService.choiceId();
+                    personService.removeById(people, id);
                     break;
 
                 case "5":
@@ -81,23 +82,16 @@ public class PersonView {
                     break;
 
                 case "2":
-                    allPeople.stream()
-                            .filter(t -> !t.getLastName().startsWith("N"))
-                            .forEach(System.out::println);
+                    personService.printFilteredEmails(allPeople);
                     break;
 
                 case "3":
-                    List<String> collect = allPeople.stream()
-                            .map(Person::getEmail)
-                            .toList();
-                    personRepo.writeEmailsToTheFile(collect);
+                    List<String> emails = personService.emailsToList(allPeople);
+                    personService.writeEmailsToTheFile(emails);
                     break;
 
                 case "4":
-                    List<String> list = allPeople.stream()
-                            .map(a -> a.getFirstName() + " " + a.getLastName() + ": " + a.getEmail())
-                            .toList();
-                    list.forEach(System.out::println);
+                    personService.printEmailAndFullName(allPeople);
                     break;
 
                 case "0":

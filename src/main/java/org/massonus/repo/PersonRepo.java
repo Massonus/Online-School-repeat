@@ -1,25 +1,25 @@
 package org.massonus.repo;
 
+import lombok.Getter;
 import org.massonus.entity.Person;
 import org.massonus.log.Logger;
 import org.massonus.service.PersonService;
 
-import java.io.BufferedWriter;
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
-public class PersonRepo implements AboutRepo<Person> {
+public class PersonRepo implements UniversalRepository {
 
-    Set<Person> personSet;
+    @Getter
     public List<Person> people;
-    PersonService personService = new PersonService();
-    final Logger logger = new Logger("LectureRepo");
+    private Set<Person> personSet;
+    private final PersonService personService = new PersonService();
+    private final Logger logger = new Logger("LectureRepo");
 
-    public List<Person> createAndFillListAuto() {
-        Random random = new Random();
-        int lengthMas = random.nextInt(1, 30);
+    public List<Person> createAndFillListAuto(int lengthMas) {
+
         personSet = new HashSet<>();
         for (int i = 0; i < lengthMas; i++) {
             personSet.add(personService.createElementAuto());
@@ -29,56 +29,14 @@ public class PersonRepo implements AboutRepo<Person> {
         return people;
     }
 
-    public void createAndFillListByUser() {
+    public List<Person> createAndFillListByUser(int lengthMas) {
         System.out.println("Person:");
-        int lengthMas = lengthMas();
+        personSet = new HashSet<>();
         for (int i = 0; i < lengthMas; i++) {
-            people.add(personService.createElementByUser());
+            personSet.add(personService.createElementByUser());
         }
-    }
-
-    public void add() {
-        Person element;
-        if (choice().equals("2")) {
-            element = personService.createElementAuto();
-        } else {
-            element = personService.createElementByUser();
-        }
-        boolean isExist = people.stream()
-                .map(Person::getEmail)
-                .anyMatch(m -> m.equals(element.getEmail()));
-        if (isExist) {
-            System.out.println("This email is already exist");
-            return;
-        }
-        people.add(element);
-        logger.info("added: " + element);
-    }
-
-    public void add(int index) {
-        Person element;
-        if (choice().equals("2")) {
-            element = personService.createElementAuto();
-        } else {
-            element = personService.createElementByUser();
-        }
-        boolean isExist = people.stream()
-                .map(Person::getEmail)
-                .anyMatch(m -> m.equals(element.getEmail()));
-        if (isExist) {
-            System.out.println("This email is already exist");
-            return;
-        }
-        people.add(index, element);
-        logger.info("added: " + element);
-    }
-
-    public void writeEmailsToTheFile(List<String> collect) {
-        Path path = Path.of("src/org.massonus.view/emails.txt");
-        try (BufferedWriter writer = Files.newBufferedWriter(path)) {
-            writer.write(collect.toString());
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+        people = new ArrayList<>(personSet);
+        logger.info("List created successful, size : " + lengthMas);
+        return people;
     }
 }

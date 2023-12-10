@@ -1,5 +1,6 @@
 package org.massonus.repo;
 
+import lombok.Getter;
 import org.massonus.entity.Lecture;
 import org.massonus.entity.Person;
 import org.massonus.log.Logger;
@@ -7,55 +8,104 @@ import org.massonus.service.LectureService;
 
 import java.util.*;
 
-public class LectureRepo implements AboutRepo<Lecture> {
+public class LectureRepo implements UniversalRepository {
 
+    @Getter
     private List<Lecture> lectures;
-    final private LectureService lectureService = new LectureService();
-    final private PersonRepo personRepo = new PersonRepo();
-    final private Logger logger = new Logger("LectureRepo");
+    private Set<Lecture> lectureSet;
+    private final LectureService lectureService = new LectureService();
+    private final PersonRepo personRepo = new PersonRepo();
+    private final Logger logger = new Logger("LectureRepo");
 
     public List<Lecture> createAndFillListAuto(List<Person> people) {
         Random random = new Random();
         int lengthMas = random.nextInt(1, 50);
-        Set<Lecture> lectureSet = new HashSet<>();
+        lectureSet = new HashSet<>();
         for (int i = 0; i < lengthMas; i++) {
-            lectureSet.add(lectureService.createElementAuto(people));
+            Lecture elementAuto = lectureService.createElementAuto();
+            Person person = Optional.ofNullable(getPersonForLectureAuto(people))
+                    .orElse(new Person());
+
+            elementAuto.setPerson(person);
+            elementAuto.setPersonId(person.getId());
+            lectureSet.add(elementAuto);
         }
         lectures = new ArrayList<>(lectureSet);
         logger.info("List created successful, size : " + lengthMas);
         return lectures;
     }
 
-    public void createAndFillListByUser() {
-        personRepo.createAndFillListByUser();
+    public List<Lecture> createAndFillListByUser(List<Person> people) {
+        personRepo.createAndFillListByUser(lengthMasByUser());
         System.out.println("Lecture:");
-        int lengthMas = lengthMas();
+        int lengthMas = lengthMasByUser();
+        lectureSet = new HashSet<>();
         for (int i = 0; i < lengthMas; i++) {
-            lectures.add(lectureService.createElementByUser());
+            Lecture elementByUser = lectureService.createElementByUser();
+            Person person = Optional.ofNullable(getPersonForLectureByUser(people))
+                    .orElse(new Person());
+
+            elementByUser.setPerson(person);
+            elementByUser.setPersonId(person.getId());
+            lectureSet.add(elementByUser);
         }
+        lectures = new ArrayList<>(lectureSet);
+        logger.info("List created successful, size : " + lengthMas);
+        return lectures;
     }
 
-    public void add(List<Person> people) {
-        if (choice().equals("2")) {
-            Lecture elementAuto = lectureService.createElementAuto(people);
-            logger.info("added: " + elementAuto);
-            lectures.add(elementAuto);
-        } else {
-            Lecture elementByUser = lectureService.createElementByUser();
-            logger.info("added: " + elementByUser);
-            lectures.add(elementByUser);
+    public Person getPersonForLectureAuto(List<Person> people) {
+        if (people == null) {
+            return null;
         }
+        int[] ints = new int[people.size()];
+        for (int i = 0; i < people.size(); i++) {
+            Person person = people.get(i);
+            ints[i] = person.getId();
+        }
+        Arrays.sort(ints);
+        Random random = new Random();
+        int id;
+
+        try {
+            id = random.nextInt(ints[0], ints[ints.length - 1]);
+        } catch (IllegalArgumentException e) {
+            id = people.get(0).getId();
+        }
+
+        for (Person person : people) {
+            if (person == null) {
+                continue;
+            }
+            if (id == person.getId()) {
+                return person;
+            }
+        }
+        return getPersonForLectureAuto(people);
     }
 
-    public void add(List<Person> people, int index) {
-        if (choice().equals("2")) {
-            Lecture elementAuto = lectureService.createElementAuto(people);
-            logger.info("added: " + elementAuto);
-            lectures.add(index, elementAuto);
-        } else {
-            Lecture elementByUser = lectureService.createElementByUser();
-            logger.info("added: " + elementByUser);
-            lectures.add(index, elementByUser);
+    public Person getPersonForLectureByUser(List<Person> people) {
+        System.out.println("Enter id of Person that will be in the Lecture");
+        Scanner scanner = new Scanner(System.in);
+        int id;
+        try {
+            id = scanner.nextInt();
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            id = 0;
         }
+
+        for (Person person : people) {
+            if (id == person.getId()) {
+                logger.info("person set " + person);
+                return person;
+            }
+        }
+        System.out.println("Incorrect id, try again");
+        logger.warning("incorrect id " + id);
+        for (Person person : people) {
+            System.out.println(person);
+        }
+        return getPersonForLectureByUser(people);
     }
 }

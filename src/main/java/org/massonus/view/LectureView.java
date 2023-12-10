@@ -1,23 +1,22 @@
 package org.massonus.view;
 
+import org.massonus.entity.AdditionalMaterial;
+import org.massonus.entity.Homework;
 import org.massonus.entity.Lecture;
 import org.massonus.entity.Person;
-import org.massonus.repo.AdditionalMaterialsRepo;
-import org.massonus.repo.HomeworkRepo;
-import org.massonus.repo.LectureRepo;
+import org.massonus.service.LectureService;
 
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
-import java.util.stream.Collectors;
 
 public class LectureView {
-    final HomeworkView homeworkView = new HomeworkView();
-    final AdditionalMaterialsView additionalMaterialsView = new AdditionalMaterialsView();
-    final LectureRepo lectureRepo = new LectureRepo();
+    private final HomeworkView homeworkView = new HomeworkView();
+    private final AdditionalMaterialsView additionalMaterialsView = new AdditionalMaterialsView();
+    private static final LectureService lectureService = new LectureService();
 
-    public void workWithLecture(List<Lecture> lectures, List<Person> people) {
+    public void workWithLecture(List<Lecture> lectures) {
 
         while (true) {
             System.out.println("\n What you want to do with Lecture?");
@@ -38,44 +37,51 @@ public class LectureView {
             switch (choice) {
 
                 case "1":
-                    Lecture lectureForHomework = lectureRepo.getById(lectures);
+                    int id1 = lectureService.choiceId();
+                    Lecture lectureForHomework = lectureService.getById(lectures, id1);
                     System.out.println(lectureForHomework);
+                    List<Homework> homeworks;
                     try {
-                        HomeworkRepo.homeworks = lectureForHomework.getHomeworks();
+                        homeworks = lectureForHomework.getHomeworks();
                     } catch (NullPointerException e) {
                         System.out.println("Incorrect id " + e);
                         break;
                     }
-                    homeworkView.workWithHomework();
+                    homeworkView.workWithHomework(homeworks);
                     break;
 
                 case "2":
-                    Lecture lectureForMaterial = lectureRepo.getById(lectures);
+                    int id2 = lectureService.choiceId();
+                    Lecture lectureForMaterial = lectureService.getById(lectures, id2);
                     System.out.println(lectureForMaterial);
+                    List<AdditionalMaterial> materials;
                     try {
-                        AdditionalMaterialsRepo.materials = lectureForMaterial.getMaterials();
+                        materials = lectureForMaterial.getMaterials();
                     } catch (NullPointerException e) {
                         System.out.println("Incorrect id " + e.getMessage());
                         break;
                     }
-                    additionalMaterialsView.workWithMaterial();
+                    additionalMaterialsView.workWithMaterial(materials);
                     break;
 
                 case "3":
-                    lectureRepo.getAll(lectures);
+                    lectureService.getAll(lectures);
                     break;
 
                 case "4":
-                    int index = lectureRepo.choiceIndex();
-                    lectureRepo.add(people, index);
+                    int index = lectureService.choiceIndex();
+                    String mode = lectureService.choice();
+                    lectureService.add(lectures, index, mode);
                     break;
 
                 case "5":
-                    lectureRepo.add(people);
+                    String mode1 = lectureService.choice();
+                    lectureService.add(lectures, mode1);
                     break;
 
                 case "6":
-                    lectureRepo.removeById(lectures);
+                    int id = lectureService.choiceId();
+                    lectureService.removeById(lectures, id);
                     break;
 
                 case "7":
@@ -97,6 +103,7 @@ public class LectureView {
     }
 
     public static void workWithAllLectures(List<Lecture> allLectures) {
+        Map<Person, List<Lecture>> lecturesAsMap = lectureService.groupLectureByPerson(allLectures);
 
         while (true) {
             System.out.println("\n1. To print all lectures as List");
@@ -113,20 +120,13 @@ public class LectureView {
                     break;
 
                 case "2":
-                    Lecture lecture = allLectures.stream()
-                            .max(Lecture::compareTo)
-                            .orElseGet(Lecture::new);
-
-                    System.out.println(lecture);
-                    System.out.println(lecture.getMaterials().size());
+                    Lecture firstLecture = lectureService.findFirstLecture(allLectures);
+                    System.out.println(firstLecture);
+                    System.out.println(firstLecture.getMaterials().size());
                     break;
 
                 case "3":
-                    Map<Person, List<Lecture>> collect = allLectures.stream()
-                            .collect(Collectors.groupingBy(Lecture::getPerson));
-
-                    collect.forEach((k, v) -> System.out.println(k + " " + v));
-
+                    lecturesAsMap.forEach((k, v) -> System.out.println(k + " " + v));
                     break;
 
                 case "0":
