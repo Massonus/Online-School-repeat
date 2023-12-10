@@ -1,11 +1,10 @@
 package org.massonus.entity;
 
 import lombok.Data;
-import lombok.EqualsAndHashCode;
 
 import java.io.Serializable;
+import java.util.Objects;
 
-@EqualsAndHashCode(callSuper = true)
 @Data
 public class AdditionalMaterial extends SuperSchool implements Comparable<AdditionalMaterial>, Serializable {
 
@@ -26,6 +25,19 @@ public class AdditionalMaterial extends SuperSchool implements Comparable<Additi
                 ", lectureId=" + lectureId +
                 ", resourceType=" + resourceType +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        AdditionalMaterial that = (AdditionalMaterial) o;
+        return Objects.equals(name, that.name);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(name);
     }
 
     @Override

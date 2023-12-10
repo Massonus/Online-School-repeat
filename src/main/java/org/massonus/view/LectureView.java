@@ -4,7 +4,7 @@ import org.massonus.entity.AdditionalMaterial;
 import org.massonus.entity.Homework;
 import org.massonus.entity.Lecture;
 import org.massonus.entity.Person;
-import org.massonus.repo.LectureRepo;
+import org.massonus.service.LectureService;
 
 import java.util.Collections;
 import java.util.List;
@@ -14,7 +14,7 @@ import java.util.Scanner;
 public class LectureView {
     private final HomeworkView homeworkView = new HomeworkView();
     private final AdditionalMaterialsView additionalMaterialsView = new AdditionalMaterialsView();
-    private static final LectureRepo lectureRepo = new LectureRepo();
+    private static final LectureService lectureService = new LectureService();
 
     public void workWithLecture(List<Lecture> lectures, List<Person> people) {
 
@@ -37,7 +37,7 @@ public class LectureView {
             switch (choice) {
 
                 case "1":
-                    Lecture lectureForHomework = lectureRepo.getById(lectures);
+                    Lecture lectureForHomework = lectureService.getById(lectures);
                     System.out.println(lectureForHomework);
                     List<Homework> homeworks;
                     try {
@@ -50,7 +50,7 @@ public class LectureView {
                     break;
 
                 case "2":
-                    Lecture lectureForMaterial = lectureRepo.getById(lectures);
+                    Lecture lectureForMaterial = lectureService.getById(lectures);
                     System.out.println(lectureForMaterial);
                     List<AdditionalMaterial> materials;
                     try {
@@ -63,20 +63,20 @@ public class LectureView {
                     break;
 
                 case "3":
-                    lectureRepo.getAll(lectures);
+                    lectureService.getAll(lectures);
                     break;
 
                 case "4":
-                    int index = lectureRepo.choiceIndex();
-                    lectureRepo.add(people, index);
+                    int index = lectureService.choiceIndex();
+                    lectureService.add(lectures, people, index);
                     break;
 
                 case "5":
-                    lectureRepo.add(people);
+                    lectureService.add(lectures, people);
                     break;
 
                 case "6":
-                    lectureRepo.removeById(lectures);
+                    lectureService.removeById(lectures);
                     break;
 
                 case "7":
@@ -98,7 +98,7 @@ public class LectureView {
     }
 
     public static void workWithAllLectures(List<Lecture> allLectures) {
-        Map<Person, List<Lecture>> lecturesAsMap = lectureRepo.groupLectureByPerson(allLectures);
+        Map<Person, List<Lecture>> lecturesAsMap = lectureService.groupLectureByPerson(allLectures);
 
         while (true) {
             System.out.println("\n1. To print all lectures as List");
@@ -115,7 +115,7 @@ public class LectureView {
                     break;
 
                 case "2":
-                    Lecture firstLecture = lectureRepo.findFirstLecture(allLectures);
+                    Lecture firstLecture = lectureService.findFirstLecture(allLectures);
                     System.out.println(firstLecture);
                     System.out.println(firstLecture.getMaterials().size());
                     break;

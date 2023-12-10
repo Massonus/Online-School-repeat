@@ -2,15 +2,15 @@ package org.massonus.view;
 
 import org.massonus.entity.AdditionalMaterial;
 import org.massonus.log.Logger;
-import org.massonus.repo.AdditionalMaterialsRepo;
+import org.massonus.service.AdditionalMaterialsService;
 
 import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
 
 public class AdditionalMaterialsView {
-    final static Logger logger = new Logger("AdditionalMaterialsView");
-    private static final AdditionalMaterialsRepo materialsRepo = new AdditionalMaterialsRepo();
+    private static final Logger logger = new Logger("AdditionalMaterialsView");
+    private static final AdditionalMaterialsService materialService = new AdditionalMaterialsService();
 
     public void workWithMaterial(List<AdditionalMaterial> materials) {
         while (true) {
@@ -32,20 +32,20 @@ public class AdditionalMaterialsView {
             switch (choice) {
 
                 case "1":
-                    materialsRepo.getAll(materials);
+                    materialService.getAll(materials);
                     break;
 
                 case "2":
-                    int index = materialsRepo.choiceIndex();
-                    materialsRepo.add(index);
+                    int index = materialService.choiceIndex();
+                    materialService.add(materials, index);
                     break;
 
                 case "3":
-                    materialsRepo.add();
+                    materialService.add(materials);
                     break;
 
                 case "4":
-                    materialsRepo.removeById(materials);
+                    materialService.removeById(materials);
                     break;
 
                 case "5":
@@ -59,17 +59,17 @@ public class AdditionalMaterialsView {
                     break;
 
                 case "7":
-                    materials = materialsRepo.sortMaterialsById(materials);
+                    materials = materialService.sortMaterialsById(materials);
                     logger.info("sorted by id");
                     break;
 
                 case "8":
-                    materials = materialsRepo.sortMaterialsByType(materials);
+                    materials = materialService.sortMaterialsByType(materials);
                     logger.info("sorted by type");
                     break;
 
                 case "9":
-                    materials = materialsRepo.sortMaterialsByName(materials);
+                    materials = materialService.sortMaterialsByName(materials);
                     logger.info("sorted by name");
                     break;
 
@@ -81,11 +81,11 @@ public class AdditionalMaterialsView {
     }
 
     public static void workWithAllMaterials(List<AdditionalMaterial> allMaterials) {
-        Map<Integer, List<AdditionalMaterial>> materialsAsMap = materialsRepo.groupingMaterialsAsMap(allMaterials);
+        Map<Integer, List<AdditionalMaterial>> materialsAsMap = materialService.groupingMaterialsAsMap(allMaterials);
 
         while (true) {
             System.out.println("\n1. To print all materials as List");
-            System.out.println("2. To sort all materials");
+            System.out.println("2. To sort all materials by lectureID");
             System.out.println("3. To print all materials as Map");
             System.out.println("4. To get key of map");
             System.out.println("0. To return");
@@ -100,7 +100,7 @@ public class AdditionalMaterialsView {
                     break;
 
                 case "2":
-                    allMaterials = materialsRepo.sortMaterialsByLectureId(allMaterials);
+                    allMaterials = materialService.sortMaterialsByLectureId(allMaterials);
                     logger.info("sorted by lectureId");
                     break;
 

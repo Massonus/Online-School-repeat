@@ -2,10 +2,10 @@ package org.massonus.service;
 
 import org.massonus.entity.Homework;
 
-import java.util.Random;
-import java.util.Scanner;
+import java.util.*;
+import java.util.stream.Collectors;
 
-public class HomeworkService {
+public class HomeworkService implements UniversalService<Homework> {
     Homework homework;
 
     public Homework createElementByUser() {
@@ -39,4 +39,44 @@ public class HomeworkService {
         return homework;
     }
 
+    public boolean add(List<Homework> homeworks) {
+        if (choice().equals("2")) {
+            Homework elementAuto = createElementAuto();
+            logger.info("added: " + elementAuto);
+            homeworks.add(elementAuto);
+            return true;
+        } else if (choice().equals("1")) {
+            Homework elementByUser = createElementByUser();
+            logger.info("added: " + elementByUser);
+            homeworks.add(elementByUser);
+            return true;
+        }
+        return false;
+    }
+
+    public boolean add(List<Homework> homeworks, int index) {
+        if (choice().equals("2")) {
+            Homework elementAuto = createElementAuto();
+            logger.info("added: " + elementAuto);
+            homeworks.add(index, elementAuto);
+            return true;
+        } else if (choice().equals("1")) {
+            Homework elementByUser = createElementByUser();
+            logger.info("added: " + elementByUser);
+            homeworks.add(index, elementByUser);
+            return true;
+        }
+        return false;
+    }
+
+    public List<Homework> sortHomeworkByLectureId(List<Homework> homeworks) {
+        return homeworks.stream()
+                .sorted(Comparator.comparing(Homework::getLectureId))
+                .toList();
+    }
+
+    public Map<Integer, List<Homework>> groupHomeworksByLectureId(List<Homework> homeworks) {
+        return homeworks.stream()
+                .collect(Collectors.groupingBy(Homework::getLectureId));
+    }
 }

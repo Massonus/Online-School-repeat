@@ -1,4 +1,4 @@
-package org.massonus.repo;
+package org.massonus.service;
 
 import org.massonus.entity.SuperSchool;
 import org.massonus.log.Logger;
@@ -6,38 +6,9 @@ import org.massonus.log.Logger;
 import java.util.List;
 import java.util.Scanner;
 
-public interface AboutRepo<T extends SuperSchool> {
+public interface UniversalService<T extends SuperSchool> {
 
-    Logger logger = new Logger("AboutRepo");
-
-    default int lengthMas() {
-        System.out.println("Enter how many elements do you want");
-        Scanner scanner1 = new Scanner(System.in);
-
-        return scanner1.nextInt();
-    }
-
-    default void getAll(List<T> eList) {
-        if (eList == null) {
-            System.out.println("Please create an Array");
-            logger.warning("array is empty");
-            return;
-        }
-        int i = 0;
-        for (T element : eList) {
-            System.out.println("\n index: " + i + " " + element + "\n");
-            i++;
-
-        }
-        logger.info("courses printed");
-    }
-
-    default int choiceIndex() {
-        System.out.println("Enter an index");
-        Scanner scanner = new Scanner(System.in);
-
-        return scanner.nextInt();
-    }
+    Logger logger = new Logger("UniversalRepository");
 
     default String choice() {
         System.out.println("1. To create elements by yourself");
@@ -52,11 +23,18 @@ public interface AboutRepo<T extends SuperSchool> {
         return choice;
     }
 
-    default void removeById(List<T> list) {
+    default int choiceIndex() {
+        System.out.println("Enter an index");
+        Scanner scanner = new Scanner(System.in);
+
+        return scanner.nextInt();
+    }
+
+    default boolean removeById(List<T> list) {
         if (list == null) {
             System.out.println("Please create the List");
             logger.warning("array is empty");
-            return;
+            return false;
         }
         System.out.println("Enter id of Element");
         int id;
@@ -65,7 +43,7 @@ public interface AboutRepo<T extends SuperSchool> {
             id = scanner.nextInt();
         } catch (Exception e) {
             logger.error("mismatch " + e);
-            return;
+            return false;
         }
 
         for (int i = 0; i < list.size(); i++) {
@@ -74,9 +52,10 @@ public interface AboutRepo<T extends SuperSchool> {
                 System.out.println(list.get(i));
                 T remove = list.remove(i);
                 logger.info("element removed " + remove);
-                return;
+                return true;
             }
         }
+        return false;
     }
 
     default T getById(List<T> list) {
@@ -100,5 +79,19 @@ public interface AboutRepo<T extends SuperSchool> {
             }
         }
         return null;
+    }
+
+    default void getAll(List<T> eList) {
+        if (eList == null) {
+            System.out.println("Please create an Array");
+            logger.warning("array is empty");
+            return;
+        }
+        int i = 0;
+        for (T element : eList) {
+            System.out.println("\n index: " + i + " " + element + "\n");
+            i++;
+        }
+        logger.info("courses printed");
     }
 }

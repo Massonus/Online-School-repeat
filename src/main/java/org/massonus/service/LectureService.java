@@ -7,8 +7,9 @@ import org.massonus.repo.AdditionalMaterialsRepo;
 import org.massonus.repo.HomeworkRepo;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
-public class LectureService {
+public class LectureService implements UniversalService<Lecture> {
     private final HomeworkRepo homeworkRepo = new HomeworkRepo();
     private final AdditionalMaterialsRepo materialsRepo = new AdditionalMaterialsRepo();
     private final PersonService personService = new PersonService();
@@ -130,5 +131,46 @@ public class LectureService {
             }
         }
         return getPersonForLectureAuto(people);
+    }
+
+    public boolean add(List<Lecture> lectures, List<Person> people) {
+        if (choice().equals("2")) {
+            Lecture elementAuto = createElementAuto(people);
+            logger.info("added: " + elementAuto);
+            lectures.add(elementAuto);
+            return true;
+        } else if (choice().equals("1")) {
+            Lecture elementByUser = createElementByUser(people);
+            logger.info("added: " + elementByUser);
+            lectures.add(elementByUser);
+            return true;
+        }
+        return false;
+    }
+
+    public boolean add(List<Lecture> lectures, List<Person> people, int index) {
+        if (choice().equals("2")) {
+            Lecture elementAuto = createElementAuto(people);
+            logger.info("added: " + elementAuto);
+            lectures.add(index, elementAuto);
+            return true;
+        } else if (choice().equals("1")) {
+            Lecture elementByUser = createElementByUser(people);
+            logger.info("added: " + elementByUser);
+            lectures.add(index, elementByUser);
+            return true;
+        }
+        return false;
+    }
+
+    public Lecture findFirstLecture(List<Lecture> lectures) {
+        return lectures.stream()
+                .max(Lecture::compareTo)
+                .orElseGet(Lecture::new);
+    }
+
+    public Map<Person, List<Lecture>> groupLectureByPerson(List<Lecture> lectures) {
+        return lectures.stream()
+                .collect(Collectors.groupingBy(Lecture::getPerson));
     }
 }
