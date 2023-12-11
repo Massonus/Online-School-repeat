@@ -29,7 +29,7 @@ public class PersonView {
             switch (choice) {
 
                 case "1":
-                    personService.getAll(people);
+                    personService.printAll(people);
                     break;
 
                 case "2":

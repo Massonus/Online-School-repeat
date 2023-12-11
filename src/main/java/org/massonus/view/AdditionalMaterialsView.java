@@ -32,7 +32,7 @@ public class AdditionalMaterialsView {
             switch (choice) {
 
                 case "1":
-                    materialService.getAll(materials);
+                    materialService.printAll(materials);
                     break;
 
                 case "2":

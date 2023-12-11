@@ -27,7 +27,7 @@ public class HomeworkView {
             switch (choice) {
 
                 case "1":
-                    homeworkService.getAll(homeworks);
+                    homeworkService.printAll(homeworks);
                     break;
 
                 case "2":

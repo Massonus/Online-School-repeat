@@ -65,7 +65,7 @@ public class LectureView {
                     break;
 
                 case "3":
-                    lectureService.getAll(lectures);
+                    lectureService.printAll(lectures);
                     break;
 
                 case "4":

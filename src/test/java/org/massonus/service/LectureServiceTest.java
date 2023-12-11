@@ -3,23 +3,31 @@ package org.massonus.service;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.massonus.entity.AdditionalMaterial;
 import org.massonus.entity.Lecture;
 import org.massonus.entity.Person;
 import org.massonus.entity.Role;
-import org.massonus.repo.LectureRepo;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.NoSuchElementException;
 
 class LectureServiceTest {
-
     private LectureService target;
     private List<Lecture> check;
+    private Lecture expectedLecture;
+    private Person expectedPerson;
 
     @BeforeEach
     void setUp() {
+        expectedPerson = new Person(2, Role.STUDENT);
+        expectedLecture = new Lecture(1, "Math", expectedPerson, List.of(new AdditionalMaterial("Math"), new AdditionalMaterial("Geo")));
+        Lecture lecture = new Lecture(2, "Math", new Person(1, Role.TEACHER), List.of(new AdditionalMaterial("Math")));
         target = new LectureService();
-        LectureRepo lectureRepo = new LectureRepo();
-        check = lectureRepo.createAndFillListAuto(List.of(new Person(1, Role.TEACHER), new Person(2, Role.STUDENT)));
+        check = new ArrayList<>();
+        check.add(lecture);
+        check.add(expectedLecture);
     }
 
     @Test
@@ -29,11 +37,22 @@ class LectureServiceTest {
     }
 
     @Test
-    void shouldDelete() {
-        Person person = new Person(2, Role.STUDENT);
-        target.removeById(check, 2);
-        boolean contains = check.contains(person);
-        Assertions.assertFalse(contains);
+    void shouldFindTheFirstLecture() {
+        Lecture result = target.findFirstLecture(check);
+        Assertions.assertEquals(result.getMaterials().size(), expectedLecture.getMaterials().size());
+    }
 
+    @Test
+    void shouldThrowException() {
+        check.clear();
+        Assertions.assertThrows(NoSuchElementException.class, () -> target.findFirstLecture(check));
+    }
+
+    @Test
+    void shouldMakeMap() {
+        Map<Person, List<Lecture>> personListMap = target.groupLectureByPerson(check);
+        List<Lecture> lectures = personListMap.get(expectedPerson);
+        Lecture lecture = lectures.get(0);
+        Assertions.assertEquals(lecture, expectedLecture);
     }
 }

@@ -47,7 +47,7 @@ public class CourseController {
 
             switch (choice) {
                 case "1":
-                    courseService.getAll(courses);
+                    courseService.printAll(courses);
                     break;
                 case "2":
                     int id = courseService.choiceId();
@@ -169,7 +169,7 @@ public class CourseController {
             String choice = courseService.choice();
             if (choice.equals("2")) {
                 courses = courseRepo.createAndFillCourseAuto();
-                courseService.getAll(courses);
+                courseService.printAll(courses);
             } else {
                 courses = courseRepo.createAndFillCourseByUser();
             }

@@ -32,9 +32,15 @@ public class Lecture extends SuperSchool implements Comparable<Lecture>, Seriali
     public Lecture() {
     }
 
-    public Lecture(String name, Person person) {
+    public Lecture(Integer id, String name, Person person, List<AdditionalMaterial> materials) {
+        setId(id);
         this.name = name;
         this.person = person;
+        this.materials = materials;
+    }
+
+    public Lecture(String name) {
+        this.name = name;
     }
 
     @Override
