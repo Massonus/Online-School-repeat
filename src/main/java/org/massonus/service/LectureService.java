@@ -16,7 +16,6 @@ public class LectureService implements UniversalService<Lecture> {
     private final HomeworkRepo homeworkRepo = new HomeworkRepo();
     private final AdditionalMaterialsRepo materialsRepo = new AdditionalMaterialsRepo();
     private final Logger logger = new Logger("LectureService");
-
     private Lecture lecture;
 
     public Lecture createElementByUser() {
@@ -101,7 +100,7 @@ public class LectureService implements UniversalService<Lecture> {
     public Lecture findFirstLecture(List<Lecture> lectures) {
         return lectures.stream()
                 .max(Lecture::compareTo)
-                .orElseGet(Lecture::new);
+                .orElseThrow();
     }
 
     public Map<Person, List<Lecture>> groupLectureByPerson(List<Lecture> lectures) {

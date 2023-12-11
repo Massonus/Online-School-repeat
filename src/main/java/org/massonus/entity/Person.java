@@ -48,12 +48,12 @@ public class Person extends SuperSchool implements Comparable<Person>, Serializa
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Person person = (Person) o;
-        return Objects.equals(lastName, person.lastName);
+        return Objects.equals(id, person.id) && Objects.equals(firstName, person.firstName) && Objects.equals(lastName, person.lastName);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(lastName);
+        return Objects.hash(id, firstName, lastName);
     }
 
     @Override

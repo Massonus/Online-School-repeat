@@ -74,11 +74,11 @@ public interface UniversalService<T extends SuperSchool> {
         return null;
     }
 
-    default void getAll(List<T> eList) {
+    default boolean printAll(List<T> eList) {
         if (eList == null) {
             System.out.println("Please create an Array");
             logger.warning("array is empty");
-            return;
+            return false;
         }
         int i = 0;
         for (T element : eList) {
@@ -86,5 +86,6 @@ public interface UniversalService<T extends SuperSchool> {
             i++;
         }
         logger.info("courses printed");
+        return true;
     }
 }

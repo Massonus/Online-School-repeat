@@ -16,6 +16,18 @@ public class AdditionalMaterial extends SuperSchool implements Comparable<Additi
 
     private ResourceType resourceType;
 
+    public AdditionalMaterial() {
+    }
+
+    public AdditionalMaterial(String name, ResourceType resourceType) {
+        this.name = name;
+        this.resourceType = resourceType;
+    }
+
+    public AdditionalMaterial(String name) {
+        this.name = name;
+    }
+
     @Override
     public String toString() {
         return "AdditionalMaterial{" +
