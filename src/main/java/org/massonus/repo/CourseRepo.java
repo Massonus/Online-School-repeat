@@ -10,7 +10,7 @@ import java.util.*;
 
 public class CourseRepo implements UniversalRepository {
     Set<Course> courseSet;
-    public List<Course> courses;
+    private List<Course> courses;
     final CourseService courseService = new CourseService();
     final LectureRepo lectureRepo = new LectureRepo();
     final PersonRepo personRepo = new PersonRepo();
