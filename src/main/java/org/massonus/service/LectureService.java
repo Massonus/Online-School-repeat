@@ -38,7 +38,7 @@ public class LectureService implements UniversalService<Lecture> {
         lecture.setCourseId(CourseService.courseId);
 
         lecture.setHomeworks(homeworkRepo.createAndFillListByUser(id));
-        lecture.setMaterials(materialsRepo.createAndFillListByUser(id));
+        lecture.setMaterials(materialsRepo.gatAllMaterials());
 
         return lecture;
     }
@@ -62,7 +62,7 @@ public class LectureService implements UniversalService<Lecture> {
         lecture.setCourseId(CourseService.courseId);
 
         lecture.setHomeworks(homeworkRepo.createAndFillListAuto(id));
-        lecture.setMaterials(materialsRepo.createAndFillListAuto(id));
+        lecture.setMaterials(materialsRepo.gatAllMaterials());
 
         return lecture;
     }
