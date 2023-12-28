@@ -12,6 +12,7 @@ import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class CourseRepo implements UniversalRepository {
     private final PersonRepo personRepo = new PersonRepo();
@@ -36,7 +37,7 @@ public class CourseRepo implements UniversalRepository {
                  Statement statement = conn.createStatement()) {
                 final ResultSet resultSet = statement.executeQuery(sql);
 
-                final List<Course> courses = new ArrayList<>();
+                List<Course> courses = new ArrayList<>();
 
                 while (resultSet.next()) {
                     Course course = new Course();
@@ -57,15 +58,15 @@ public class CourseRepo implements UniversalRepository {
         throw new IllegalArgumentException();
     }
 
-    public List<Person> getPeopleForCourse() {
+    private List<Person> getPeopleForCourse() {
         return personRepo.getAllPeople().stream()
                 .filter(p -> p.getCourseId().equals(id))
-                .toList();
+                .collect(Collectors.toList());
     }
 
-    public List<Lecture> getLecturesForCourse() {
+    private List<Lecture> getLecturesForCourse() {
         return lectureRepo.getAllLectures().stream()
                 .filter(l -> l.getCourseId().equals(id))
-                .toList();
+                .collect(Collectors.toList());
     }
 }

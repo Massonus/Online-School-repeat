@@ -14,6 +14,7 @@ import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class LectureRepo implements UniversalRepository {
     private final PersonRepo personRepo = new PersonRepo();
@@ -39,7 +40,7 @@ public class LectureRepo implements UniversalRepository {
                  Statement statement = conn.createStatement()) {
                 final ResultSet resultSet = statement.executeQuery(sql);
 
-                final List<Lecture> lectures = new ArrayList<>();
+                List<Lecture> lectures = new ArrayList<>();
 
                 while (resultSet.next()) {
                     Lecture lecture = new Lecture();
@@ -65,22 +66,38 @@ public class LectureRepo implements UniversalRepository {
         throw new IllegalArgumentException();
     }
 
-    public Person getPersonForLecture() {
+    public int delete(int id) {
+        try {
+            final String sql = "DELETE FROM public.lecture\n" +
+                    "\tWHERE id= " + id;
+            try (Connection conn = createCon();
+                 Statement statement = conn.createStatement()) {
+                final int i = statement.executeUpdate(sql, Statement.RETURN_GENERATED_KEYS);
+
+                return i;
+            }
+        } catch (Exception ex) {
+            System.out.println("Connection failed..." + ex);
+        }
+        throw new IllegalArgumentException();
+    }
+
+    private Person getPersonForLecture() {
         List<Person> list = personRepo.getAllTeachers().stream()
                 .filter(p -> p.getId().equals(teacherId))
                 .toList();
         return list.get(0);
     }
 
-    public List<Homework> getHomeworkList() {
+    private List<Homework> getHomeworkList() {
         return homeworkRepo.getAllHomework().stream()
                 .filter(h -> h.getLectureId().equals(id))
-                .toList();
+                .collect(Collectors.toList());
     }
 
-    public List<AdditionalMaterial> getMaterialsListForLecture() {
+    private List<AdditionalMaterial> getMaterialsListForLecture() {
         return materialsRepo.getAllMaterials().stream()
                 .filter(m -> m.getLectureId().equals(id))
-                .toList();
+                .collect(Collectors.toList());
     }
 }

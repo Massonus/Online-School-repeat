@@ -18,7 +18,7 @@ public class AdditionalMaterialsRepo implements UniversalRepository {
                  Statement statement = conn.createStatement()) {
                 final ResultSet resultSet = statement.executeQuery(sql);
 
-                final List<AdditionalMaterial> materials = new ArrayList<>();
+                List<AdditionalMaterial> materials = new ArrayList<>();
 
                 while (resultSet.next()) {
                     AdditionalMaterial material = new AdditionalMaterial();

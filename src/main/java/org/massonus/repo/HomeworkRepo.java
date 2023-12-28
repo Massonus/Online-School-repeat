@@ -5,7 +5,8 @@ import org.massonus.entity.Homework;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.Statement;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class HomeworkRepo implements UniversalRepository {
 
@@ -16,7 +17,7 @@ public class HomeworkRepo implements UniversalRepository {
                  Statement statement = conn.createStatement()) {
                 final ResultSet resultSet = statement.executeQuery(sql);
 
-                final List<Homework> homeworkList = new ArrayList<>();
+                List<Homework> homeworkList = new ArrayList<>();
 
                 while (resultSet.next()) {
                     Homework homework = new Homework();

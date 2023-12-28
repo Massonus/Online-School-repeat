@@ -16,14 +16,13 @@ public class AdditionalMaterialsView {
         while (true) {
             System.out.println("\n What you want to do with Material?");
             System.out.println("1. Print all Materials");
-            System.out.println("2. Add new Material by index");
-            System.out.println("3. Add new Material to the end");
-            System.out.println("4. To remove element");
-            System.out.println("5. To check that array is Empty");
-            System.out.println("6. To get size of array");
-            System.out.println("7. To sort by id");
-            System.out.println("8. To sort by type");
-            System.out.println("9. To sort by name");
+            System.out.println("2. Add new Material");
+            System.out.println("3. To remove element");
+            System.out.println("4. To check that array is Empty");
+            System.out.println("5. To get size of array");
+            System.out.println("6. To sort by id");
+            System.out.println("7. To sort by type");
+            System.out.println("8. To sort by name");
             System.out.println("0. To return");
 
             Scanner scanner = new Scanner(System.in);
@@ -36,40 +35,36 @@ public class AdditionalMaterialsView {
                     break;
 
                 case "2":
-                    int index = materialService.choiceIndex();
-                    materialService.add(materials, index);
-                    break;
-
-                case "3":
                     materialService.add(materials);
                     break;
 
-                case "4":
+                case "3":
                     int id = materialService.choiceId();
                     materialService.removeById(materials, id);
+                    materialService.delete(id);
                     break;
 
-                case "5":
+                case "4":
                     System.out.println(materials.isEmpty());
                     logger.info("checked for empty");
                     break;
 
-                case "6":
+                case "5":
                     System.out.println(materials.size());
                     logger.info("checked size");
                     break;
 
-                case "7":
+                case "6":
                     materials = materialService.sortMaterialsById(materials);
                     logger.info("sorted by id");
                     break;
 
-                case "8":
+                case "7":
                     materials = materialService.sortMaterialsByType(materials);
                     logger.info("sorted by type");
                     break;
 
-                case "9":
+                case "8":
                     materials = materialService.sortMaterialsByName(materials);
                     logger.info("sorted by name");
                     break;
