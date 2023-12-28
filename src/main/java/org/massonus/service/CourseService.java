@@ -3,60 +3,12 @@ package org.massonus.service;
 import org.massonus.entity.*;
 
 import java.io.*;
-import java.util.*;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Comparator;
+import java.util.List;
 
 public class CourseService implements UniversalService<Course> {
-    static int courseId;
-    static String courseName;
-    Course course;
-
-    public Course createElementByUser() {
-        course = new Course();
-        course.setId(courseId);
-        course.setCourse_name(courseName);
-
-        return course;
-    }
-
-    public Course createElementAuto() {
-        course = new Course();
-        course.setId(courseId);
-
-        if (courseId == 1) {
-            course.setCourse_name("First");
-        } else if (courseId == 2) {
-            course.setCourse_name("Second");
-        } else if (courseId == 3) {
-            course.setCourse_name("Third");
-        } else if (courseId == 4) {
-            course.setCourse_name("Fourth");
-        } else if (courseId == 5) {
-            course.setCourse_name("Fives");
-        }
-        return course;
-    }
-
-    public static void createCourseIdByUser() {
-        System.out.println("Enter course id");
-        Scanner scanner = new Scanner(System.in);
-        try {
-            courseId = scanner.nextInt();
-        } catch (NoSuchElementException e) {
-            System.out.println("Incorrect id, use only numbers");
-            createCourseIdByUser();
-        }
-    }
-
-    public static void createCourseIdAuto() {
-        Random random = new Random();
-        courseId = random.nextInt(1, 5);
-    }
-
-    public static void createCourseNameByUser() {
-        System.out.println("Enter course name");
-        Scanner scanner = new Scanner(System.in);
-        courseName = scanner.nextLine();
-    }
 
     public boolean serial(Course course) {
         final File file = new File("src/main/java/org/massonus/service/serialization.txt");
@@ -114,45 +66,31 @@ public class CourseService implements UniversalService<Course> {
     }
 
     public List<AdditionalMaterial> getAllMaterials(List<Course> courses) {
-        List<AdditionalMaterial> materials = getAllLectures(courses).stream()
-                .map(Lecture::getMaterials)
-                .flatMap(Collection::stream)
-                .toList();
+        List<AdditionalMaterial> materials = getAllLectures(courses).stream().map(Lecture::getMaterials).flatMap(Collection::stream).toList();
         logger.info("List of materials created " + materials.size());
         return materials;
     }
 
     public List<Homework> getAllHomework(List<Course> courses) {
-        List<Homework> homeworkList = getAllLectures(courses).stream()
-                .map(Lecture::getHomeworks)
-                .flatMap(Collection::stream)
-                .toList();
+        List<Homework> homeworkList = getAllLectures(courses).stream().map(Lecture::getHomeworks).flatMap(Collection::stream).toList();
         logger.info("List of homework created " + homeworkList.size());
         return homeworkList;
     }
 
     public List<Lecture> getAllLectures(List<Course> courses) {
-        List<Lecture> lectures = courses.stream()
-                .map(Course::getLectures)
-                .flatMap(Collection::stream)
-                .toList();
+        List<Lecture> lectures = courses.stream().map(Course::getLectures).flatMap(Collection::stream).toList();
         logger.info("List of lectures created " + lectures.size());
         return lectures;
     }
 
     public List<Person> getAllPeople(List<Course> courses) {
-        List<Person> people = courses.stream()
-                .map(Course::getPeople)
-                .flatMap(Collection::stream)
-                .toList();
+        List<Person> people = courses.stream().map(Course::getPeople).flatMap(Collection::stream).toList();
         logger.info("List of people created " + people.size());
         return people;
     }
 
     public List<Course> sortCoursesById(List<Course> courses) {
-        return courses.stream()
-                .sorted(Comparator.comparing(Course::getId))
-                .toList();
+        return courses.stream().sorted(Comparator.comparing(Course::getId)).toList();
     }
 }
 

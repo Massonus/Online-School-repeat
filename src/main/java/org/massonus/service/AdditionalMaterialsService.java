@@ -20,7 +20,7 @@ public class AdditionalMaterialsService implements UniversalService<AdditionalMa
         Scanner scanner2 = new Scanner(System.in);
         String name = scanner2.nextLine();
         material.setTask(name);
-        material.setCourseId(CourseService.courseId);
+        /*material.setCourseId(CourseService.courseId);*/
 
         System.out.println("1. To select the resourceType URL");
         System.out.println("2. To select the resourceType VIDEO");
@@ -56,7 +56,7 @@ public class AdditionalMaterialsService implements UniversalService<AdditionalMa
             material.setTask("Learn new information in the Book");
             material.setResourceType(ResourceType.BOOK);
         }
-        material.setCourseId(CourseService.courseId);
+        /*material.setCourseId(CourseService.courseId);*/
 
         return material;
     }

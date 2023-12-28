@@ -69,8 +69,6 @@ public class LectureRepo implements UniversalRepository {
         List<Person> list = personRepo.getAllTeachers().stream()
                 .filter(p -> p.getId().equals(teacherId))
                 .toList();
-
-        logger.info("List of " + teacherId + " " + list);
         return list.get(0);
     }
 

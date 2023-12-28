@@ -10,9 +10,10 @@ import org.massonus.view.HomeworkView;
 import org.massonus.view.LectureView;
 import org.massonus.view.PersonView;
 
-import java.io.IOException;
-import java.io.RandomAccessFile;
-import java.util.*;
+import java.util.Collections;
+import java.util.List;
+import java.util.Optional;
+import java.util.Scanner;
 
 public class CourseController {
 
@@ -53,7 +54,7 @@ public class CourseController {
                     int id = courseService.choiceId();
                     Course course = Optional.ofNullable(courseService.getById(courses, id))
                             .orElse(new Course());
-                    logger.info("chose course " + course.getCourse_name());
+                    logger.info("chose course " + course.getCourseName());
                     mainController.workWithCourseElements(course);
                     break;
 
@@ -154,26 +155,7 @@ public class CourseController {
     }
 
     public List<Course> firstCreate() {
-        try (RandomAccessFile raf = new RandomAccessFile("src/main/java/org/massonus/log/logs.txt", "rw")) {
-            raf.setLength(0);
-        } catch (IOException e) {
-            Arrays.stream(e.getStackTrace()).forEach(System.out::println);
-        }
-        List<Course> courses = null;
-        System.out.println("Do you want to create the Course?");
-        System.out.println("Enter Y or any key");
-        Scanner scanner = new Scanner(System.in);
-        String s = scanner.nextLine();
-        if (s.equals("Y") || s.equals("y")) {
-            System.out.println("First you must create a Course");
-            String choice = courseService.choice();
-            if (choice.equals("2")) {
-                courses = courseRepo.createAndFillCourseAuto();
-                courseService.printAll(courses);
-            } else {
-                courses = courseRepo.createAndFillCourseByUser();
-            }
-        }
-        return courses;
+
+        return courseRepo.getAllCourses();
     }
 }

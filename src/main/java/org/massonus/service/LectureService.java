@@ -35,7 +35,7 @@ public class LectureService implements UniversalService<Lecture> {
         Scanner scanner2 = new Scanner(System.in);
         String description = scanner2.nextLine();
         lecture.setDescription(description);
-        lecture.setCourseId(CourseService.courseId);
+        /*lecture.setCourseId(CourseService.courseId);*/
 
         lecture.setHomeworks(homeworkRepo.getAllHomework());
         lecture.setMaterials(materialsRepo.getAllMaterials());
@@ -59,7 +59,7 @@ public class LectureService implements UniversalService<Lecture> {
             lecture.setSubject("English");
             lecture.setDescription("About English");
         }
-        lecture.setCourseId(CourseService.courseId);
+        /*lecture.setCourseId(CourseService.courseId);*/
 
         lecture.setHomeworks(homeworkRepo.getAllHomework());
         lecture.setMaterials(materialsRepo.getAllMaterials());

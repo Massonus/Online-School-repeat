@@ -5,8 +5,8 @@ CREATE TABLE public.person
     last_name text,
     phone text,
     email text,
+    role text DEFAULT 'STUDENT',
     course_id integer NOT NULL DEFAULT 1,
-    role text NOT NULL DEFAULT 'STUDENT',
     PRIMARY KEY (id),
     CONSTRAINT course_id FOREIGN KEY (course_id)
         REFERENCES public.course (id) MATCH SIMPLE

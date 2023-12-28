@@ -50,7 +50,7 @@ public class PersonService implements UniversalService<Person> {
         } else {
             System.out.println("Incorrect");
         }
-        person.setCourseId(CourseService.courseId);
+        /*person.setCourseId(CourseService.courseId);*/
 
         return person;
     }
@@ -79,7 +79,7 @@ public class PersonService implements UniversalService<Person> {
             person.setRole(Role.TEACHER);
         }
         person.setEmail(generateRandomString() + "@gmail.com");
-        person.setCourseId(CourseService.courseId);
+        /*person.setCourseId(CourseService.courseId);*/
 
         return person;
     }

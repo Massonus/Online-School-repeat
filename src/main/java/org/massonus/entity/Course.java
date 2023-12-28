@@ -13,7 +13,7 @@ public class Course implements Comparable<Course>, Serializable {
 
     private Integer id;
 
-    private String course_name;
+    private String CourseName;
 
     private List<Person> people;
 
@@ -24,17 +24,17 @@ public class Course implements Comparable<Course>, Serializable {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Course course = (Course) o;
-        return Objects.equals(course_name, course.course_name);
+        return Objects.equals(CourseName, course.CourseName);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(course_name);
+        return Objects.hash(CourseName);
     }
 
     @Override
     public int compareTo(Course o) {
-        return this.course_name.compareTo(o.course_name);
+        return this.CourseName.compareTo(o.CourseName);
     }
 }
 

@@ -1,64 +1,71 @@
 package org.massonus.repo;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.core.LoggerContext;
 import org.massonus.entity.Course;
 import org.massonus.entity.Lecture;
 import org.massonus.entity.Person;
-import org.massonus.log.Logger;
-import org.massonus.service.CourseService;
 
-import java.util.*;
+import java.net.URISyntaxException;
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
 
 public class CourseRepo implements UniversalRepository {
-    Set<Course> courseSet;
-    private List<Course> courses;
-    final CourseService courseService = new CourseService();
-    final LectureRepo lectureRepo = new LectureRepo();
-    final PersonRepo personRepo = new PersonRepo();
-    final Logger logger = new Logger("CourseRepo");
+    private final PersonRepo personRepo = new PersonRepo();
+    private final LectureRepo lectureRepo = new LectureRepo();
+    private static final org.apache.logging.log4j.Logger logger = LogManager.getLogger(CourseRepo.class);
 
-    public List<Course> createAndFillCourseAuto() {
-        Random random = new Random();
-        int lengthMas = random.nextInt(1, 5);
-        courseSet = new HashSet<>();
-        for (int i = 0; i < lengthMas; i++) {
-            CourseService.createCourseIdAuto();
-            Course course = courseService.createElementAuto();
-
-            List<Person> people = personRepo.getAllPeople();
-            course.setPeople(people);
-
-            List<Lecture> lectures = lectureRepo.getAllLectures();
-            course.setLectures(lectures);
-
-            logger.info("course created automatically with index: " + i + " id: " + course.getId());
-            logger.info("course was added - " + courseSet.add(course));
-            logger.info("lectures: " + lectures.size());
-            logger.info("people: " + people.size());
+    public CourseRepo() {
+        LoggerContext context = (LoggerContext) LogManager.getContext(false);
+        try {
+            context.setConfigLocation(CourseRepo.class.getResource("/log4j.xml").toURI());
+        } catch (URISyntaxException e) {
+            throw new RuntimeException(e);
         }
-        logger.info("Created " + courseSet.size() + " courses");
-        courses = new ArrayList<>(courseSet);
-        logger.info("List created successful, size : " + lengthMas);
-        return courses;
     }
 
-    public List<Course> createAndFillCourseByUser() {
-        int length = lengthMasByUser();
-        courses = new ArrayList<>();
-        for (int i = 0; i < length; i++) {
-            CourseService.createCourseIdByUser();
-            CourseService.createCourseNameByUser();
-            Course course = courseService.createElementByUser();
+    private Integer id;
 
-            List<Person> people = personRepo.getAllPeople();
-            course.setPeople(people);
+    public List<Course> getAllCourses() {
+        try {
+            final String sql = "SELECT * FROM course";
+            try (Connection conn = createCon();
+                 Statement statement = conn.createStatement()) {
+                final ResultSet resultSet = statement.executeQuery(sql);
 
-            List<Lecture> lectures = lectureRepo.getAllLectures();
-            course.setLectures(lectures);
+                final List<Course> courses = new ArrayList<>();
 
-            courses.add(course);
-            logger.info("course created by user with index: " + i + " id: " + course.getId());
+                while (resultSet.next()) {
+                    Course course = new Course();
+                    id = resultSet.getInt("id");
+                    course.setId(id);
+                    course.setCourseName(resultSet.getString("course_name"));
+                    course.setPeople(getPeopleForCourse());
+                    course.setLectures(getLecturesForCourse());
+                    courses.add(course);
+                    logger.info("Course created {}", course);
+                }
 
+                return courses;
+            }
+        } catch (Exception ex) {
+            System.out.println("Connection failed..." + ex);
         }
-        return courses;
+        throw new IllegalArgumentException();
+    }
+
+    public List<Person> getPeopleForCourse() {
+        return personRepo.getAllPeople().stream()
+                .filter(p -> p.getCourseId().equals(id))
+                .toList();
+    }
+
+    public List<Lecture> getLecturesForCourse() {
+        return lectureRepo.getAllLectures().stream()
+                .filter(l -> l.getCourseId().equals(id))
+                .toList();
     }
 }
