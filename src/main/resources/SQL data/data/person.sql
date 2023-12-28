@@ -11,7 +11,7 @@ insert into person (id, first_name, last_name, phone, email, role, course_id) va
 insert into person (id, first_name, last_name, phone, email, role, course_id) values (11, 'Wildon', 'Roke', 'Poco', 'wrokea@deliciousdays.com', 'TEACHER', 2);
 insert into person (id, first_name, last_name, phone, email, role, course_id) values (12, 'Northrup', 'McInteer', 'iPhone', 'nmcinteerb@samsung.com', 'TEACHER', 7);
 insert into person (id, first_name, last_name, phone, email, role, course_id) values (13, 'Dorry', 'Ruit', 'Meizu', 'druitc@ucla.edu', 'STUDENT', 3);
-insert into person (id, first_name, last_name, phone, email, role, course_id) values (14, 'Janeta', 'Kolodziej', 'iPhone', 'jkolodziejd@goodreads.com', 'STUDENT', 1);
+insert into person (id, first_name, last_name, phone, email, role, course_id) values (14, 'Janeta', 'Kolodziej', 'iPhone', 'jkolodziejd@goodreads.com', 'TEACHER', 1);
 insert into person (id, first_name, last_name, phone, email, role, course_id) values (15, 'Brandon', 'Featherstonhaugh', 'Xiaomi', 'bfeatherstonhaughe@imageshack.us', 'TEACHER', 2);
 insert into person (id, first_name, last_name, phone, email, role, course_id) values (16, 'Ave', 'Wrightham', 'Poco', 'awrighthamf@discovery.com', 'TEACHER', 7);
 insert into person (id, first_name, last_name, phone, email, role, course_id) values (17, 'Alexine', 'Softley', 'Samsung', 'asoftleyg@nbcnews.com', 'STUDENT', 6);

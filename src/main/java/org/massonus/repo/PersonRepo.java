@@ -20,7 +20,7 @@ public class PersonRepo implements UniversalRepository {
                  Statement statement = conn.createStatement()) {
                 final ResultSet resultSet = statement.executeQuery(sql);
 
-                final List<Person> homeworkList = new ArrayList<>();
+                List<Person> people = new ArrayList<>();
 
                 while (resultSet.next()) {
                     Person person = new Person();
@@ -31,14 +31,21 @@ public class PersonRepo implements UniversalRepository {
                     person.setPhone(resultSet.getString("phone"));
                     person.setEmail(resultSet.getString("email"));
                     person.setCourseId(resultSet.getInt("course_id"));
-                    homeworkList.add(person);
+                    people.add(person);
                 }
 
-                return homeworkList;
+                return people;
             }
         } catch (Exception ex) {
             System.out.println("Connection failed..." + ex);
         }
         throw new IllegalArgumentException();
+    }
+
+    public List<Person> getAllTeachers() {
+        List<Person> allPeople = getAllPeople();
+        return allPeople.stream()
+                .filter(a -> a.getRole().toString().equals("TEACHER"))
+                .toList();
     }
 }

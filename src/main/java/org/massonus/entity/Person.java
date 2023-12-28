@@ -32,6 +32,10 @@ public class Person implements Comparable<Person>, Serializable {
         this.role = role;
     }
 
+    public Person(String lastName) {
+        this.lastName = lastName;
+    }
+
     public Person(Integer id, Integer task, Role role) {
         this.id = id;
         this.task = task;

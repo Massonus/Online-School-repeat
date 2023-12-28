@@ -63,7 +63,7 @@ public class HomeworkView {
 
         while (true) {
             System.out.println("\n1. To print all homework as List");
-            System.out.println("2. To sort all homework by id");
+            System.out.println("2. To sort all homework by lectureId");
             System.out.println("3. To print all homework as Map");
             System.out.println("0. To return");
 

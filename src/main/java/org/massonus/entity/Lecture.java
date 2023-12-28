@@ -3,6 +3,7 @@ package org.massonus.entity;
 import lombok.Data;
 
 import java.io.Serializable;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
@@ -23,13 +24,13 @@ public class Lecture implements Comparable<Lecture>, Serializable {
 
     private String description;
 
-    private int teacherId;
+    private Integer teacherId;
 
-    private int courseId;
+    private Integer courseId;
 
-    private transient LocalDateTime lectureDate = LocalDateTime.now();
+    private transient LocalDate lectureDate;
 
-    private transient final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MMM d, EEEE HH:mm:ss");
+    private transient final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MMM d, EEEE");
 
     public Lecture() {
     }
@@ -55,7 +56,7 @@ public class Lecture implements Comparable<Lecture>, Serializable {
                 ", homeworks=" + homeworks +
                 ", materials=" + materials +
                 ", description='" + description + '\'' +
-                ", personId=" + teacherId +
+                ", teacherId=" + teacherId +
                 ", courseId=" + courseId +
                 '}';
     }
