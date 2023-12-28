@@ -50,7 +50,7 @@ public class Lecture implements Comparable<Lecture>, Serializable {
         return "\n Lecture{" +
                 "id=" + id +
                 ", name='" + subject + '\'' +
-                /*", lectureDate=" + formatter.format(lectureDate) +*/
+                ", lectureDate=" + formatter.format(lectureDate) +
                 ", person=" + person +
                 ", homeworks=" + homeworks +
                 ", materials=" + materials +

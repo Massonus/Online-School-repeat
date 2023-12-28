@@ -1,12 +1,14 @@
 package org.massonus.entity;
 
 import lombok.Data;
+import lombok.ToString;
 
 import java.io.Serializable;
 import java.util.List;
 import java.util.Objects;
 
 @Data
+@ToString
 public class Course implements Comparable<Course>, Serializable {
 
     private Integer id;
@@ -16,16 +18,6 @@ public class Course implements Comparable<Course>, Serializable {
     private List<Person> people;
 
     private List<Lecture> lectures;
-
-    @Override
-    public String toString() {
-        return "Course{" +
-                "id=" + id +
-                " name='" + course_name + '\'' +
-                ", people=" + people +
-                ", lectures=" + lectures +
-                '}';
-    }
 
     @Override
     public boolean equals(Object o) {
