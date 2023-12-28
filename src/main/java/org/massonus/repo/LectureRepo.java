@@ -1,111 +1,103 @@
 package org.massonus.repo;
 
-import lombok.Getter;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.core.LoggerContext;
+import org.massonus.entity.AdditionalMaterial;
+import org.massonus.entity.Homework;
 import org.massonus.entity.Lecture;
 import org.massonus.entity.Person;
-import org.massonus.log.Logger;
-import org.massonus.service.LectureService;
 
-import java.util.*;
+import java.net.URISyntaxException;
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
 
 public class LectureRepo implements UniversalRepository {
-
-    @Getter
-    private List<Lecture> lectures;
-    private Set<Lecture> lectureSet;
-    private final LectureService lectureService = new LectureService();
     private final PersonRepo personRepo = new PersonRepo();
-    private final Logger logger = new Logger("LectureRepo");
+    private final AdditionalMaterialsRepo materialsRepo = new AdditionalMaterialsRepo();
+    private final HomeworkRepo homeworkRepo = new HomeworkRepo();
+    private static final Logger logger = LogManager.getLogger(LectureRepo.class);
+    private Integer id;
+    private Integer teacherId;
 
-    public List<Lecture> createAndFillListAuto(List<Person> people) {
-        Random random = new Random();
-        int lengthMas = random.nextInt(1, 50);
-        lectureSet = new HashSet<>();
-        for (int i = 0; i < lengthMas; i++) {
-            Lecture elementAuto = lectureService.createElementAuto();
-            Person person = Optional.ofNullable(getPersonForLectureAuto(people))
-                    .orElse(new Person());
-
-            elementAuto.setPerson(person);
-            elementAuto.setPersonId(person.getId());
-            lectureSet.add(elementAuto);
-        }
-        lectures = new ArrayList<>(lectureSet);
-        logger.info("List created successful, size : " + lengthMas);
-        return lectures;
-    }
-
-    public List<Lecture> createAndFillListByUser(List<Person> people) {
-        personRepo.createAndFillListByUser(lengthMasByUser());
-        System.out.println("Lecture:");
-        int lengthMas = lengthMasByUser();
-        lectureSet = new HashSet<>();
-        for (int i = 0; i < lengthMas; i++) {
-            Lecture elementByUser = lectureService.createElementByUser();
-            Person person = Optional.ofNullable(getPersonForLectureByUser(people))
-                    .orElse(new Person());
-
-            elementByUser.setPerson(person);
-            elementByUser.setPersonId(person.getId());
-            lectureSet.add(elementByUser);
-        }
-        lectures = new ArrayList<>(lectureSet);
-        logger.info("List created successful, size : " + lengthMas);
-        return lectures;
-    }
-
-    public Person getPersonForLectureAuto(List<Person> people) {
-        if (people == null) {
-            return null;
-        }
-        int[] ints = new int[people.size()];
-        for (int i = 0; i < people.size(); i++) {
-            Person person = people.get(i);
-            ints[i] = person.getId();
-        }
-        Arrays.sort(ints);
-        Random random = new Random();
-        int id;
-
+    public LectureRepo() {
+        LoggerContext context = (LoggerContext) LogManager.getContext(false);
         try {
-            id = random.nextInt(ints[0], ints[ints.length - 1]);
-        } catch (IllegalArgumentException e) {
-            id = people.get(0).getId();
+            context.setConfigLocation(LectureRepo.class.getResource("/log4j.xml").toURI());
+        } catch (URISyntaxException e) {
+            throw new RuntimeException(e);
         }
-
-        for (Person person : people) {
-            if (person == null) {
-                continue;
-            }
-            if (id == person.getId()) {
-                return person;
-            }
-        }
-        return getPersonForLectureAuto(people);
     }
 
-    public Person getPersonForLectureByUser(List<Person> people) {
-        System.out.println("Enter id of Person that will be in the Lecture");
-        Scanner scanner = new Scanner(System.in);
-        int id;
+    public List<Lecture> getAllLectures() {
         try {
-            id = scanner.nextInt();
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
-            id = 0;
-        }
+            final String sql = "SELECT * FROM lecture";
+            try (Connection conn = createCon();
+                 Statement statement = conn.createStatement()) {
+                final ResultSet resultSet = statement.executeQuery(sql);
 
-        for (Person person : people) {
-            if (id == person.getId()) {
-                logger.info("person set " + person);
-                return person;
+                List<Lecture> lectures = new ArrayList<>();
+
+                while (resultSet.next()) {
+                    Lecture lecture = new Lecture();
+                    id = resultSet.getInt("id");
+                    lecture.setId(id);
+                    lecture.setSubject(resultSet.getString("subject"));
+                    lecture.setDescription(resultSet.getString("description"));
+                    teacherId = resultSet.getInt("teacher_id");
+                    lecture.setTeacherId(teacherId);
+                    lecture.setPerson(getPersonForLecture());
+                    lecture.setHomeworks(getHomeworkList());
+                    lecture.setMaterials(getMaterialsListForLecture());
+                    lecture.setCourseId(resultSet.getInt("course_id"));
+                    lecture.setLectureDate(resultSet.getDate("lecture_date").toLocalDate());
+                    lectures.add(lecture);
+                }
+
+                return lectures;
             }
+        } catch (Exception ex) {
+            System.out.println("Connection failed..." + ex);
         }
-        System.out.println("Incorrect id, try again");
-        logger.warning("incorrect id " + id);
-        for (Person person : people) {
-            System.out.println(person);
+        throw new IllegalArgumentException();
+    }
+
+    public int delete(int id) {
+        try {
+            final String sql = "DELETE FROM public.lecture\n" +
+                    "\tWHERE id= " + id;
+            try (Connection conn = createCon();
+                 Statement statement = conn.createStatement()) {
+                final int i = statement.executeUpdate(sql, Statement.RETURN_GENERATED_KEYS);
+
+                return i;
+            }
+        } catch (Exception ex) {
+            System.out.println("Connection failed..." + ex);
         }
-        return getPersonForLectureByUser(people);
+        throw new IllegalArgumentException();
+    }
+
+    private Person getPersonForLecture() {
+        List<Person> list = personRepo.getAllTeachers().stream()
+                .filter(p -> p.getId().equals(teacherId))
+                .toList();
+        return list.get(0);
+    }
+
+    private List<Homework> getHomeworkList() {
+        return homeworkRepo.getAllHomework().stream()
+                .filter(h -> h.getLectureId().equals(id))
+                .collect(Collectors.toList());
+    }
+
+    private List<AdditionalMaterial> getMaterialsListForLecture() {
+        return materialsRepo.getAllMaterials().stream()
+                .filter(m -> m.getLectureId().equals(id))
+                .collect(Collectors.toList());
     }
 }

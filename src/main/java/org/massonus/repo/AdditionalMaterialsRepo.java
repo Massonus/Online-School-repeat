@@ -1,38 +1,48 @@
 package org.massonus.repo;
 
 import org.massonus.entity.AdditionalMaterial;
-import org.massonus.service.AdditionalMaterialsService;
+import org.massonus.entity.ResourceType;
 
-import java.util.*;
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
 
 public class AdditionalMaterialsRepo implements UniversalRepository {
-    private final AdditionalMaterialsService materialsService = new AdditionalMaterialsService();
-    private List<AdditionalMaterial> materials;
-    private Set<AdditionalMaterial> materialSet;
 
-    public List<AdditionalMaterial> createAndFillListAuto(int lectureId) {
-        Random random = new Random();
-        materialSet = new HashSet<>();
-        int lengthMas = random.nextInt(1, 30);
-        for (int i = 0; i < lengthMas; i++) {
-            AdditionalMaterial element = materialsService.createElementAuto();
-            element.setLectureId(lectureId);
-            materialSet.add(element);
-        }
-        materials = new ArrayList<>(materialSet);
-        return materials;
-    }
+    public List<AdditionalMaterial> getAllMaterials() {
+        try {
+            final String sql = "SELECT * FROM additional_material";
+            try (Connection conn = createCon();
+                 Statement statement = conn.createStatement()) {
+                final ResultSet resultSet = statement.executeQuery(sql);
 
-    public List<AdditionalMaterial> createAndFillListByUser(int lectureId) {
-        System.out.println("Additional material:");
-        int lengthMas = lengthMasByUser();
-        materialSet = new HashSet<>();
-        for (int i = 0; i < lengthMas; i++) {
-            AdditionalMaterial element = materialsService.createElementByUser();
-            element.setLectureId(lectureId);
-            materialSet.add(element);
+                List<AdditionalMaterial> materials = new ArrayList<>();
+
+                while (resultSet.next()) {
+                    AdditionalMaterial material = new AdditionalMaterial();
+                    material.setId(resultSet.getInt("id"));
+                    material.setTask(resultSet.getString("task"));
+
+                    if (resultSet.getString("resource_type").equals("URL")) {
+                        material.setResourceType(ResourceType.URL);
+                    } else if (resultSet.getString("resource_type").equals("BOOK")) {
+                        material.setResourceType(ResourceType.BOOK);
+                    } else {
+                        material.setResourceType(ResourceType.VIDEO);
+                    }
+
+                    material.setCourseId(resultSet.getInt("course_id"));
+                    material.setLectureId(resultSet.getInt("lecture_id"));
+                    materials.add(material);
+                }
+
+                return materials;
+            }
+        } catch (Exception ex) {
+            System.out.println("Connection failed..." + ex);
         }
-        materials = new ArrayList<>(materialSet);
-        return materials;
+        throw new IllegalArgumentException();
     }
 }

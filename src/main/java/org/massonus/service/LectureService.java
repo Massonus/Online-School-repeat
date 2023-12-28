@@ -29,16 +29,16 @@ public class LectureService implements UniversalService<Lecture> {
         System.out.println("Enter name of lecture");
         Scanner scanner1 = new Scanner(System.in);
         String name = scanner1.nextLine();
-        lecture.setName(name);
+        lecture.setSubject(name);
 
         System.out.println("Enter description of lecture");
         Scanner scanner2 = new Scanner(System.in);
         String description = scanner2.nextLine();
         lecture.setDescription(description);
-        lecture.setCourseId(CourseService.courseId);
+        /*lecture.setCourseId(CourseService.courseId);*/
 
-        lecture.setHomeworks(homeworkRepo.createAndFillListByUser(id));
-        lecture.setMaterials(materialsRepo.createAndFillListByUser(id));
+        lecture.setHomeworks(homeworkRepo.getAllHomework());
+        lecture.setMaterials(materialsRepo.getAllMaterials());
 
         return lecture;
     }
@@ -50,19 +50,19 @@ public class LectureService implements UniversalService<Lecture> {
         lecture.setId(id);
 
         if (id < 10 || id > 40) {
-            lecture.setName("Math");
+            lecture.setSubject("Math");
             lecture.setDescription("About Math");
         } else if (id < 20 || id > 30) {
-            lecture.setName("Geography");
+            lecture.setSubject("Geography");
             lecture.setDescription("About Geography");
         } else {
-            lecture.setName("English");
+            lecture.setSubject("English");
             lecture.setDescription("About English");
         }
-        lecture.setCourseId(CourseService.courseId);
+        /*lecture.setCourseId(CourseService.courseId);*/
 
-        lecture.setHomeworks(homeworkRepo.createAndFillListAuto(id));
-        lecture.setMaterials(materialsRepo.createAndFillListAuto(id));
+        lecture.setHomeworks(homeworkRepo.getAllHomework());
+        lecture.setMaterials(materialsRepo.getAllMaterials());
 
         return lecture;
     }
@@ -95,6 +95,38 @@ public class LectureService implements UniversalService<Lecture> {
             return true;
         }
         return false;
+    }
+
+    public boolean removeById(List<Lecture> list, int id) {
+        if (list == null) {
+            System.out.println("Please create the List");
+            logger.warning("array is empty");
+            return false;
+        }
+        for (int i = 0; i < list.size(); i++) {
+            Lecture element = list.get(i);
+            if (id == element.getId()) {
+                System.out.println(list.get(i));
+                Lecture remove = list.remove(i);
+                logger.info("element removed " + remove);
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public Lecture getById(List<Lecture> list, int id) {
+        if (list == null) {
+            System.out.println("Please create an Array");
+            return null;
+        }
+
+        for (Lecture element : list) {
+            if (id == element.getId()) {
+                return element;
+            }
+        }
+        return null;
     }
 
     public Lecture findFirstLecture(List<Lecture> lectures) {

@@ -1,42 +1,35 @@
 package org.massonus.entity;
 
 import lombok.Data;
+import lombok.ToString;
 
 import java.io.Serializable;
 import java.util.Objects;
 
 @Data
-public class AdditionalMaterial extends SuperSchool implements Comparable<AdditionalMaterial>, Serializable {
+@ToString
+public class AdditionalMaterial implements Comparable<AdditionalMaterial>, Serializable {
 
-    private String name;
+    private Integer id;
+
+    private String task;
+
+    private ResourceType resourceType;
 
     private Integer courseId;
 
     private Integer lectureId;
 
-    private ResourceType resourceType;
-
     public AdditionalMaterial() {
     }
 
-    public AdditionalMaterial(String name, ResourceType resourceType) {
-        this.name = name;
+    public AdditionalMaterial(String task, ResourceType resourceType) {
+        this.task = task;
         this.resourceType = resourceType;
     }
 
-    public AdditionalMaterial(String name) {
-        this.name = name;
-    }
-
-    @Override
-    public String toString() {
-        return "AdditionalMaterial{" +
-                "id=" + id +
-                " name='" + name + '\'' +
-                ", courseId=" + courseId +
-                ", lectureId=" + lectureId +
-                ", resourceType=" + resourceType +
-                '}';
+    public AdditionalMaterial(String task) {
+        this.task = task;
     }
 
     @Override
@@ -44,12 +37,12 @@ public class AdditionalMaterial extends SuperSchool implements Comparable<Additi
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         AdditionalMaterial that = (AdditionalMaterial) o;
-        return Objects.equals(name, that.name);
+        return Objects.equals(task, that.task);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(name);
+        return Objects.hash(task);
     }
 
     @Override

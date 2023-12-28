@@ -3,15 +3,17 @@ package org.massonus.entity;
 import lombok.Data;
 
 import java.io.Serializable;
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Objects;
 
 @Data
-public class Lecture extends SuperSchool implements Comparable<Lecture>, Serializable {
+public class Lecture implements Comparable<Lecture>, Serializable {
 
-    private String name;
+    private Integer id;
+
+    private String subject;
 
     private Person person;
 
@@ -21,39 +23,39 @@ public class Lecture extends SuperSchool implements Comparable<Lecture>, Seriali
 
     private String description;
 
-    private int personId;
+    private Integer teacherId;
 
-    private int courseId;
+    private Integer courseId;
 
-    private transient LocalDateTime lectureDate = LocalDateTime.now();
+    private transient LocalDate lectureDate;
 
-    private transient final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MMM d, EEEE HH:mm:ss");
+    private transient final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MMM d, EEEE");
 
     public Lecture() {
     }
 
-    public Lecture(Integer id, String name, Person person, List<AdditionalMaterial> materials) {
+    public Lecture(Integer id, String subject, Person person, List<AdditionalMaterial> materials) {
         setId(id);
-        this.name = name;
+        this.subject = subject;
         this.person = person;
         this.materials = materials;
     }
 
-    public Lecture(String name) {
-        this.name = name;
+    public Lecture(String subject) {
+        this.subject = subject;
     }
 
     @Override
     public String toString() {
         return "\n Lecture{" +
                 "id=" + id +
-                ", name='" + name + '\'' +
-                /*", lectureDate=" + formatter.format(lectureDate) +*/
+                ", name='" + subject + '\'' +
+                ", lectureDate=" + formatter.format(lectureDate) +
                 ", person=" + person +
                 ", homeworks=" + homeworks +
                 ", materials=" + materials +
                 ", description='" + description + '\'' +
-                ", personId=" + personId +
+                ", teacherId=" + teacherId +
                 ", courseId=" + courseId +
                 '}';
     }

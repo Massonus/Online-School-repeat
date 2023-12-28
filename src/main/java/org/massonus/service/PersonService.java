@@ -50,7 +50,7 @@ public class PersonService implements UniversalService<Person> {
         } else {
             System.out.println("Incorrect");
         }
-        person.setCourseId(CourseService.courseId);
+        /*person.setCourseId(CourseService.courseId);*/
 
         return person;
     }
@@ -79,7 +79,7 @@ public class PersonService implements UniversalService<Person> {
             person.setRole(Role.TEACHER);
         }
         person.setEmail(generateRandomString() + "@gmail.com");
-        person.setCourseId(CourseService.courseId);
+        /*person.setCourseId(CourseService.courseId);*/
 
         return person;
     }
@@ -126,6 +126,38 @@ public class PersonService implements UniversalService<Person> {
         people.add(index, person);
         logger.info("added: " + person);
         return true;
+    }
+
+    public boolean removeById(List<Person> list, int id) {
+        if (list == null) {
+            System.out.println("Please create the List");
+            logger.warning("array is empty");
+            return false;
+        }
+        for (int i = 0; i < list.size(); i++) {
+            Person element = list.get(i);
+            if (id == element.getId()) {
+                System.out.println(list.get(i));
+                Person remove = list.remove(i);
+                logger.info("element removed " + remove);
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public Person getById(List<Person> list, int id) {
+        if (list == null) {
+            System.out.println("Please create an Array");
+            return null;
+        }
+
+        for (Person element : list) {
+            if (id == element.getId()) {
+                return element;
+            }
+        }
+        return null;
     }
 
     public boolean writeEmailsToTheFile(List<String> collect) {

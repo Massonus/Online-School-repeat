@@ -6,11 +6,15 @@ import java.io.Serializable;
 import java.util.Objects;
 
 @Data
-public class Person extends SuperSchool implements Comparable<Person>, Serializable {
+public class Person implements Comparable<Person>, Serializable {
+
+    private Integer id;
 
     private String firstName;
 
     private String lastName;
+
+    private Role role;
 
     private String phone;
 
@@ -18,15 +22,23 @@ public class Person extends SuperSchool implements Comparable<Person>, Serializa
 
     private Integer courseId;
 
-    private Integer task;
-
-    private Role role;
+    private transient Integer task;
 
     public Person() {
     }
 
     public Person(Integer id, Role role) {
-        setId(id);
+        this.id = id;
+        this.role = role;
+    }
+
+    public Person(String lastName) {
+        this.lastName = lastName;
+    }
+
+    public Person(Integer id, Integer task, Role role) {
+        this.id = id;
+        this.task = task;
         this.role = role;
     }
 
