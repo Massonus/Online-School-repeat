@@ -53,7 +53,7 @@ public class CourseController {
                     int id = courseService.choiceId();
                     Course course = Optional.ofNullable(courseService.getById(courses, id))
                             .orElse(new Course());
-                    logger.info("chose course " + course.getName());
+                    logger.info("chose course " + course.getCourse_name());
                     mainController.workWithCourseElements(course);
                     break;
 

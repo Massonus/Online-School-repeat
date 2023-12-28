@@ -27,7 +27,7 @@ public class LectureRepo implements UniversalRepository {
                     .orElse(new Person());
 
             elementAuto.setPerson(person);
-            elementAuto.setPersonId(person.getId());
+            elementAuto.setTeacherId(person.getId());
             lectureSet.add(elementAuto);
         }
         lectures = new ArrayList<>(lectureSet);
@@ -46,7 +46,7 @@ public class LectureRepo implements UniversalRepository {
                     .orElse(new Person());
 
             elementByUser.setPerson(person);
-            elementByUser.setPersonId(person.getId());
+            elementByUser.setTeacherId(person.getId());
             lectureSet.add(elementByUser);
         }
         lectures = new ArrayList<>(lectureSet);

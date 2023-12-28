@@ -11,7 +11,7 @@ public class Course implements Comparable<Course>, Serializable {
 
     private Integer id;
 
-    private String name;
+    private String course_name;
 
     private List<Person> people;
 
@@ -21,7 +21,7 @@ public class Course implements Comparable<Course>, Serializable {
     public String toString() {
         return "Course{" +
                 "id=" + id +
-                " name='" + name + '\'' +
+                " name='" + course_name + '\'' +
                 ", people=" + people +
                 ", lectures=" + lectures +
                 '}';
@@ -32,17 +32,17 @@ public class Course implements Comparable<Course>, Serializable {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Course course = (Course) o;
-        return Objects.equals(name, course.name);
+        return Objects.equals(course_name, course.course_name);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(name);
+        return Objects.hash(course_name);
     }
 
     @Override
     public int compareTo(Course o) {
-        return this.name.compareTo(o.name);
+        return this.course_name.compareTo(o.course_name);
     }
 }
 

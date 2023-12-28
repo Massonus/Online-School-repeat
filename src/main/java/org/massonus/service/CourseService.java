@@ -13,7 +13,7 @@ public class CourseService implements UniversalService<Course> {
     public Course createElementByUser() {
         course = new Course();
         course.setId(courseId);
-        course.setName(courseName);
+        course.setCourse_name(courseName);
 
         return course;
     }
@@ -23,15 +23,15 @@ public class CourseService implements UniversalService<Course> {
         course.setId(courseId);
 
         if (courseId == 1) {
-            course.setName("First");
+            course.setCourse_name("First");
         } else if (courseId == 2) {
-            course.setName("Second");
+            course.setCourse_name("Second");
         } else if (courseId == 3) {
-            course.setName("Third");
+            course.setCourse_name("Third");
         } else if (courseId == 4) {
-            course.setName("Fourth");
+            course.setCourse_name("Fourth");
         } else if (courseId == 5) {
-            course.setName("Fives");
+            course.setCourse_name("Fives");
         }
         return course;
     }

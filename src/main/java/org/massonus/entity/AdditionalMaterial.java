@@ -1,22 +1,24 @@
 package org.massonus.entity;
 
 import lombok.Data;
+import lombok.ToString;
 
 import java.io.Serializable;
 import java.util.Objects;
 
 @Data
+@ToString
 public class AdditionalMaterial implements Comparable<AdditionalMaterial>, Serializable {
 
     private Integer id;
 
     private String task;
 
+    private ResourceType resourceType;
+
     private Integer courseId;
 
     private Integer lectureId;
-
-    private ResourceType resourceType;
 
     public AdditionalMaterial() {
     }
@@ -28,17 +30,6 @@ public class AdditionalMaterial implements Comparable<AdditionalMaterial>, Seria
 
     public AdditionalMaterial(String task) {
         this.task = task;
-    }
-
-    @Override
-    public String toString() {
-        return "AdditionalMaterial{" +
-                "id=" + id +
-                " name='" + task + '\'' +
-                ", courseId=" + courseId +
-                ", lectureId=" + lectureId +
-                ", resourceType=" + resourceType +
-                '}';
     }
 
     @Override

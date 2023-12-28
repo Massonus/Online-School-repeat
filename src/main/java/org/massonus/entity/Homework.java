@@ -14,15 +14,17 @@ public class Homework implements Serializable {
 
     private Integer id;
 
-    private Integer lectureId;
-
     private String task;
 
-    private transient final LocalDateTime deadline = LocalDateTime.of(LocalDate.now().getYear(), LocalDate.now().getMonth(), LocalDate.now().getDayOfMonth(), 12, 0, LocalTime.now().getSecond());
+    private transient final LocalDateTime deadline;
 
-    private transient final DateTimeFormatter formatterDeadline = DateTimeFormatter.ofPattern("MMM d, HH:mm");
+    private Integer lectureId;
+
+    private transient final DateTimeFormatter formatterDeadline;
 
     public Homework() {
+        deadline = LocalDateTime.of(LocalDate.now().getYear(), LocalDate.now().getMonth(), LocalDate.now().getDayOfMonth(), 12, 0, LocalTime.now().getSecond());
+        formatterDeadline = DateTimeFormatter.ofPattern("MMM d, HH:mm");
     }
 
     @Override
@@ -31,7 +33,7 @@ public class Homework implements Serializable {
                 "id=" + id +
                 ", lectureId=" + lectureId +
                 ", task='" + task + '\'' +
-                /*", deadline=" + formatterDeadline.format(deadline) +*/
+                ", deadline=" + formatterDeadline.format(deadline) +
                 '}';
     }
 

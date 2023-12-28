@@ -29,7 +29,7 @@ public class LectureService implements UniversalService<Lecture> {
         System.out.println("Enter name of lecture");
         Scanner scanner1 = new Scanner(System.in);
         String name = scanner1.nextLine();
-        lecture.setName(name);
+        lecture.setSubject(name);
 
         System.out.println("Enter description of lecture");
         Scanner scanner2 = new Scanner(System.in);
@@ -50,13 +50,13 @@ public class LectureService implements UniversalService<Lecture> {
         lecture.setId(id);
 
         if (id < 10 || id > 40) {
-            lecture.setName("Math");
+            lecture.setSubject("Math");
             lecture.setDescription("About Math");
         } else if (id < 20 || id > 30) {
-            lecture.setName("Geography");
+            lecture.setSubject("Geography");
             lecture.setDescription("About Geography");
         } else {
-            lecture.setName("English");
+            lecture.setSubject("English");
             lecture.setDescription("About English");
         }
         lecture.setCourseId(CourseService.courseId);

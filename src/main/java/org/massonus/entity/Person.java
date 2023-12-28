@@ -20,15 +20,16 @@ public class Person implements Comparable<Person>, Serializable {
 
     private Integer courseId;
 
-    private Integer task;
-
     private Role role;
+
+    private transient Integer task;
 
     public Person() {
     }
 
-    public Person(Integer id, Role role) {
-        setId(id);
+    public Person(Integer id, Integer task, Role role) {
+        this.id = id;
+        this.task = task;
         this.role = role;
     }
 
