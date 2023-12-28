@@ -17,7 +17,7 @@ public class MainController {
 
     public void workWithCourseElements(Course course) {
         List<Lecture> lectures;
-        List<Person> people = course.getPeople();
+        List<Person> people;
 
         while (true) {
             System.out.println("\n Make your choice (use only numbers)");
@@ -41,14 +41,16 @@ public class MainController {
                 case 1:
                     try {
                         lectures = course.getLectures();
+                        people = course.getPeople();
                     } catch (NullPointerException e) {
                         System.out.println("Incorrect id " + e);
                         break;
                     }
-                    lectureView.workWithLecture(lectures);
+                    lectureView.workWithLecture(lectures, people, course.getId());
                     break;
 
                 case 2:
+                    people = course.getPeople();
                     personView.workWithPerson(people);
                     break;
 

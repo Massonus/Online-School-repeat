@@ -16,19 +16,18 @@ public class LectureView {
     private final AdditionalMaterialsView additionalMaterialsView = new AdditionalMaterialsView();
     private static final LectureService lectureService = new LectureService();
 
-    public void workWithLecture(List<Lecture> lectures) {
+    public void workWithLecture(List<Lecture> lectures, List<Person> people, Integer courseId) {
 
         while (true) {
             System.out.println("\n What you want to do with Lecture?");
             System.out.println("1. Get Lecture by id to work with Homework");
             System.out.println("2. Get Lecture by id to work with Additional material");
             System.out.println("3. Print all Lectures");
-            System.out.println("4. Add new Lecture by index");
-            System.out.println("5. Add new Lecture to the end");
-            System.out.println("6. To remove element");
-            System.out.println("7. To check that array is Empty");
-            System.out.println("8. To get size of array");
-            System.out.println("9. To sort by index");
+            System.out.println("4. Add new Lecture to the end");
+            System.out.println("5. To remove element");
+            System.out.println("6. To check that array is Empty");
+            System.out.println("7. To get size of array");
+            System.out.println("8. To sort by index");
             System.out.println("0. To return");
 
             Scanner scanner = new Scanner(System.in);
@@ -47,7 +46,7 @@ public class LectureView {
                         System.out.println("Incorrect id " + e);
                         break;
                     }
-                    homeworkView.workWithHomework(homeworks);
+                    homeworkView.workWithHomework(homeworks, lectureForHomework.getId());
                     break;
 
                 case "2":
@@ -61,7 +60,7 @@ public class LectureView {
                         System.out.println("Incorrect id " + e.getMessage());
                         break;
                     }
-                    additionalMaterialsView.workWithMaterial(materials);
+                    additionalMaterialsView.workWithMaterial(materials, lectureForMaterial.getCourseId(), lectureForMaterial.getId());
                     break;
 
                 case "3":
@@ -69,30 +68,23 @@ public class LectureView {
                     break;
 
                 case "4":
-                    int index = lectureService.choiceIndex();
-                    String mode = lectureService.choice();
-                    lectureService.add(lectures, index, mode);
+                    lectureService.add(lectures, people, courseId);
                     break;
 
                 case "5":
-                    String mode1 = lectureService.choice();
-                    lectureService.add(lectures, mode1);
-                    break;
-
-                case "6":
                     int id = lectureService.choiceId();
                     lectureService.removeById(lectures, id);
                     break;
 
-                case "7":
+                case "6":
                     System.out.println(lectures.isEmpty());
                     break;
 
-                case "8":
+                case "7":
                     System.out.println(lectures.size());
                     break;
 
-                case "9":
+                case "8":
                     Collections.sort(lectures);
                     break;
 

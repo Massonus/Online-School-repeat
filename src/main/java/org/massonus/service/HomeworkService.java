@@ -1,14 +1,33 @@
 package org.massonus.service;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.core.LoggerContext;
 import org.massonus.entity.Homework;
+import org.massonus.repo.UniversalRepository;
 
+import java.net.URISyntaxException;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.util.*;
 import java.util.stream.Collectors;
 
-public class HomeworkService implements UniversalService<Homework> {
+public class HomeworkService implements UniversalService<Homework>, UniversalRepository {
+
+    private static final Logger logger = LogManager.getLogger(HomeworkService.class);
+
+    public HomeworkService() {
+        LoggerContext context = (LoggerContext) LogManager.getContext(false);
+        try {
+            context.setConfigLocation(HomeworkService.class.getResource("/log4j.xml").toURI());
+        } catch (URISyntaxException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
     Homework homework;
 
-    public Homework createElementByUser() {
+    private Homework createElementByUser() {
         homework = new Homework();
         System.out.println("Enter id of homework");
         Scanner scanner1 = new Scanner(System.in);
@@ -23,7 +42,7 @@ public class HomeworkService implements UniversalService<Homework> {
         return homework;
     }
 
-    public Homework createElementAuto() {
+    private Homework createElementAuto() {
         homework = new Homework();
         Random random = new Random();
         int id = random.nextInt(1, 50);
@@ -39,52 +58,58 @@ public class HomeworkService implements UniversalService<Homework> {
         return homework;
     }
 
-    public boolean add(List<Homework> homeworks) {
-        if (choice().equals("2")) {
-            Homework elementAuto = createElementAuto();
-            logger.info("added: " + elementAuto);
-            homeworks.add(elementAuto);
-            return true;
-        } else if (choice().equals("1")) {
-            Homework elementByUser = createElementByUser();
-            logger.info("added: " + elementByUser);
-            homeworks.add(elementByUser);
-            return true;
-        }
-        return false;
-    }
-
-    public boolean add(List<Homework> homeworks, int index) {
-        if (choice().equals("2")) {
-            Homework elementAuto = createElementAuto();
-            logger.info("added: " + elementAuto);
-            homeworks.add(index, elementAuto);
-            return true;
-        } else if (choice().equals("1")) {
-            Homework elementByUser = createElementByUser();
-            logger.info("added: " + elementByUser);
-            homeworks.add(index, elementByUser);
-            return true;
-        }
-        return false;
+    public boolean add(List<Homework> homeworks, Integer lectureId) {
+        Homework elementByUser = createElementByUser();
+        elementByUser.setLectureId(lectureId);
+        insertHomeworkIntoDatabase(elementByUser);
+        logger.info("added: " + elementByUser);
+        return homeworks.add(elementByUser);
     }
 
     public boolean removeById(List<Homework> list, int id) {
-        if (list == null) {
-            System.out.println("Please create the List");
-            logger.warning("array is empty");
-            return false;
-        }
         for (int i = 0; i < list.size(); i++) {
             Homework element = list.get(i);
             if (id == element.getId()) {
                 System.out.println(list.get(i));
                 Homework remove = list.remove(i);
+                deleteHomeworkFromDatabase(id);
                 logger.info("element removed " + remove);
                 return true;
             }
         }
         return false;
+    }
+
+    private void insertHomeworkIntoDatabase(final Homework homework) {
+        try {
+
+            String sql = "INSERT INTO public.additional_material(id, task, lecture_id)VALUES (?, ?, ?)";
+
+            try (Connection conn = createCon();
+                 PreparedStatement preparedStatement = conn.prepareStatement(sql)) {
+
+                preparedStatement.setInt(1, homework.getId());
+                preparedStatement.setString(2, homework.getTask());
+                preparedStatement.setInt(3, homework.getLectureId());
+
+                int rows = preparedStatement.executeUpdate();
+                System.out.println("add Lines Device: " + rows);
+            }
+        } catch (Exception ex) {
+            System.out.println("Connection failed..." + ex);
+        }
+    }
+
+    private void deleteHomeworkFromDatabase(int id) {
+        try {
+            final String sql = "DELETE FROM public.homework WHERE id=" + id;
+            try (Connection conn = createCon();
+                 PreparedStatement preparedStatement = conn.prepareStatement(sql)) {
+                preparedStatement.executeUpdate();
+            }
+        } catch (Exception ex) {
+            System.out.println("Connection failed..." + ex);
+        }
     }
 
     public Homework getById(List<Homework> list, int id) {

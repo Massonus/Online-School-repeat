@@ -10,15 +10,14 @@ import java.util.Scanner;
 public class HomeworkView {
     private static final HomeworkService homeworkService = new HomeworkService();
 
-    public void workWithHomework(List<Homework> homeworks) {
+    public void workWithHomework(List<Homework> homeworks, Integer lectureId) {
         while (true) {
             System.out.println("\n What you want to do with Homework?");
             System.out.println("1. Print all Homeworks");
-            System.out.println("2. Add new Homework by index");
-            System.out.println("3. Add new Homework to the end");
-            System.out.println("4. To remove element");
-            System.out.println("5. To check that array is Empty");
-            System.out.println("6. To get size of array");
+            System.out.println("2. Add new Homework");
+            System.out.println("3. To remove element");
+            System.out.println("4. To check that array is Empty");
+            System.out.println("5. To get size of array");
             System.out.println("0. To return");
 
             Scanner scanner = new Scanner(System.in);
@@ -31,24 +30,19 @@ public class HomeworkView {
                     break;
 
                 case "2":
-                    int index = homeworkService.choiceIndex();
-                    homeworkService.add(homeworks, index);
+                    homeworkService.add(homeworks, lectureId);
                     break;
 
                 case "3":
-                    homeworkService.add(homeworks);
-                    break;
-
-                case "4":
                     int id = homeworkService.choiceId();
                     homeworkService.removeById(homeworks, id);
                     break;
 
-                case "5":
+                case "4":
                     System.out.println(homeworks.isEmpty());
                     break;
 
-                case "6":
+                case "5":
                     System.out.println(homeworks.size());
                     break;
 

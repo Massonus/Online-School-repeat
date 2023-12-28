@@ -32,6 +32,7 @@ public class Lecture implements Comparable<Lecture>, Serializable {
     private transient final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MMM d, EEEE");
 
     public Lecture() {
+        lectureDate = LocalDate.now();
     }
 
     public Lecture(Integer id, String subject, Person person, List<AdditionalMaterial> materials) {
