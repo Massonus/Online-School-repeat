@@ -1,42 +1,44 @@
 package org.massonus.repo;
 
-import lombok.Getter;
 import org.massonus.entity.Person;
+import org.massonus.entity.Role;
 import org.massonus.log.Logger;
-import org.massonus.service.PersonService;
 
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.Statement;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 public class PersonRepo implements UniversalRepository {
-
-    @Getter
-    public List<Person> people;
-    private Set<Person> personSet;
-    private final PersonService personService = new PersonService();
     private final Logger logger = new Logger("LectureRepo");
 
-    public List<Person> createAndFillListAuto(int lengthMas) {
+    public List<Person> getAllPeople() {
+        try {
+            final String sql = "SELECT * FROM person";
+            try (Connection conn = createCon();
+                 Statement statement = conn.createStatement()) {
+                final ResultSet resultSet = statement.executeQuery(sql);
 
-        personSet = new HashSet<>();
-        for (int i = 0; i < lengthMas; i++) {
-            personSet.add(personService.createElementAuto());
-        }
-        people = new ArrayList<>(personSet);
-        logger.info("List created successful, size : " + lengthMas);
-        return people;
-    }
+                final List<Person> homeworkList = new ArrayList<>();
 
-    public List<Person> createAndFillListByUser(int lengthMas) {
-        System.out.println("Person:");
-        personSet = new HashSet<>();
-        for (int i = 0; i < lengthMas; i++) {
-            personSet.add(personService.createElementByUser());
+                while (resultSet.next()) {
+                    Person person = new Person();
+                    person.setId(resultSet.getInt("id"));
+                    person.setFirstName(resultSet.getString("first_name"));
+                    person.setLastName(resultSet.getString("last_name"));
+                    person.setRole(resultSet.getString("role").equals("TEACHER") ? Role.TEACHER : Role.STUDENT);
+                    person.setPhone(resultSet.getString("phone"));
+                    person.setEmail(resultSet.getString("email"));
+                    person.setCourseId(resultSet.getInt("course_id"));
+                    homeworkList.add(person);
+                }
+
+                return homeworkList;
+            }
+        } catch (Exception ex) {
+            System.out.println("Connection failed..." + ex);
         }
-        people = new ArrayList<>(personSet);
-        logger.info("List created successful, size : " + lengthMas);
-        return people;
+        throw new IllegalArgumentException();
     }
 }

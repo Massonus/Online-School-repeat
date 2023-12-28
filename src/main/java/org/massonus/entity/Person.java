@@ -14,13 +14,13 @@ public class Person implements Comparable<Person>, Serializable {
 
     private String lastName;
 
+    private Role role;
+
     private String phone;
 
     private String email;
 
     private Integer courseId;
-
-    private Role role;
 
     private transient Integer task;
 

@@ -24,7 +24,7 @@ public class CourseRepo implements UniversalRepository {
             CourseService.createCourseIdAuto();
             Course course = courseService.createElementAuto();
 
-            List<Person> people = personRepo.createAndFillListAuto(lengthMasAuto());
+            List<Person> people = personRepo.getAllPeople();
             course.setPeople(people);
 
             List<Lecture> lectures = lectureRepo.createAndFillListAuto(people);
@@ -50,7 +50,7 @@ public class CourseRepo implements UniversalRepository {
             CourseService.createCourseNameByUser();
             Course course = courseService.createElementByUser();
 
-            List<Person> people = personRepo.createAndFillListByUser(lengthMasByUser());
+            List<Person> people = personRepo.getAllPeople();
             course.setPeople(people);
 
             List<Lecture> lectures = lectureRepo.createAndFillListByUser(people);

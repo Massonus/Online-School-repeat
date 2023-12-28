@@ -11,7 +11,7 @@ import java.util.List;
 
 public class AdditionalMaterialsRepo implements UniversalRepository {
 
-    public List<AdditionalMaterial> gatAllMaterials() {
+    public List<AdditionalMaterial> getAllMaterials() {
         try {
             final String sql = "SELECT * FROM additional_material";
             try (Connection conn = createCon();

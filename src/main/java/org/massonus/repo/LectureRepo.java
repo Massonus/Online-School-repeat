@@ -36,7 +36,7 @@ public class LectureRepo implements UniversalRepository {
     }
 
     public List<Lecture> createAndFillListByUser(List<Person> people) {
-        personRepo.createAndFillListByUser(lengthMasByUser());
+        personRepo.getAllPeople();
         System.out.println("Lecture:");
         int lengthMas = lengthMasByUser();
         lectureSet = new HashSet<>();

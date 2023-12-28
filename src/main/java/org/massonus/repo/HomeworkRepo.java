@@ -1,9 +1,6 @@
 package org.massonus.repo;
 
-import org.massonus.entity.AdditionalMaterial;
 import org.massonus.entity.Homework;
-import org.massonus.entity.ResourceType;
-import org.massonus.service.HomeworkService;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -12,7 +9,7 @@ import java.util.*;
 
 public class HomeworkRepo implements UniversalRepository {
 
-    public List<Homework> gatAllHomework() {
+    public List<Homework> getAllHomework() {
         try {
             final String sql = "SELECT * FROM homework";
             try (Connection conn = createCon();
