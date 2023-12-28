@@ -1,12 +1,11 @@
 package org.massonus.service;
 
-import org.massonus.entity.SuperSchool;
 import org.massonus.log.Logger;
 
 import java.util.List;
 import java.util.Scanner;
 
-public interface UniversalService<T extends SuperSchool> {
+public interface UniversalService<T> {
 
     Logger logger = new Logger("UniversalRepository");
 
@@ -40,38 +39,6 @@ public interface UniversalService<T extends SuperSchool> {
             logger.error("mismatch " + e);
         }
         return id;
-    }
-
-    default boolean removeById(List<T> list, int id) {
-        if (list == null) {
-            System.out.println("Please create the List");
-            logger.warning("array is empty");
-            return false;
-        }
-        for (int i = 0; i < list.size(); i++) {
-            T element = list.get(i);
-            if (id == element.getId()) {
-                System.out.println(list.get(i));
-                T remove = list.remove(i);
-                logger.info("element removed " + remove);
-                return true;
-            }
-        }
-        return false;
-    }
-
-    default T getById(List<T> list, int id) {
-        if (list == null) {
-            System.out.println("Please create an Array");
-            return null;
-        }
-
-        for (T element : list) {
-            if (id == element.getId()) {
-                return element;
-            }
-        }
-        return null;
     }
 
     default boolean printAll(List<T> eList) {

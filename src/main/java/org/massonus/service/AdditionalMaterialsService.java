@@ -19,7 +19,7 @@ public class AdditionalMaterialsService implements UniversalService<AdditionalMa
         System.out.println("Enter name of material");
         Scanner scanner2 = new Scanner(System.in);
         String name = scanner2.nextLine();
-        material.setName(name);
+        material.setTask(name);
         material.setCourseId(CourseService.courseId);
 
         System.out.println("1. To select the resourceType URL");
@@ -47,18 +47,50 @@ public class AdditionalMaterialsService implements UniversalService<AdditionalMa
         material.setId(id);
 
         if (id <= 15) {
-            material.setName("Learn new information on the Wiki");
+            material.setTask("Learn new information on the Wiki");
             material.setResourceType(ResourceType.URL);
         } else if (id > 16 && id < 36) {
-            material.setName("Learn new information on the YouTube");
+            material.setTask("Learn new information on the YouTube");
             material.setResourceType(ResourceType.VIDEO);
         } else {
-            material.setName("Learn new information in the Book");
+            material.setTask("Learn new information in the Book");
             material.setResourceType(ResourceType.BOOK);
         }
         material.setCourseId(CourseService.courseId);
 
         return material;
+    }
+
+    public boolean removeById(List<AdditionalMaterial> list, int id) {
+        if (list == null) {
+            System.out.println("Please create the List");
+            logger.warning("array is empty");
+            return false;
+        }
+        for (int i = 0; i < list.size(); i++) {
+            AdditionalMaterial element = list.get(i);
+            if (id == element.getId()) {
+                System.out.println(list.get(i));
+                AdditionalMaterial remove = list.remove(i);
+                logger.info("element removed " + remove);
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public AdditionalMaterial getById(List<AdditionalMaterial> list, int id) {
+        if (list == null) {
+            System.out.println("Please create an Array");
+            return null;
+        }
+
+        for (AdditionalMaterial element : list) {
+            if (id == element.getId()) {
+                return element;
+            }
+        }
+        return null;
     }
 
     public boolean add(List<AdditionalMaterial> materials) {
@@ -105,7 +137,7 @@ public class AdditionalMaterialsService implements UniversalService<AdditionalMa
 
     public List<AdditionalMaterial> sortMaterialsByName(List<AdditionalMaterial> materials) {
         return materials.stream()
-                .sorted(Comparator.comparing(AdditionalMaterial::getName))
+                .sorted(Comparator.comparing(AdditionalMaterial::getTask))
                 .toList();
     }
 

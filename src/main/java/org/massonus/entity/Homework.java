@@ -10,7 +10,9 @@ import java.time.format.DateTimeFormatter;
 import java.util.Objects;
 
 @Data
-public class Homework extends SuperSchool implements Serializable {
+public class Homework implements Serializable {
+
+    private Integer id;
 
     private Integer lectureId;
 

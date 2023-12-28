@@ -31,6 +31,19 @@ class LectureServiceTest {
     }
 
     @Test
+    void shouldDelete() {
+        target.removeById(check, 1);
+        boolean result = check.contains(expectedLecture);
+        Assertions.assertFalse(result);
+    }
+
+    @Test
+    void getById() {
+        Lecture result = target.getById(check, 1);
+        Assertions.assertEquals(result, expectedLecture);
+    }
+
+    @Test
     void shouldAdd() {
         boolean add = target.add(check, "2");
         Assertions.assertTrue(add);

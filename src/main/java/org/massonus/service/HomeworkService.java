@@ -69,6 +69,38 @@ public class HomeworkService implements UniversalService<Homework> {
         return false;
     }
 
+    public boolean removeById(List<Homework> list, int id) {
+        if (list == null) {
+            System.out.println("Please create the List");
+            logger.warning("array is empty");
+            return false;
+        }
+        for (int i = 0; i < list.size(); i++) {
+            Homework element = list.get(i);
+            if (id == element.getId()) {
+                System.out.println(list.get(i));
+                Homework remove = list.remove(i);
+                logger.info("element removed " + remove);
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public Homework getById(List<Homework> list, int id) {
+        if (list == null) {
+            System.out.println("Please create an Array");
+            return null;
+        }
+
+        for (Homework element : list) {
+            if (id == element.getId()) {
+                return element;
+            }
+        }
+        return null;
+    }
+
     public List<Homework> sortHomeworkByLectureId(List<Homework> homeworks) {
         return homeworks.stream()
                 .sorted(Comparator.comparing(Homework::getLectureId))

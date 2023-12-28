@@ -6,9 +6,11 @@ import java.io.Serializable;
 import java.util.Objects;
 
 @Data
-public class AdditionalMaterial extends SuperSchool implements Comparable<AdditionalMaterial>, Serializable {
+public class AdditionalMaterial implements Comparable<AdditionalMaterial>, Serializable {
 
-    private String name;
+    private Integer id;
+
+    private String task;
 
     private Integer courseId;
 
@@ -19,20 +21,20 @@ public class AdditionalMaterial extends SuperSchool implements Comparable<Additi
     public AdditionalMaterial() {
     }
 
-    public AdditionalMaterial(String name, ResourceType resourceType) {
-        this.name = name;
+    public AdditionalMaterial(String task, ResourceType resourceType) {
+        this.task = task;
         this.resourceType = resourceType;
     }
 
-    public AdditionalMaterial(String name) {
-        this.name = name;
+    public AdditionalMaterial(String task) {
+        this.task = task;
     }
 
     @Override
     public String toString() {
         return "AdditionalMaterial{" +
                 "id=" + id +
-                " name='" + name + '\'' +
+                " name='" + task + '\'' +
                 ", courseId=" + courseId +
                 ", lectureId=" + lectureId +
                 ", resourceType=" + resourceType +
@@ -44,12 +46,12 @@ public class AdditionalMaterial extends SuperSchool implements Comparable<Additi
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         AdditionalMaterial that = (AdditionalMaterial) o;
-        return Objects.equals(name, that.name);
+        return Objects.equals(task, that.task);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(name);
+        return Objects.hash(task);
     }
 
     @Override

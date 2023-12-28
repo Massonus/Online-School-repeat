@@ -9,7 +9,9 @@ import java.util.List;
 import java.util.Objects;
 
 @Data
-public class Lecture extends SuperSchool implements Comparable<Lecture>, Serializable {
+public class Lecture implements Comparable<Lecture>, Serializable {
+
+    private Integer id;
 
     private String name;
 

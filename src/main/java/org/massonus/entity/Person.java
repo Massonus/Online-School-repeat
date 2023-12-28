@@ -6,7 +6,9 @@ import java.io.Serializable;
 import java.util.Objects;
 
 @Data
-public class Person extends SuperSchool implements Comparable<Person>, Serializable {
+public class Person implements Comparable<Person>, Serializable {
+
+    private Integer id;
 
     private String firstName;
 
