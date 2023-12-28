@@ -45,5 +45,4 @@ public class AdditionalMaterialsRepo implements UniversalRepository {
         }
         throw new IllegalArgumentException();
     }
-
 }
