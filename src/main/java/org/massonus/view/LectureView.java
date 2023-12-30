@@ -60,7 +60,7 @@ public class LectureView {
                         System.out.println("Incorrect id " + e.getMessage());
                         break;
                     }
-                    additionalMaterialsView.workWithMaterial(materials, lectureForMaterial.getCourseId(), lectureForMaterial.getId());
+                    additionalMaterialsView.workWithMaterial(materials, lectureForMaterial.getId());
                     break;
 
                 case "3":

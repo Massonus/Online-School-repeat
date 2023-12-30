@@ -34,7 +34,7 @@ public class AdditionalMaterialsService implements UniversalService<AdditionalMa
 
     AdditionalMaterial material;
 
-    private AdditionalMaterial createElementByUser() {
+    AdditionalMaterial createElementByUser() {
         material = new AdditionalMaterial();
         int size = materialsRepo.getAllMaterials().size();
         material.setId(size + 2);
@@ -75,9 +75,8 @@ public class AdditionalMaterialsService implements UniversalService<AdditionalMa
         return false;
     }
 
-    public boolean add(List<AdditionalMaterial> materials, Integer courseId, Integer lectureId) {
+    public boolean add(List<AdditionalMaterial> materials, Integer lectureId) {
         AdditionalMaterial elementByUser = createElementByUser();
-        elementByUser.setCourseId(courseId);
         elementByUser.setLectureId(lectureId);
         insertMaterialIntoDatabase(elementByUser);
         logger.info("added: " + elementByUser);
@@ -87,7 +86,7 @@ public class AdditionalMaterialsService implements UniversalService<AdditionalMa
     private void insertMaterialIntoDatabase(final AdditionalMaterial material) {
         try {
 
-            String sql = "INSERT INTO public.additional_material(id, task, resource_type, course_id, lecture_id)VALUES (?, ?, ?, ?, ?)";
+            String sql = "INSERT INTO public.additional_material(id, task, resource_type, lecture_id)VALUES (?, ?, ?, ?)";
 
             try (Connection conn = createCon();
                  PreparedStatement preparedStatement = conn.prepareStatement(sql)) {
@@ -95,11 +94,10 @@ public class AdditionalMaterialsService implements UniversalService<AdditionalMa
                 preparedStatement.setInt(1, material.getId());
                 preparedStatement.setString(2, material.getTask());
                 preparedStatement.setString(3, material.getResourceType().toString());
-                preparedStatement.setInt(4, material.getCourseId());
-                preparedStatement.setInt(5, material.getLectureId());
+                preparedStatement.setInt(4, material.getLectureId());
 
                 int rows = preparedStatement.executeUpdate();
-                System.out.println("add Lines Device: " + rows);
+                System.out.println("add Lines Material: " + rows);
             }
         } catch (Exception ex) {
             System.out.println("Connection failed..." + ex);

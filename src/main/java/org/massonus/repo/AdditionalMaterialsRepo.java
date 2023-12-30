@@ -1,14 +1,14 @@
 package org.massonus.repo;
 
 import org.massonus.entity.AdditionalMaterial;
-import org.massonus.entity.Lecture;
-import org.massonus.entity.Person;
 import org.massonus.entity.ResourceType;
+import org.massonus.service.AdditionalMaterialsService;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.Statement;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class AdditionalMaterialsRepo implements UniversalRepository {
 
@@ -33,8 +33,6 @@ public class AdditionalMaterialsRepo implements UniversalRepository {
                     } else {
                         material.setResourceType(ResourceType.VIDEO);
                     }
-
-                    material.setCourseId(resultSet.getInt("course_id"));
                     material.setLectureId(resultSet.getInt("lecture_id"));
                     materials.add(material);
                 }
@@ -46,22 +44,5 @@ public class AdditionalMaterialsRepo implements UniversalRepository {
         }
         throw new IllegalArgumentException();
     }
-    /*public List<Lecture> createAndFillListAuto(List<Person> people) {
-        Random random = new Random();
-        int lengthMas = random.nextInt(1, 50);
-        lectureSet = new HashSet<>();
-        for (int i = 0; i < lengthMas; i++) {
-            Lecture elementAuto = lectureService.createElementAuto();
-            Person person = Optional.ofNullable(getPersonForLectureAuto(people))
-                    .orElse(new Person());
-
-            elementAuto.setPerson(person);
-            elementAuto.setPersonId(person.getId());
-            lectureSet.add(elementAuto);
-        }
-        lectures = new ArrayList<>(lectureSet);
-        logger.info("List created successful, size : " + lengthMas);
-        return lectures;
-    }*/
 
 }

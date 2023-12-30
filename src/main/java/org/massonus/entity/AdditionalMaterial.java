@@ -16,8 +16,6 @@ public class AdditionalMaterial implements Comparable<AdditionalMaterial>, Seria
 
     private ResourceType resourceType;
 
-    private Integer courseId;
-
     private Integer lectureId;
 
     public AdditionalMaterial() {

@@ -1,5 +1,6 @@
 package org.massonus.service;
 
+import org.massonus.entity.AdditionalMaterial;
 import org.massonus.entity.Lecture;
 import org.massonus.entity.Person;
 import org.massonus.log.Logger;
@@ -7,15 +8,13 @@ import org.massonus.repo.UniversalRepository;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
-import java.util.List;
-import java.util.Map;
-import java.util.Random;
-import java.util.Scanner;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public class LectureService implements UniversalService<Lecture>, UniversalRepository {
     private final Logger logger = new Logger("LectureService");
-    private PersonService personService = new PersonService();
+    private final PersonService personService = new PersonService();
+    private final AdditionalMaterialsService materialsService = new AdditionalMaterialsService();
     private Lecture lecture;
 
     private Lecture createElementByUser(List<Person> people) {
@@ -67,10 +66,21 @@ public class LectureService implements UniversalService<Lecture>, UniversalRepos
         return lecture;
     }
 
+    public List<AdditionalMaterial> createAndFillMaterialsListForLecture(Integer lectureId) {
+        List<AdditionalMaterial> materials = new ArrayList<>();
+        System.out.println("Additional material:");
+        int lengthMas = lengthMasByUser();
+        for (int i = 0; i < lengthMas; i++) {
+            materialsService.add(materials, lectureId);
+        }
+        return materials;
+    }
+
     public boolean add(List<Lecture> lectures, List<Person> people, Integer courseId) {
         Lecture elementByUser = createElementByUser(people);
         elementByUser.setCourseId(courseId);
         insertLectureIntoDatabase(elementByUser);
+        elementByUser.setMaterials(createAndFillMaterialsListForLecture(elementByUser.getId()));
         logger.info("added: " + elementByUser);
         return lectures.add(elementByUser);
     }
@@ -104,7 +114,7 @@ public class LectureService implements UniversalService<Lecture>, UniversalRepos
 
 
                 int rows = preparedStatement.executeUpdate();
-                System.out.println("add Lines Device: " + rows);
+                System.out.println("add Lines Lecture: " + rows);
             }
         } catch (Exception ex) {
             System.out.println("Connection failed..." + ex);
