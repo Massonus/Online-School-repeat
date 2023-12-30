@@ -5,6 +5,7 @@ import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.core.LoggerContext;
 import org.massonus.entity.AdditionalMaterial;
 import org.massonus.entity.ResourceType;
+import org.massonus.repo.AdditionalMaterialsRepo;
 import org.massonus.repo.UniversalRepository;
 
 import java.net.URISyntaxException;
@@ -20,6 +21,8 @@ public class AdditionalMaterialsService implements UniversalService<AdditionalMa
 
     private static final Logger logger = LogManager.getLogger(AdditionalMaterialsService.class);
 
+    private final AdditionalMaterialsRepo materialsRepo = new AdditionalMaterialsRepo();
+
     public AdditionalMaterialsService() {
         LoggerContext context = (LoggerContext) LogManager.getContext(false);
         try {
@@ -33,10 +36,8 @@ public class AdditionalMaterialsService implements UniversalService<AdditionalMa
 
     private AdditionalMaterial createElementByUser() {
         material = new AdditionalMaterial();
-        System.out.println("Enter id of material");
-        Scanner scanner = new Scanner(System.in);
-        Integer id = scanner.nextInt();
-        material.setId(id);
+        int size = materialsRepo.getAllMaterials().size();
+        material.setId(size + 2);
         System.out.println("Enter name of material");
         Scanner scanner1 = new Scanner(System.in);
         String name = scanner1.nextLine();
