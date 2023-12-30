@@ -93,7 +93,7 @@ public class HomeworkService implements UniversalService<Homework>, UniversalRep
                 preparedStatement.setInt(3, homework.getLectureId());
 
                 int rows = preparedStatement.executeUpdate();
-                System.out.println("add Lines Device: " + rows);
+                System.out.println("add Lines Homework: " + rows);
             }
         } catch (Exception ex) {
             System.out.println("Connection failed..." + ex);

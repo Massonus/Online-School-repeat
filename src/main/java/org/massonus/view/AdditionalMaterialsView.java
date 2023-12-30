@@ -12,7 +12,7 @@ public class AdditionalMaterialsView {
     private static final Logger logger = new Logger("AdditionalMaterialsView");
     private static final AdditionalMaterialsService materialService = new AdditionalMaterialsService();
 
-    public void workWithMaterial(List<AdditionalMaterial> materials, Integer courseId, Integer lectureId) {
+    public void workWithMaterial(List<AdditionalMaterial> materials, Integer lectureId) {
         while (true) {
             System.out.println("\n What you want to do with Material?");
             System.out.println("1. Print all Materials");
@@ -35,7 +35,7 @@ public class AdditionalMaterialsView {
                     break;
 
                 case "2":
-                    materialService.add(materials, courseId, lectureId);
+                    materialService.add(materials, lectureId);
                     break;
 
                 case "3":
