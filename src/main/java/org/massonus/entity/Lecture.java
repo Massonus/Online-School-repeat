@@ -40,6 +40,7 @@ public class Lecture implements Comparable<Lecture>, Serializable {
         this.subject = subject;
         this.person = person;
         this.materials = materials;
+        lectureDate = LocalDate.now();
     }
 
     public Lecture(String subject) {
@@ -48,17 +49,17 @@ public class Lecture implements Comparable<Lecture>, Serializable {
 
     @Override
     public String toString() {
-        return "\n Lecture{" +
-                "id=" + id +
-                ", name='" + subject + '\'' +
-                ", lectureDate=" + formatter.format(lectureDate) +
-                ", person=" + person +
-                ", homeworks=" + homeworks +
-                ", materials=" + materials +
-                ", description='" + description + '\'' +
-                ", teacherId=" + teacherId +
-                ", courseId=" + courseId +
-                '}';
+            return "\n Lecture{" +
+                    "id=" + id +
+                    ", name='" + subject + '\'' +
+                    ", lectureDate=" + formatter.format(lectureDate) +
+                    ", person=" + person +
+                    ", homeworks=" + homeworks +
+                    ", materials=" + materials +
+                    ", description='" + description + '\'' +
+                    ", teacherId=" + teacherId +
+                    ", courseId=" + courseId +
+                    '}';
     }
 
     @Override

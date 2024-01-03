@@ -16,6 +16,7 @@ import java.util.NoSuchElementException;
 class LectureServiceTest {
     private LectureService target;
     private List<Lecture> check;
+    private List<Person> people;
     private Lecture expectedLecture;
     private Person expectedPerson;
 
@@ -25,6 +26,7 @@ class LectureServiceTest {
         expectedLecture = new Lecture(1, "Math", expectedPerson, List.of(new AdditionalMaterial("Math"), new AdditionalMaterial("Geo")));
         Lecture lecture = new Lecture(2, "Math", new Person(1, Role.TEACHER), List.of(new AdditionalMaterial("Math")));
         target = new LectureService();
+        people = List.of(new Person(1, Role.TEACHER), new Person(2, Role.TEACHER));
         check = new ArrayList<>();
         check.add(lecture);
         check.add(expectedLecture);
@@ -45,7 +47,7 @@ class LectureServiceTest {
 
     @Test
     void shouldAdd() {
-        boolean add = target.add(check, "2");
+        boolean add = target.add(expectedLecture, check, 2);
         Assertions.assertTrue(add);
     }
 
