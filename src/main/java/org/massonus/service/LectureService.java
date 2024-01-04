@@ -17,7 +17,7 @@ public class LectureService implements UniversalService<Lecture>, UniversalRepos
     private final AdditionalMaterialsService materialsService = new AdditionalMaterialsService();
     private Lecture lecture;
 
-    private Lecture createElementByUser(List<Person> people) {
+    public Lecture createElementByUser(List<Person> people) {
         lecture = new Lecture();
         System.out.println("Now create the Lecture");
         System.out.println("Enter id of lecture");
@@ -46,7 +46,7 @@ public class LectureService implements UniversalService<Lecture>, UniversalRepos
         return lecture;
     }
 
-    private Lecture createElementAuto() {
+    public Lecture createElementAuto() {
         lecture = new Lecture();
         Random random = new Random();
         int id = random.nextInt(1, 50);
@@ -76,11 +76,9 @@ public class LectureService implements UniversalService<Lecture>, UniversalRepos
         return materials;
     }
 
-    public boolean add(List<Lecture> lectures, List<Person> people, Integer courseId) {
-        Lecture elementByUser = createElementByUser(people);
+    public boolean add(Lecture elementByUser, List<Lecture> lectures, Integer courseId) {
         elementByUser.setCourseId(courseId);
         insertLectureIntoDatabase(elementByUser);
-        elementByUser.setMaterials(createAndFillMaterialsListForLecture(elementByUser.getId()));
         logger.info("added: " + elementByUser);
         return lectures.add(elementByUser);
     }

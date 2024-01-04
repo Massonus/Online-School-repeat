@@ -68,7 +68,10 @@ public class LectureView {
                     break;
 
                 case "4":
-                    lectureService.add(lectures, people, courseId);
+                    Lecture newElement = lectureService.createElementByUser(people);
+                    List<AdditionalMaterial> materialsListForLecture = lectureService.createAndFillMaterialsListForLecture(newElement.getId());
+                    newElement.setMaterials(materialsListForLecture);
+                    lectureService.add(newElement, lectures, courseId);
                     break;
 
                 case "5":

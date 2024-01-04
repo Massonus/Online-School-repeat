@@ -19,6 +19,7 @@ public class AdditionalMaterial implements Comparable<AdditionalMaterial>, Seria
     private Integer lectureId;
 
     public AdditionalMaterial() {
+
     }
 
     public AdditionalMaterial(String task, ResourceType resourceType) {
