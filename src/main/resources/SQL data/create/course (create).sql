@@ -1,6 +1,6 @@
 CREATE TABLE public.course
 (
-    id serial NOT NULL,
+    id          serial NOT NULL,
     course_name text DEFAULT 'NIO',
     PRIMARY KEY (id)
 );

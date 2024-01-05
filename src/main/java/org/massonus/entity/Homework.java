@@ -3,9 +3,8 @@ package org.massonus.entity;
 import lombok.Data;
 
 import java.io.Serializable;
+import java.sql.Date;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Objects;
 
@@ -16,15 +15,26 @@ public class Homework implements Serializable {
 
     private String task;
 
-    private transient final LocalDateTime deadline;
+    private transient LocalDate deadline;
 
     private Integer lectureId;
 
     private transient final DateTimeFormatter formatterDeadline;
 
+    private Date sqlDate;
+
     public Homework() {
-        deadline = LocalDateTime.of(LocalDate.now().getYear(), LocalDate.now().getMonth(), LocalDate.now().getDayOfMonth(), 12, 0, LocalTime.now().getSecond());
-        formatterDeadline = DateTimeFormatter.ofPattern("MMM d, HH:mm");
+        deadline = LocalDate.of(LocalDate.now().getYear(), LocalDate.now().getMonth(), LocalDate.now().getDayOfMonth() + 2);
+        formatterDeadline = DateTimeFormatter.ofPattern("MMM d, EEEE");
+        sqlDate = Date.valueOf(deadline);
+    }
+
+    public Homework(String task, Integer lectureId) {
+        this.task = task;
+        this.lectureId = lectureId;
+        deadline = LocalDate.of(LocalDate.now().getYear(), LocalDate.now().getMonth(), LocalDate.now().getDayOfMonth() + 2);
+        formatterDeadline = DateTimeFormatter.ofPattern("MMM d, EEEE");
+        sqlDate = Date.valueOf(deadline);
     }
 
     @Override

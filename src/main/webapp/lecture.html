@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+<h1>Lecture menu</h1>
+
+<nav>
+    <h2>Select the button</h2>
+    <br>
+    <div><a href="index.html" target="_parent">Return to the main menu</a></div>
+    <br>
+    <div><a><a href="/OnlineSchool_repeat_war_exploded/lectures" target="_parent">All lectures list</a></a></div>
+    <br>
+    <div><a><a href="/OnlineSchool_repeat_war_exploded/lecture_print" target="_parent">All sorted lectures</a></a></div>
+    <br>
+    <div><a><a href="/OnlineSchool_repeat_war_exploded/lecture_earliest" target="_parent">The earliest lecture</a></a></div>
+    <br>
+
+</nav>
+
+<main>
+    <form action="/OnlineSchool_repeat_war_exploded/lecture_add" method="post">
+        <label for="subject">Subject:</label>
+        <input type="text" id="subject" name="subject" required><br><br>
+
+        <label for="description">Description:</label>
+        <input type="text" id="description" name="description" required><br><br>
+
+        <label for="teacher_id">Teacher id:</label>
+        <input type="number" id="teacher_id" name="teacher_id" required><br><br>
+
+        <label for="course_id">Course id:</label>
+        <input type="number" id="course_id" name="course_id" required><br><br>
+
+        <input type="submit" value="Отправить">
+    </form>
+</main>
+</body>
+</html>

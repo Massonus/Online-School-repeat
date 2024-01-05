@@ -83,6 +83,12 @@ public class AdditionalMaterialsService implements UniversalService<AdditionalMa
         return materials.add(elementByUser);
     }
 
+    public void add(AdditionalMaterial material) {
+        int size = materialsRepo.getAllMaterials().size();
+        material.setId(size + 2);
+        insertMaterialIntoDatabase(material);
+    }
+
     private void insertMaterialIntoDatabase(final AdditionalMaterial material) {
         try {
 

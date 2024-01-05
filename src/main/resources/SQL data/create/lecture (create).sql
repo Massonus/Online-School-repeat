@@ -1,11 +1,11 @@
 CREATE TABLE public.lecture
 (
-    id serial NOT NULL,
-    subject text,
-    description text,
-    teacher_id integer NOT NULL DEFAULT 1,
-    course_id integer NOT NULL DEFAULT 1,
-    lecture_date date NOT NULL DEFAULT NOW(),
+    id           serial  NOT NULL,
+    subject      text,
+    description  text,
+    teacher_id   integer NOT NULL DEFAULT 1,
+    course_id    integer NOT NULL DEFAULT 1,
+    lecture_date date    NOT NULL DEFAULT NOW(),
     PRIMARY KEY (id),
     CONSTRAINT teacher_id FOREIGN KEY (teacher_id)
         REFERENCES public.person (id) MATCH SIMPLE

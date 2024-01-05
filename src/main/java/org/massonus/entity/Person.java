@@ -14,11 +14,11 @@ public class Person implements Comparable<Person>, Serializable {
 
     private String lastName;
 
-    private Role role;
-
     private String phone;
 
     private String email;
+
+    private Role role;
 
     private Integer courseId;
 
@@ -40,6 +40,15 @@ public class Person implements Comparable<Person>, Serializable {
         this.id = id;
         this.task = task;
         this.role = role;
+    }
+
+    public Person(String firstName, String lastName, String phone, String email, Role role, Integer courseId) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.phone = phone;
+        this.email = email;
+        this.role = role;
+        this.courseId = courseId;
     }
 
     @Override
