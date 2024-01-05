@@ -51,7 +51,7 @@ public class MainController {
 
                 case 2:
                     people = course.getPeople();
-                    personView.workWithPerson(people);
+                    personView.workWithPerson(people, course.getId());
                     break;
 
                 case 69:

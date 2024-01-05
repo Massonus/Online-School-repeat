@@ -4,6 +4,7 @@ import org.massonus.entity.AdditionalMaterial;
 import org.massonus.entity.Lecture;
 import org.massonus.entity.Person;
 import org.massonus.log.Logger;
+import org.massonus.repo.LectureRepo;
 import org.massonus.repo.UniversalRepository;
 
 import java.sql.Connection;
@@ -14,6 +15,7 @@ import java.util.stream.Collectors;
 
 public class LectureService implements UniversalService<Lecture>, UniversalRepository {
     private final Logger logger = new Logger("LectureService");
+    private final LectureRepo lectureRepo = new LectureRepo();
     private final PersonService personService = new PersonService();
     private final AdditionalMaterialsService materialsService = new AdditionalMaterialsService();
     private Lecture lecture;
@@ -82,6 +84,12 @@ public class LectureService implements UniversalService<Lecture>, UniversalRepos
         insertLectureIntoDatabase(elementByUser);
         logger.info("added: " + elementByUser);
         return lectures.add(elementByUser);
+    }
+
+    public void add(Lecture lecture) {
+        int size = lectureRepo.getAllLectures().size();
+        lecture.setId(size + 2);
+        insertLectureIntoDatabase(lecture);
     }
 
     public boolean removeById(List<Lecture> list, int id) {

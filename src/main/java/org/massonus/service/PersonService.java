@@ -3,17 +3,25 @@ package org.massonus.service;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.massonus.entity.Person;
 import org.massonus.entity.Role;
+import org.massonus.log.Logger;
+import org.massonus.repo.PersonRepo;
+import org.massonus.repo.UniversalRepository;
 
 import java.io.BufferedWriter;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.util.List;
 import java.util.Random;
 import java.util.Scanner;
 
-public class PersonService implements UniversalService<Person> {
+public class PersonService implements UniversalService<Person>, UniversalRepository {
 
+    private final Logger logger = new Logger("PersonService");
+
+    private final PersonRepo personRepo = new PersonRepo();
     Person person;
 
     public Person createElementByUser() {
@@ -50,7 +58,6 @@ public class PersonService implements UniversalService<Person> {
         } else {
             System.out.println("Incorrect");
         }
-        /*person.setCourseId(CourseService.courseId);*/
 
         return person;
     }
@@ -79,7 +86,6 @@ public class PersonService implements UniversalService<Person> {
             person.setRole(Role.TEACHER);
         }
         person.setEmail(generateRandomString() + "@gmail.com");
-        /*person.setCourseId(CourseService.courseId);*/
 
         return person;
     }
@@ -92,58 +98,66 @@ public class PersonService implements UniversalService<Person> {
     }
 
 
-    public boolean add(List<Person> people) {
-        if (choice().equals("2")) {
-            person = createElementAuto();
-        } else {
-            person = createElementByUser();
-        }
-        boolean isExist = people.stream()
-                .map(Person::getEmail)
-                .anyMatch(m -> m.equals(person.getEmail()));
-        if (isExist) {
-            System.out.println("This email is already exist");
-            return false;
-        }
-        people.add(person);
-        logger.info("added: " + person);
-        return true;
+    public boolean add(Person elementByUser, List<Person> people, Integer courseId) {
+        elementByUser.setCourseId(courseId);
+        insertPersonIntoDatabase(elementByUser);
+        logger.info("added: " + elementByUser);
+        return people.add(elementByUser);
     }
 
-    public boolean add(List<Person> people, int index) {
-        if (choice().equals("2")) {
-            person = createElementAuto();
-        } else {
-            person = createElementByUser();
-        }
-        boolean isExist = people.stream()
-                .map(Person::getEmail)
-                .anyMatch(m -> m.equals(person.getEmail()));
-        if (isExist) {
-            System.out.println("This email is already exist");
-            return false;
-        }
-        people.add(index, person);
-        logger.info("added: " + person);
-        return true;
+    public void add(Person person) {
+        int size = personRepo.getAllPeople().size();
+        person.setId(size + 2);
+        insertPersonIntoDatabase(person);
     }
 
     public boolean removeById(List<Person> list, int id) {
-        if (list == null) {
-            System.out.println("Please create the List");
-            logger.warning("array is empty");
-            return false;
-        }
         for (int i = 0; i < list.size(); i++) {
             Person element = list.get(i);
             if (id == element.getId()) {
                 System.out.println(list.get(i));
                 Person remove = list.remove(i);
+                deletePersonFromDatabase(id);
                 logger.info("element removed " + remove);
                 return true;
             }
         }
         return false;
+    }
+
+    private void insertPersonIntoDatabase(final Person person) {
+        try {
+            String sql = "INSERT INTO public.person(id, first_name, last_name, phone, email, role, course_id)VALUES (?, ?, ?, ?, ?, ?, ?)";
+            try (Connection conn = createCon();
+                 PreparedStatement preparedStatement = conn.prepareStatement(sql)) {
+
+                preparedStatement.setInt(1, person.getId());
+                preparedStatement.setString(2, person.getFirstName());
+                preparedStatement.setString(3, person.getLastName());
+                preparedStatement.setString(4, person.getPhone());
+                preparedStatement.setString(5, person.getEmail());
+                preparedStatement.setString(6, person.getRole().toString());
+                preparedStatement.setInt(7, person.getCourseId());
+
+
+                int rows = preparedStatement.executeUpdate();
+                System.out.println("add Lines Person: " + rows);
+            }
+        } catch (Exception ex) {
+            System.out.println("Connection failed..." + ex);
+        }
+    }
+
+    private void deletePersonFromDatabase(int id) {
+        try {
+            final String sql = "DELETE FROM public.person WHERE id=" + id;
+            try (Connection conn = createCon();
+                 PreparedStatement preparedStatement = conn.prepareStatement(sql)) {
+                preparedStatement.executeUpdate();
+            }
+        } catch (Exception ex) {
+            System.out.println("Connection failed..." + ex);
+        }
     }
 
     public Person getById(List<Person> list, int id) {
