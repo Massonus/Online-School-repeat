@@ -1,11 +1,14 @@
-SELECT * FROM lecture
+SELECT *
+FROM lecture
 ORDER BY time
 
-SELECT * FROM teacher
+SELECT *
+FROM teacher
 
 -- 1.
 SELECT lecture_name,
-       first_name, last_name
+       first_name,
+       last_name
 FROM lecture
          INNER JOIN teacher
                     ON teacher.id = lecture.teacher_id
@@ -33,8 +36,10 @@ ON teacher.id = lecture.teacher_id
 GROUP BY month
 
 -- 6.
-SELECT name, COUNT(*) FROM homework
+SELECT name, COUNT(*)
+FROM homework
 GROUP BY name
 UNION
-SELECT task, COUNT(*) FROM additional_material
+SELECT task, COUNT(*)
+FROM additional_material
 GROUP BY task
