@@ -5,26 +5,25 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import org.massonus.entity.AdditionalMaterial;
-import org.massonus.repo.AdditionalMaterialsRepo;
+import org.massonus.entity.Homework;
+import org.massonus.repo.HomeworkRepo;
 
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.List;
 
-@WebServlet(value = "/materials")
-public class AdditionalMaterialsServlet extends HttpServlet {
+@WebServlet(value = "/homework")
+public class HomeworkGetServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-
         resp.setContentType("text/html");
 
-        final AdditionalMaterialsRepo additionalMaterialsRepo = new AdditionalMaterialsRepo();
-        final List<AdditionalMaterial> materials = additionalMaterialsRepo.getAllMaterials();
+        final HomeworkRepo homeworkRepo = new HomeworkRepo();
+        final List<Homework> homeworkList = homeworkRepo.getAllHomework();
 
         PrintWriter writer = resp.getWriter();
-        writer.println("<h2>Hello " + materials + "</h2>");
+        writer.println("<h2>Hello " + homeworkList + "</h2>");
 
         writer.close();
     }

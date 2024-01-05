@@ -22,6 +22,12 @@ public class AdditionalMaterial implements Comparable<AdditionalMaterial>, Seria
 
     }
 
+    public AdditionalMaterial(String task, ResourceType resourceType, Integer lectureId) {
+        this.task = task;
+        this.resourceType = resourceType;
+        this.lectureId = lectureId;
+    }
+
     public AdditionalMaterial(String task, ResourceType resourceType) {
         this.task = task;
         this.resourceType = resourceType;

@@ -29,10 +29,12 @@ public class Lecture implements Comparable<Lecture>, Serializable {
 
     private transient LocalDate lectureDate;
 
-    private transient final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MMM d, EEEE");
+    private transient DateTimeFormatter formatter;
 
     public Lecture() {
         lectureDate = LocalDate.now();
+        formatter = DateTimeFormatter.ofPattern("MMM d, EEEE");
+
     }
 
     public Lecture(Integer id, String subject, Person person, List<AdditionalMaterial> materials) {
@@ -49,17 +51,17 @@ public class Lecture implements Comparable<Lecture>, Serializable {
 
     @Override
     public String toString() {
-            return "\n Lecture{" +
-                    "id=" + id +
-                    ", name='" + subject + '\'' +
-                    ", lectureDate=" + formatter.format(lectureDate) +
-                    ", person=" + person +
-                    ", homeworks=" + homeworks +
-                    ", materials=" + materials +
-                    ", description='" + description + '\'' +
-                    ", teacherId=" + teacherId +
-                    ", courseId=" + courseId +
-                    '}';
+        return "\n Lecture{" +
+                "id=" + id +
+                ", name='" + subject + '\'' +
+                ", lectureDate=" + formatter.format(lectureDate) +
+                ", person=" + person +
+                ", homeworks=" + homeworks +
+                ", materials=" + materials +
+                ", description='" + description + '\'' +
+                ", teacherId=" + teacherId +
+                ", courseId=" + courseId +
+                '}';
     }
 
     @Override

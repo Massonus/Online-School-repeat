@@ -4,6 +4,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.core.LoggerContext;
 import org.massonus.entity.Homework;
+import org.massonus.repo.HomeworkRepo;
 import org.massonus.repo.UniversalRepository;
 
 import java.net.URISyntaxException;
@@ -14,6 +15,7 @@ import java.util.stream.Collectors;
 
 public class HomeworkService implements UniversalService<Homework>, UniversalRepository {
 
+    private final HomeworkRepo homeworkRepo = new HomeworkRepo();
     private static final Logger logger = LogManager.getLogger(HomeworkService.class);
 
     public HomeworkService() {
@@ -29,10 +31,8 @@ public class HomeworkService implements UniversalService<Homework>, UniversalRep
 
     private Homework createElementByUser() {
         homework = new Homework();
-        System.out.println("Enter id of homework");
-        Scanner scanner1 = new Scanner(System.in);
-        int id = scanner1.nextInt();
-        homework.setId(id);
+        int size = homeworkRepo.getAllHomework().size();
+        homework.setId(size + 2);
 
         System.out.println("Enter task of homework");
         Scanner scanner2 = new Scanner(System.in);
@@ -66,6 +66,12 @@ public class HomeworkService implements UniversalService<Homework>, UniversalRep
         return homeworks.add(elementByUser);
     }
 
+    public void add(Homework homework) {
+        int size = homeworkRepo.getAllHomework().size();
+        homework.setId(size + 2);
+        insertHomeworkIntoDatabase(homework);
+    }
+
     public boolean removeById(List<Homework> list, int id) {
         for (int i = 0; i < list.size(); i++) {
             Homework element = list.get(i);
@@ -83,7 +89,7 @@ public class HomeworkService implements UniversalService<Homework>, UniversalRep
     private void insertHomeworkIntoDatabase(final Homework homework) {
         try {
 
-            String sql = "INSERT INTO public.additional_material(id, task, lecture_id)VALUES (?, ?, ?)";
+            String sql = "INSERT INTO public.homework(id, task, lecture_id, deadline)VALUES (?, ?, ?, ?)";
 
             try (Connection conn = createCon();
                  PreparedStatement preparedStatement = conn.prepareStatement(sql)) {
@@ -91,6 +97,7 @@ public class HomeworkService implements UniversalService<Homework>, UniversalRep
                 preparedStatement.setInt(1, homework.getId());
                 preparedStatement.setString(2, homework.getTask());
                 preparedStatement.setInt(3, homework.getLectureId());
+                preparedStatement.setDate(4, homework.getSqlDate());
 
                 int rows = preparedStatement.executeUpdate();
                 System.out.println("add Lines Homework: " + rows);
