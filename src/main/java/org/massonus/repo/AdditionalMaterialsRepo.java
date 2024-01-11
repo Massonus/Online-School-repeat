@@ -2,7 +2,6 @@ package org.massonus.repo;
 
 import org.massonus.entity.AdditionalMaterial;
 import org.massonus.entity.ResourceType;
-import org.massonus.service.AdditionalMaterialsService;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
