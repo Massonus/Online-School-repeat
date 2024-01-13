@@ -24,7 +24,20 @@ public class AdditionalMaterialGetServlet extends HttpServlet {
         final List<AdditionalMaterial> materials = additionalMaterialsRepo.getAllMaterials();
 
         PrintWriter writer = resp.getWriter();
-        writer.println("<h2>Hello " + materials + "</h2>");
+        writer.println("<!doctype html>\n" +
+                "<html lang=\"en\">\n" +
+                "<head>\n" +
+                "    <meta charset=\"UTF-8\">\n" +
+                "    <meta name=\"viewport\"\n" +
+                "          content=\"width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0\">\n" +
+                "    <meta http-equiv=\"X-UA-Compatible\" content=\"ie=edge\">\n" +
+                "    <link rel=\"stylesheet\" type=\"text/css\" href=\"styles.css\"/>\n" +
+                "    <title>Document</title>\n" +
+                "</head>\n" +
+                "<body>\n" +
+                "<h2 class=\"materials\">" + materials + "</h2>\n" +
+                "</body>\n" +
+                "</html>");
 
         writer.close();
     }

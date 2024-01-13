@@ -13,6 +13,11 @@ form {
     font-size: 22px;
 }
 
+.materials {
+    font-size: 22px;
+    color: white;
+}
+
 nav {
     text-align: center;
     display: flex;
