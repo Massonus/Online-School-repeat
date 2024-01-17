@@ -21,7 +21,11 @@ public class AdditionalMaterialsService implements UniversalService<AdditionalMa
 
     private static final Logger logger = LogManager.getLogger(AdditionalMaterialsService.class);
 
-    private final AdditionalMaterialsRepo materialsRepo = new AdditionalMaterialsRepo();
+    private AdditionalMaterialsRepo materialsRepo;
+
+    public AdditionalMaterialsService(AdditionalMaterialsRepo materialsRepo) {
+        this.materialsRepo = materialsRepo;
+    }
 
     public AdditionalMaterialsService() {
         LoggerContext context = (LoggerContext) LogManager.getContext(false);

@@ -15,9 +15,13 @@ import java.util.Scanner;
 
 public class AdditionalMaterialsView {
     private static final Logger logger = new Logger("AdditionalMaterialsView");
-    private final AdditionalMaterialsService materialService = new AdditionalMaterialsService();
+    private final AdditionalMaterialsService materialService;
     private final LectureService lectureService = new LectureService();
     private final CourseService courseService = new CourseService();
+
+    public AdditionalMaterialsView(AdditionalMaterialsService materialService) {
+        this.materialService = materialService;
+    }
 
     public void workWithMaterials(List<Course> courses) {
 

@@ -22,7 +22,11 @@ public class CourseController {
     final CourseRepo courseRepo = new CourseRepo();
     final ControlWorkService workService = new ControlWorkService();
     final LogController logController = new LogController();
-    final AdditionalMaterialsView materialsView = new AdditionalMaterialsView();
+    private AdditionalMaterialsView materialsView;
+
+    public CourseController(AdditionalMaterialsView materialsView) {
+        this.materialsView = materialsView;
+    }
 
     final Logger logger = new Logger("CourseController");
 
