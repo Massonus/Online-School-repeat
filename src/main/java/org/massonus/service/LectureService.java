@@ -19,14 +19,15 @@ public class LectureService implements UniversalService<Lecture>, UniversalRepos
     private final LectureRepo lectureRepo;
     private final AdditionalMaterialsService materialsService;
     private final HomeworkService homeworkService;
+    private final PersonService personService;
 
-    public LectureService(LectureRepo lectureRepo, AdditionalMaterialsService materialsService, HomeworkService homeworkService) {
+    public LectureService(LectureRepo lectureRepo, AdditionalMaterialsService materialsService, HomeworkService homeworkService, PersonService personService) {
         this.lectureRepo = lectureRepo;
         this.materialsService = materialsService;
         this.homeworkService = homeworkService;
+        this.personService = personService;
     }
 
-    private final PersonService personService = new PersonService();
     private final PersonRepo personRepo = new PersonRepo();
 
     private Lecture lecture;

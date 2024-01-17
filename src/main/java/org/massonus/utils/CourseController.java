@@ -24,11 +24,13 @@ public class CourseController {
     private final AdditionalMaterialsView materialsView;
     private final HomeworkView homeworkView;
     private final LectureView lectureView;
+    private final PersonView personView;
 
-    public CourseController(AdditionalMaterialsView materialsView, HomeworkView homeworkView, LectureView lectureView) {
+    public CourseController(AdditionalMaterialsView materialsView, HomeworkView homeworkView, LectureView lectureView, PersonView personView) {
         this.materialsView = materialsView;
         this.homeworkView = homeworkView;
         this.lectureView = lectureView;
+        this.personView = personView;
     }
 
     final Logger logger = new Logger("CourseController");
@@ -81,15 +83,7 @@ public class CourseController {
                     break;
 
                 case "6":
-                    List<Person> allPeople;
-                    try {
-                        allPeople = courseService.getAllPeople(courses);
-                    } catch (NullPointerException e) {
-                        logger.warning("List<Person> don't created " + e);
-                        System.out.println("First create an array");
-                        break;
-                    }
-                    PersonView.workWithAllPeople(allPeople);
+                    personView.workWithPeople(courses);
                     break;
 
                 case "7":

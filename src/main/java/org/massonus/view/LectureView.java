@@ -37,7 +37,7 @@ public class LectureView {
             switch (choice) {
 
                 case "1":
-                    lectures.forEach(System.out::println);
+                    lectureService.printAll(lectures);
                     break;
 
                 case "2":

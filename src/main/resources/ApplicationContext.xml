@@ -46,11 +46,26 @@
         <constructor-arg ref="lectureRepo"/>
         <constructor-arg ref="materialsService"/>
         <constructor-arg ref="homeworkService"/>
+        <constructor-arg ref="personService"/>
     </bean>
 
     <bean id="lectureView"
           class="org.massonus.view.LectureView">
         <constructor-arg ref="lectureService"/>
+    </bean>
+
+    <bean id="personRepo"
+          class="org.massonus.repo.PersonRepo">
+    </bean>
+
+    <bean id="personService"
+          class="org.massonus.service.PersonService">
+        <constructor-arg ref="personRepo"/>
+    </bean>
+
+    <bean id="personView"
+          class="org.massonus.view.PersonView">
+        <constructor-arg ref="personService"/>
     </bean>
 
 </beans>

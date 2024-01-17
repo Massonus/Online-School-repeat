@@ -22,7 +22,12 @@ public class PersonService implements UniversalService<Person>, UniversalReposit
 
     private final Logger logger = new Logger("PersonService");
 
-    private final PersonRepo personRepo = new PersonRepo();
+    private final PersonRepo personRepo;
+
+    public PersonService(PersonRepo personRepo) {
+        this.personRepo = personRepo;
+    }
+
     Person person;
 
     public Person createElementByUser() {
