@@ -27,8 +27,6 @@ public class HomeworkService implements UniversalService<Homework>, UniversalRep
         }
     }
 
-
-
     Homework homework;
 
     private Homework createElementByUser() {

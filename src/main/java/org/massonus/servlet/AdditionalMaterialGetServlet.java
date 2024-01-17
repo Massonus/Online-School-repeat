@@ -19,11 +19,11 @@ public class AdditionalMaterialGetServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
-        resp.setContentType("text/html");
-
         final ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("ApplicationContext.xml");
         final AdditionalMaterialsRepo additionalMaterialsRepo = context.getBean("materialsRepo", AdditionalMaterialsRepo.class);
         final List<AdditionalMaterial> materials = additionalMaterialsRepo.getAllMaterials();
+
+        resp.setContentType("text/html");
 
         PrintWriter writer = resp.getWriter();
         writer.println("<!doctype html>\n" +

@@ -18,11 +18,12 @@ public class PersonGetServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        resp.setContentType("text/html");
 
         final ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("ApplicationContext.xml");
         final PersonRepo personRepo = context.getBean("personRepo", PersonRepo.class);
         final List<Person> people = personRepo.getAllPeople();
+
+        resp.setContentType("text/html");
 
         PrintWriter writer = resp.getWriter();
         writer.println("<h2>Hello " + people + "</h2>");

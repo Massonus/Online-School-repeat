@@ -18,8 +18,10 @@ public class AdditionalMaterialPostServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+
         final ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("ApplicationContext.xml");
         final AdditionalMaterialsService materialsService = context.getBean("materialsService", AdditionalMaterialsService.class);
+
         response.setContentType("text/html");
 
         String task = request.getParameter("task");

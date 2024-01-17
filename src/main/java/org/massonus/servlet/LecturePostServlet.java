@@ -17,8 +17,9 @@ public class LecturePostServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("ApplicationContext.xml");
+        final ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("ApplicationContext.xml");
         final LectureService lectureService = context.getBean("lectureService", LectureService.class);
+
         response.setContentType("text/html");
 
         String subject = request.getParameter("subject");

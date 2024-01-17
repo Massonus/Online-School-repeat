@@ -17,8 +17,10 @@ public class HomeworkPostServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+
         final ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("ApplicationContext.xml");
         final HomeworkService homeworkService = context.getBean("homeworkService", HomeworkService.class);
+
         response.setContentType("text/html");
 
         String task = request.getParameter("task");

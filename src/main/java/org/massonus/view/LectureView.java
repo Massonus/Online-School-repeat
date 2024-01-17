@@ -1,6 +1,8 @@
 package org.massonus.view;
 
-import org.massonus.entity.*;
+import org.massonus.entity.Course;
+import org.massonus.entity.Lecture;
+import org.massonus.entity.Person;
 import org.massonus.service.CourseService;
 import org.massonus.service.LectureService;
 
@@ -10,10 +12,11 @@ import java.util.Scanner;
 
 public class LectureView {
     private final LectureService lectureService;
-    private final CourseService courseService = new CourseService();
+    private final CourseService courseService;
 
-    public LectureView(LectureService lectureService) {
+    public LectureView(LectureService lectureService, CourseService courseService) {
         this.lectureService = lectureService;
+        this.courseService = courseService;
     }
 
     public void workWithLectures(List<Course> courses) {

@@ -1,27 +1,37 @@
 package org.massonus.view;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.core.LoggerContext;
 import org.massonus.entity.AdditionalMaterial;
 import org.massonus.entity.Course;
 import org.massonus.entity.Lecture;
-import org.massonus.entity.Person;
-import org.massonus.log.Logger;
 import org.massonus.service.AdditionalMaterialsService;
 import org.massonus.service.CourseService;
 import org.massonus.service.LectureService;
 
+import java.net.URISyntaxException;
 import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
 
 public class AdditionalMaterialsView {
-    private static final Logger logger = new Logger("AdditionalMaterialsView");
+    private static final Logger logger = LogManager.getLogger(AdditionalMaterialsView.class);
     private final AdditionalMaterialsService materialService;
     private final LectureService lectureService;
-    private final CourseService courseService = new CourseService();
+    private final CourseService courseService;
 
-    public AdditionalMaterialsView(AdditionalMaterialsService materialService, LectureService lectureService) {
+    public AdditionalMaterialsView(AdditionalMaterialsService materialService, LectureService lectureService, CourseService courseService) {
         this.materialService = materialService;
         this.lectureService = lectureService;
+        this.courseService = courseService;
+
+        LoggerContext context = (LoggerContext) LogManager.getContext(false);
+        try {
+            context.setConfigLocation(AdditionalMaterialsView.class.getResource("/log4j.xml").toURI());
+        } catch (URISyntaxException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     public void workWithMaterials(List<Course> courses) {
@@ -60,7 +70,7 @@ public class AdditionalMaterialsView {
                     break;
 
                 case 69:
-                    logger.warning("incorrect symbol: " + select);
+                    logger.warn("incorrect symbol: " + select);
                     System.out.println("Incorrect number");
                     break;
                 case 0:

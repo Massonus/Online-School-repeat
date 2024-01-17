@@ -11,11 +11,11 @@ import java.util.Scanner;
 
 public class PersonView {
     private final PersonService personService;
+    private final CourseService courseService;
 
-    private final CourseService courseService = new CourseService();
-
-    public PersonView(PersonService personService) {
+    public PersonView(PersonService personService, CourseService courseService) {
         this.personService = personService;
+        this.courseService = courseService;
     }
 
     public void workWithPeople(List<Course> courses) {
