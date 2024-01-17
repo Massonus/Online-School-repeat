@@ -7,6 +7,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.massonus.entity.Person;
 import org.massonus.repo.PersonRepo;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -19,7 +20,8 @@ public class PersonGetServlet extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         resp.setContentType("text/html");
 
-        final PersonRepo personRepo = new PersonRepo();
+        final ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("ApplicationContext.xml");
+        final PersonRepo personRepo = context.getBean("personRepo", PersonRepo.class);
         final List<Person> people = personRepo.getAllPeople();
 
         PrintWriter writer = resp.getWriter();

@@ -7,6 +7,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.massonus.entity.Homework;
 import org.massonus.service.HomeworkService;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -16,8 +17,8 @@ public class HomeworkPostServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
-        final HomeworkService homeworkService = new HomeworkService();
+        final ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("ApplicationContext.xml");
+        final HomeworkService homeworkService = context.getBean("homeworkService", HomeworkService.class);
         response.setContentType("text/html");
 
         String task = request.getParameter("task");

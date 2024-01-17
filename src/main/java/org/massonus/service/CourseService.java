@@ -1,7 +1,6 @@
 package org.massonus.service;
 
 import org.massonus.entity.*;
-import org.massonus.repo.CourseRepo;
 
 import java.io.*;
 import java.util.Arrays;
@@ -11,8 +10,6 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public class CourseService implements UniversalService<Course> {
-
-    private final CourseRepo courseRepo = new CourseRepo();
 
     public boolean serial(Course course) {
         final File file = new File("src/main/java/org/massonus/service/serialization.txt");

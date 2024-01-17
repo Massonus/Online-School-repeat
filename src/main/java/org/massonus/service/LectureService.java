@@ -1,21 +1,24 @@
 package org.massonus.service;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.core.LoggerContext;
 import org.massonus.entity.AdditionalMaterial;
 import org.massonus.entity.Homework;
 import org.massonus.entity.Lecture;
 import org.massonus.entity.Person;
-import org.massonus.log.Logger;
 import org.massonus.repo.LectureRepo;
 import org.massonus.repo.PersonRepo;
 import org.massonus.repo.UniversalRepository;
 
+import java.net.URISyntaxException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.util.*;
 import java.util.stream.Collectors;
 
 public class LectureService implements UniversalService<Lecture>, UniversalRepository {
-    private final Logger logger = new Logger("LectureService");
+    private static final Logger logger = LogManager.getLogger(LectureService.class);
     private final LectureRepo lectureRepo;
     private final AdditionalMaterialsService materialsService;
     private final HomeworkService homeworkService;
@@ -26,6 +29,13 @@ public class LectureService implements UniversalService<Lecture>, UniversalRepos
         this.materialsService = materialsService;
         this.homeworkService = homeworkService;
         this.personService = personService;
+
+        LoggerContext context = (LoggerContext) LogManager.getContext(false);
+        try {
+            context.setConfigLocation(LectureService.class.getResource("/log4j.xml").toURI());
+        } catch (URISyntaxException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     private final PersonRepo personRepo = new PersonRepo();

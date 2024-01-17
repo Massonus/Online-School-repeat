@@ -68,4 +68,13 @@
         <constructor-arg ref="personService"/>
     </bean>
 
+    <bean id="courseRepo"
+          class="org.massonus.repo.CourseRepo">
+    </bean>
+
+    <bean id="courseService"
+          class="org.massonus.service.CourseService">
+    </bean>
+
+
 </beans>

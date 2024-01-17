@@ -7,6 +7,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.massonus.entity.Homework;
 import org.massonus.repo.HomeworkRepo;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -19,7 +20,8 @@ public class HomeworkGetServlet extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         resp.setContentType("text/html");
 
-        final HomeworkRepo homeworkRepo = new HomeworkRepo();
+        final ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("ApplicationContext.xml");
+        final HomeworkRepo homeworkRepo = context.getBean("homeworkRepo", HomeworkRepo.class);
         final List<Homework> homeworkList = homeworkRepo.getAllHomework();
 
         PrintWriter writer = resp.getWriter();

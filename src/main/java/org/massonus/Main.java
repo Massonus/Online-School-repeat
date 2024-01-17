@@ -12,7 +12,7 @@ import java.util.List;
 
 public class Main {
     public static void main(String[] args) {
-        ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("ApplicationContext.xml");
+        final ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("ApplicationContext.xml");
 
         final AdditionalMaterialsView materialsView = context.getBean("materialsView", AdditionalMaterialsView.class);
         final HomeworkView homeworkView = context.getBean("homeworkView", HomeworkView.class);
