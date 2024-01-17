@@ -19,8 +19,9 @@ public class Main {
         final PersonView personView = context.getBean("personView", PersonView.class);
         final CourseService courseService = context.getBean("courseService", CourseService.class);
         final CourseRepo courseRepo = context.getBean("courseRepo", CourseRepo.class);
+        final LogView logView = context.getBean("logView", LogView.class);
 
-        final CourseView courseView = new CourseView(courseService, courseRepo, materialsView, homeworkView, lectureView, personView);
+        final CourseView courseView = new CourseView(courseService, courseRepo, materialsView, homeworkView, lectureView, personView, logView);
         List<Course> courses = courseView.firstCreate();
         courseView.mainMenu(courses);
     }

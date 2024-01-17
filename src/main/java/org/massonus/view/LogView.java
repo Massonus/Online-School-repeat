@@ -6,9 +6,14 @@ import java.util.List;
 import java.util.Scanner;
 
 public class LogView {
-    private final LogService logService = new LogService();
+    private final LogService logService;
 
-    List<String> previousLogs = logService.readLogs();
+    private final List<String> previousLogs;
+
+    public LogView(LogService logService) {
+        this.logService = logService;
+        this.previousLogs = logService.readLogs();
+    }
 
     public void loggerMenu() {
         List<String> currentLogs = logService.readLogs();

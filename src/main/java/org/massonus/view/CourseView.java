@@ -1,16 +1,21 @@
 package org.massonus.view;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.core.LoggerContext;
 import org.massonus.entity.Course;
-import org.massonus.log.Logger;
 import org.massonus.repo.CourseRepo;
+import org.massonus.service.AdditionalMaterialsService;
 import org.massonus.service.ControlWorkService;
 import org.massonus.service.CourseService;
 
+import java.net.URISyntaxException;
 import java.util.Collections;
 import java.util.List;
 import java.util.Scanner;
 
 public class CourseView {
+    private static final Logger logger = LogManager.getLogger(CourseView.class);
     private final CourseService courseService;
     private final CourseRepo courseRepo;
     private final AdditionalMaterialsView materialsView;
@@ -18,18 +23,24 @@ public class CourseView {
     private final LectureView lectureView;
     private final PersonView personView;
     private final ControlWorkService workService = new ControlWorkService();
-    private final LogView logView = new LogView();
+    private final LogView logView;
 
-    public CourseView(CourseService courseService, CourseRepo courseRepo, AdditionalMaterialsView materialsView, HomeworkView homeworkView, LectureView lectureView, PersonView personView) {
+    public CourseView(CourseService courseService, CourseRepo courseRepo, AdditionalMaterialsView materialsView, HomeworkView homeworkView, LectureView lectureView, PersonView personView, LogView logView) {
         this.courseService = courseService;
         this.courseRepo = courseRepo;
         this.materialsView = materialsView;
         this.homeworkView = homeworkView;
         this.lectureView = lectureView;
         this.personView = personView;
-    }
+        this.logView = logView;
 
-    final Logger logger = new Logger("CourseController");
+        LoggerContext context = (LoggerContext) LogManager.getContext(false);
+        try {
+            context.setConfigLocation(AdditionalMaterialsService.class.getResource("/log4j.xml").toURI());
+        } catch (URISyntaxException e) {
+            throw new RuntimeException(e);
+        }
+    }
 
     public void mainMenu(List<Course> courses) {
 
@@ -60,7 +71,7 @@ public class CourseView {
                     try {
                         courses = courseService.sortCoursesById(courses);
                     } catch (NullPointerException e) {
-                        logger.warning("can't sort because array is empty ", e);
+                        logger.warn("can't sort because array is empty ", e);
                         break;
                     }
                     break;
@@ -69,7 +80,7 @@ public class CourseView {
                     try {
                         Collections.sort(courses);
                     } catch (NullPointerException e) {
-                        logger.warning("can't sort because array is empty ", e);
+                        logger.warn("can't sort because array is empty ", e);
                         break;
                     }
                     break;
@@ -114,7 +125,7 @@ public class CourseView {
                     System.exit(0);
 
                 default:
-                    logger.warning("incorrect symbol: " + choice);
+                    logger.warn("incorrect symbol: " + choice);
                     System.out.println("Incorrect");
             }
         }

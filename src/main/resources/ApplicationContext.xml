@@ -85,4 +85,13 @@
         <constructor-arg ref="courseService"/>
     </bean>
 
+    <bean id="logService"
+          class="org.massonus.log.LogService">
+    </bean>
+
+    <bean id="logView"
+          class="org.massonus.view.LogView">
+        <constructor-arg ref="logService"/>
+    </bean>
+
 </beans>
