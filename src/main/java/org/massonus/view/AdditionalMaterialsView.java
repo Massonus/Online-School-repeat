@@ -1,8 +1,13 @@
 package org.massonus.view;
 
 import org.massonus.entity.AdditionalMaterial;
+import org.massonus.entity.Course;
+import org.massonus.entity.Lecture;
+import org.massonus.entity.Person;
 import org.massonus.log.Logger;
 import org.massonus.service.AdditionalMaterialsService;
+import org.massonus.service.CourseService;
+import org.massonus.service.LectureService;
 
 import java.util.List;
 import java.util.Map;
@@ -10,9 +15,58 @@ import java.util.Scanner;
 
 public class AdditionalMaterialsView {
     private static final Logger logger = new Logger("AdditionalMaterialsView");
-    private static final AdditionalMaterialsService materialService = new AdditionalMaterialsService();
+    private final AdditionalMaterialsService materialService = new AdditionalMaterialsService();
+    private final LectureService lectureService = new LectureService();
+    private final CourseService courseService = new CourseService();
 
-    public void workWithMaterial(List<AdditionalMaterial> materials, Integer lectureId) {
+    public void workWithMaterials(List<Course> courses) {
+
+        while (true) {
+            System.out.println("\n Make your choice (use only numbers)");
+            System.out.println("1. To work with special materials");
+            System.out.println("2. To work with all materials");
+            System.out.println("0. To return");
+
+            Scanner scanner = new Scanner(System.in);
+            int select;
+
+            try {
+                select = scanner.nextInt();
+            } catch (Exception e) {
+                for (StackTraceElement stackTraceElement : e.getStackTrace()) {
+                    System.out.println(stackTraceElement);
+                }
+                select = 69;
+            }
+
+            switch (select) {
+                case 1:
+                    List<Lecture> allLectures = courseService.getAllLectures(courses);
+                    allLectures.forEach(System.out::println);
+                    int id = lectureService.choiceId();
+                    Lecture specialLectureForMaterial = lectureService.getById(allLectures, id);
+                    List<AdditionalMaterial> materials = specialLectureForMaterial.getMaterials();
+                    workWithSpecialMaterial(materials, specialLectureForMaterial.getId());
+                    break;
+
+                case 2:
+                    List<AdditionalMaterial> allMaterials = courseService.getAllMaterials(courses);
+                    workWithAllMaterials(allMaterials);
+                    break;
+
+                case 69:
+                    logger.warning("incorrect symbol: " + select);
+                    System.out.println("Incorrect number");
+                    break;
+                case 0:
+                    logger.info("returned to CourseController");
+                    return;
+            }
+        }
+    }
+
+
+    private void workWithSpecialMaterial(List<AdditionalMaterial> materials, Integer lectureId) {
         while (true) {
             System.out.println("\n What you want to do with Material?");
             System.out.println("1. Print all Materials");
@@ -75,7 +129,8 @@ public class AdditionalMaterialsView {
         }
     }
 
-    public static void workWithAllMaterials(List<AdditionalMaterial> allMaterials) {
+    private void workWithAllMaterials(List<AdditionalMaterial> allMaterials) {
+
         Map<Integer, List<AdditionalMaterial>> materialsAsMap = materialService.groupingMaterialsAsMap(allMaterials);
 
         while (true) {

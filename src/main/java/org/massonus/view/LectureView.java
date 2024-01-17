@@ -13,7 +13,6 @@ import java.util.Scanner;
 
 public class LectureView {
     private final HomeworkView homeworkView = new HomeworkView();
-    private final AdditionalMaterialsView additionalMaterialsView = new AdditionalMaterialsView();
     private static final LectureService lectureService = new LectureService();
 
     public void workWithLecture(List<Lecture> lectures, List<Person> people, Integer courseId) {
@@ -49,7 +48,7 @@ public class LectureView {
                     homeworkView.workWithHomework(homeworks, lectureForHomework.getId());
                     break;
 
-                case "2":
+                /*case "2":
                     int id2 = lectureService.choiceId();
                     Lecture lectureForMaterial = lectureService.getById(lectures, id2);
                     System.out.println(lectureForMaterial);
@@ -61,7 +60,7 @@ public class LectureView {
                         break;
                     }
                     additionalMaterialsView.workWithMaterial(materials, lectureForMaterial.getId());
-                    break;
+                    break;*/
 
                 case "3":
                     lectureService.printAll(lectures);
