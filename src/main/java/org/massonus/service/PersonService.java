@@ -33,9 +33,13 @@ public class PersonService implements UniversalService<Person>, UniversalReposit
     public Person createElementByUser() {
         System.out.println("Then you must create the Person");
         person = new Person();
-        System.out.println("Enter id of the Person");
+
+        int size = personRepo.getAllPeople().size();
+        person.setId(size + 1);
+
+        System.out.println("Enter course id of the Person");
         Scanner scanner = new Scanner(System.in);
-        person.setId(scanner.nextInt());
+        person.setCourseId(scanner.nextInt());
 
         System.out.println("Enter first name of the Person");
         Scanner scanner1 = new Scanner(System.in);
@@ -104,8 +108,7 @@ public class PersonService implements UniversalService<Person>, UniversalReposit
     }
 
 
-    public boolean add(Person elementByUser, List<Person> people, Integer courseId) {
-        elementByUser.setCourseId(courseId);
+    public boolean add(Person elementByUser, List<Person> people) {
         insertPersonIntoDatabase(elementByUser);
         logger.info("added: " + elementByUser);
         return people.add(elementByUser);
@@ -113,7 +116,7 @@ public class PersonService implements UniversalService<Person>, UniversalReposit
 
     public void add(Person person) {
         int size = personRepo.getAllPeople().size();
-        person.setId(size + 2);
+        person.setId(size + 1);
         insertPersonIntoDatabase(person);
     }
 

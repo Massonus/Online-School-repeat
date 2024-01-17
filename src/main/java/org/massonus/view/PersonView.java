@@ -44,9 +44,9 @@ public class PersonView {
                     break;
 
                 case "2":
-                    /*Person newElement = personService.createElementByUser();
-                    personService.add(newElement, people, courseId);
-                    break;*/
+                    Person newElement = personService.createElementByUser();
+                    personService.add(newElement, people);
+                    break;
 
                 case "3":
                     int id = personService.choiceId();

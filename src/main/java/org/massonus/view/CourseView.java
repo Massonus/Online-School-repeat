@@ -1,32 +1,27 @@
-package org.massonus.utils;
+package org.massonus.view;
 
 import org.massonus.entity.Course;
-import org.massonus.entity.Person;
 import org.massonus.log.Logger;
 import org.massonus.repo.CourseRepo;
 import org.massonus.service.ControlWorkService;
 import org.massonus.service.CourseService;
-import org.massonus.view.AdditionalMaterialsView;
-import org.massonus.view.HomeworkView;
-import org.massonus.view.LectureView;
-import org.massonus.view.PersonView;
 
 import java.util.Collections;
 import java.util.List;
 import java.util.Scanner;
 
-public class CourseController {
+public class CourseView {
 
     final CourseService courseService = new CourseService();
     final CourseRepo courseRepo = new CourseRepo();
     final ControlWorkService workService = new ControlWorkService();
-    final LogController logController = new LogController();
+    final LogView logView = new LogView();
     private final AdditionalMaterialsView materialsView;
     private final HomeworkView homeworkView;
     private final LectureView lectureView;
     private final PersonView personView;
 
-    public CourseController(AdditionalMaterialsView materialsView, HomeworkView homeworkView, LectureView lectureView, PersonView personView) {
+    public CourseView(AdditionalMaterialsView materialsView, HomeworkView homeworkView, LectureView lectureView, PersonView personView) {
         this.materialsView = materialsView;
         this.homeworkView = homeworkView;
         this.lectureView = lectureView;
@@ -95,7 +90,7 @@ public class CourseController {
                     break;
 
                 case "9":
-                    logController.loggerMenu();
+                    logView.loggerMenu();
                     break;
 
                 case "10":

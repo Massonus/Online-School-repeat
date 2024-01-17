@@ -1,7 +1,7 @@
 package org.massonus;
 
 import org.massonus.entity.Course;
-import org.massonus.utils.CourseController;
+import org.massonus.view.CourseView;
 import org.massonus.view.AdditionalMaterialsView;
 import org.massonus.view.HomeworkView;
 import org.massonus.view.LectureView;
@@ -19,8 +19,8 @@ public class Main {
         final LectureView lectureView = context.getBean("lectureView", LectureView.class);
         final PersonView personView = context.getBean("personView", PersonView.class);
 
-        CourseController courseController = new CourseController(materialsView, homeworkView, lectureView, personView);
-        List<Course> courses = courseController.firstCreate();
-        courseController.mainMenu(courses);
+        CourseView courseView = new CourseView(materialsView, homeworkView, lectureView, personView);
+        List<Course> courses = courseView.firstCreate();
+        courseView.mainMenu(courses);
     }
 }
