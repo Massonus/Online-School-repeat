@@ -34,7 +34,7 @@ public class LectureView {
 
             switch (choice) {
 
-                case "1":
+               /* case "1":
                     int id1 = lectureService.choiceId();
                     Lecture lectureForHomework = lectureService.getById(lectures, id1);
                     System.out.println(lectureForHomework);
@@ -46,7 +46,7 @@ public class LectureView {
                         break;
                     }
                     homeworkView.workWithHomework(homeworks, lectureForHomework.getId());
-                    break;
+                    break;*/
 
                 /*case "2":
                     int id2 = lectureService.choiceId();

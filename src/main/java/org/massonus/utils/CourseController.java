@@ -22,7 +22,8 @@ public class CourseController {
     final CourseRepo courseRepo = new CourseRepo();
     final ControlWorkService workService = new ControlWorkService();
     final LogController logController = new LogController();
-    private AdditionalMaterialsView materialsView;
+    private final AdditionalMaterialsView materialsView;
+    private final HomeworkView homeworkView = new HomeworkView();
 
     public CourseController(AdditionalMaterialsView materialsView) {
         this.materialsView = materialsView;
@@ -41,7 +42,7 @@ public class CourseController {
             System.out.println("5. To work with all lectures");
             System.out.println("6. To work with all people");
             System.out.println("7. To work with materials");
-            System.out.println("8. To work with all homework");
+            System.out.println("8. To work with homework");
             System.out.println("9. To work with logs");
             System.out.println("10. To start control work");
             System.out.println("11. To make serialization");
@@ -110,15 +111,7 @@ public class CourseController {
                     break;
 
                 case "8":
-                    List<Homework> allHomework;
-                    try {
-                        allHomework = courseService.getAllHomework(courses);
-                    } catch (NullPointerException e) {
-                        logger.warning("List<Homework> don't created " + e);
-                        System.out.println("First create an array");
-                        break;
-                    }
-                    HomeworkView.workWithAllHomework(allHomework);
+                    homeworkView.workWithHomework(courses);
                     break;
 
                 case "9":
