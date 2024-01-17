@@ -1,13 +1,19 @@
-package org.massonus.utils;
+package org.massonus.view;
 
 import org.massonus.log.LogService;
 
 import java.util.List;
 import java.util.Scanner;
 
-public class LogController {
-    final LogService logService = new LogService();
-    List<String> previousLogs = logService.readLogs();
+public class LogView {
+    private final LogService logService;
+
+    private final List<String> previousLogs;
+
+    public LogView(LogService logService) {
+        this.logService = logService;
+        this.previousLogs = logService.readLogs();
+    }
 
     public void loggerMenu() {
         List<String> currentLogs = logService.readLogs();

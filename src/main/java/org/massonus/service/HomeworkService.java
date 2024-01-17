@@ -14,11 +14,11 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 public class HomeworkService implements UniversalService<Homework>, UniversalRepository {
-
-    private final HomeworkRepo homeworkRepo = new HomeworkRepo();
     private static final Logger logger = LogManager.getLogger(HomeworkService.class);
+    private final HomeworkRepo homeworkRepo;
 
-    public HomeworkService() {
+    public HomeworkService(HomeworkRepo homeworkRepo) {
+        this.homeworkRepo = homeworkRepo;
         LoggerContext context = (LoggerContext) LogManager.getContext(false);
         try {
             context.setConfigLocation(HomeworkService.class.getResource("/log4j.xml").toURI());
@@ -32,7 +32,7 @@ public class HomeworkService implements UniversalService<Homework>, UniversalRep
     private Homework createElementByUser() {
         homework = new Homework();
         int size = homeworkRepo.getAllHomework().size();
-        homework.setId(size + 2);
+        homework.setId(size + 1);
 
         System.out.println("Enter task of homework");
         Scanner scanner2 = new Scanner(System.in);
@@ -68,7 +68,7 @@ public class HomeworkService implements UniversalService<Homework>, UniversalRep
 
     public void add(Homework homework) {
         int size = homeworkRepo.getAllHomework().size();
-        homework.setId(size + 2);
+        homework.setId(size + 1);
         insertHomeworkIntoDatabase(homework);
     }
 
@@ -78,7 +78,7 @@ public class HomeworkService implements UniversalService<Homework>, UniversalRep
             if (id == element.getId()) {
                 System.out.println(list.get(i));
                 Homework remove = list.remove(i);
-                deleteHomeworkFromDatabase(id);
+                deleteHomeworkFromDatabaseById(id);
                 logger.info("element removed " + remove);
                 return true;
             }
@@ -107,9 +107,21 @@ public class HomeworkService implements UniversalService<Homework>, UniversalRep
         }
     }
 
-    private void deleteHomeworkFromDatabase(int id) {
+    private void deleteHomeworkFromDatabaseById(int id) {
         try {
             final String sql = "DELETE FROM public.homework WHERE id=" + id;
+            try (Connection conn = createCon();
+                 PreparedStatement preparedStatement = conn.prepareStatement(sql)) {
+                preparedStatement.executeUpdate();
+            }
+        } catch (Exception ex) {
+            System.out.println("Connection failed..." + ex);
+        }
+    }
+
+    public void deleteHomeworkFromDatabaseByLectureId(int id) {
+        try {
+            final String sql = "DELETE FROM public.homework WHERE lecture_id=" + id;
             try (Connection conn = createCon();
                  PreparedStatement preparedStatement = conn.prepareStatement(sql)) {
                 preparedStatement.executeUpdate();
@@ -136,7 +148,7 @@ public class HomeworkService implements UniversalService<Homework>, UniversalRep
     public List<Homework> sortHomeworkByLectureId(List<Homework> homeworks) {
         return homeworks.stream()
                 .sorted(Comparator.comparing(Homework::getLectureId))
-                .toList();
+                .collect(Collectors.toList());
     }
 
     public Map<Integer, List<Homework>> groupHomeworksByLectureId(List<Homework> homeworks) {

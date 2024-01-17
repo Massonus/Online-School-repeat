@@ -8,6 +8,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import org.massonus.entity.AdditionalMaterial;
 import org.massonus.entity.ResourceType;
 import org.massonus.service.AdditionalMaterialsService;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -17,7 +18,10 @@ public class AdditionalMaterialPostServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        final AdditionalMaterialsService materialsService = new AdditionalMaterialsService();
+
+        final ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("ApplicationContext.xml");
+        final AdditionalMaterialsService materialsService = context.getBean("materialsService", AdditionalMaterialsService.class);
+
         response.setContentType("text/html");
 
         String task = request.getParameter("task");

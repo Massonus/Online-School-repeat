@@ -1,17 +1,30 @@
 package org.massonus.repo;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.core.LoggerContext;
 import org.massonus.entity.Person;
 import org.massonus.entity.Role;
-import org.massonus.log.Logger;
 
+import java.net.URISyntaxException;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class PersonRepo implements UniversalRepository {
-    private final Logger logger = new Logger("LectureRepo");
+    private static final Logger logger = LogManager.getLogger(PersonRepo.class);
+
+    public PersonRepo() {
+        LoggerContext context = (LoggerContext) LogManager.getContext(false);
+        try {
+            context.setConfigLocation(PersonRepo.class.getResource("/log4j.xml").toURI());
+        } catch (URISyntaxException e) {
+            throw new RuntimeException(e);
+        }
+    }
 
     public List<Person> getAllPeople() {
         try {
@@ -46,6 +59,6 @@ public class PersonRepo implements UniversalRepository {
         List<Person> allPeople = getAllPeople();
         return allPeople.stream()
                 .filter(a -> a.getRole().toString().equals("TEACHER"))
-                .toList();
+                .collect(Collectors.toList());
     }
 }

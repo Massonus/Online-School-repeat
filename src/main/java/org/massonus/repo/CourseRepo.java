@@ -15,9 +15,14 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public class CourseRepo implements UniversalRepository {
-    private final PersonRepo personRepo = new PersonRepo();
-    private final LectureRepo lectureRepo = new LectureRepo();
     private static final org.apache.logging.log4j.Logger logger = LogManager.getLogger(CourseRepo.class);
+    private PersonRepo personRepo;
+    private LectureRepo lectureRepo;
+
+    public CourseRepo(PersonRepo personRepo, LectureRepo lectureRepo) {
+        this.personRepo = personRepo;
+        this.lectureRepo = lectureRepo;
+    }
 
     public CourseRepo() {
         LoggerContext context = (LoggerContext) LogManager.getContext(false);

@@ -5,6 +5,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.massonus.entity.Person;
 import org.massonus.entity.Role;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,7 +17,8 @@ class UniversalServiceTest {
 
     @BeforeEach
     void setUp() {
-        target = new PersonService();
+        ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("ApplicationContext.xml");
+        target = context.getBean("personService", PersonService.class);
         check = new ArrayList<>();
         check.add(new Person(1, Role.TEACHER));
     }

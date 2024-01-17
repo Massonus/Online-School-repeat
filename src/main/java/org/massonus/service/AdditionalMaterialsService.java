@@ -21,9 +21,10 @@ public class AdditionalMaterialsService implements UniversalService<AdditionalMa
 
     private static final Logger logger = LogManager.getLogger(AdditionalMaterialsService.class);
 
-    private final AdditionalMaterialsRepo materialsRepo = new AdditionalMaterialsRepo();
+    private final AdditionalMaterialsRepo materialsRepo;
 
-    public AdditionalMaterialsService() {
+    public AdditionalMaterialsService(AdditionalMaterialsRepo materialsRepo) {
+        this.materialsRepo = materialsRepo;
         LoggerContext context = (LoggerContext) LogManager.getContext(false);
         try {
             context.setConfigLocation(AdditionalMaterialsService.class.getResource("/log4j.xml").toURI());
@@ -37,7 +38,7 @@ public class AdditionalMaterialsService implements UniversalService<AdditionalMa
     AdditionalMaterial createElementByUser() {
         material = new AdditionalMaterial();
         int size = materialsRepo.getAllMaterials().size();
-        material.setId(size + 2);
+        material.setId(size + 1);
         System.out.println("Enter name of material");
         Scanner scanner1 = new Scanner(System.in);
         String name = scanner1.nextLine();
@@ -67,7 +68,7 @@ public class AdditionalMaterialsService implements UniversalService<AdditionalMa
             if (id == element.getId()) {
                 System.out.println(list.get(i));
                 AdditionalMaterial remove = list.remove(i);
-                deleteMaterialFromDatabase(id);
+                deleteMaterialFromDatabaseById(id);
                 logger.info("element removed " + remove);
                 return true;
             }
@@ -110,7 +111,19 @@ public class AdditionalMaterialsService implements UniversalService<AdditionalMa
         }
     }
 
-    private void deleteMaterialFromDatabase(int id) {
+    public void deleteMaterialFromDatabaseByLectureId(int id) {
+        try {
+            final String sql = "DELETE FROM public.additional_material WHERE lecture_id=" + id;
+            try (Connection conn = createCon();
+                 PreparedStatement preparedStatement = conn.prepareStatement(sql)) {
+                preparedStatement.executeUpdate();
+            }
+        } catch (Exception ex) {
+            System.out.println("Connection failed..." + ex);
+        }
+    }
+
+    private void deleteMaterialFromDatabaseById(int id) {
         try {
             final String sql = "DELETE FROM public.additional_material WHERE id=" + id;
             try (Connection conn = createCon();
@@ -139,25 +152,25 @@ public class AdditionalMaterialsService implements UniversalService<AdditionalMa
     public List<AdditionalMaterial> sortMaterialsById(List<AdditionalMaterial> materials) {
         return materials.stream()
                 .sorted(Comparator.comparing(AdditionalMaterial::getId))
-                .toList();
+                .collect(Collectors.toList());
     }
 
     public List<AdditionalMaterial> sortMaterialsByType(List<AdditionalMaterial> materials) {
         return materials.stream()
                 .sorted(Comparator.comparing(a -> a.getResourceType().toString()))
-                .toList();
+                .collect(Collectors.toList());
     }
 
     public List<AdditionalMaterial> sortMaterialsByName(List<AdditionalMaterial> materials) {
         return materials.stream()
                 .sorted(Comparator.comparing(AdditionalMaterial::getTask))
-                .toList();
+                .collect(Collectors.toList());
     }
 
     public List<AdditionalMaterial> sortMaterialsByLectureId(List<AdditionalMaterial> materials) {
         return materials.stream()
                 .sorted(Comparator.comparing(AdditionalMaterial::getLectureId))
-                .toList();
+                .collect(Collectors.toList());
     }
 
     public Map<Integer, List<AdditionalMaterial>> groupingMaterialsAsMap(List<AdditionalMaterial> materials) {

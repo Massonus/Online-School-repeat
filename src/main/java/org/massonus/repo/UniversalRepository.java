@@ -20,6 +20,7 @@ public interface UniversalRepository {
         Connection connection = DriverManager.getConnection(url, username, password);
         return connection;
     }
+
     default int lengthMasByUser() {
         System.out.println("Enter how many elements do you want");
         Scanner scanner1 = new Scanner(System.in);

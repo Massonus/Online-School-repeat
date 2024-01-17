@@ -1,14 +1,17 @@
 package org.massonus.service;
 
 import org.apache.commons.lang3.RandomStringUtils;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.core.LoggerContext;
 import org.massonus.entity.Person;
 import org.massonus.entity.Role;
-import org.massonus.log.Logger;
 import org.massonus.repo.PersonRepo;
 import org.massonus.repo.UniversalRepository;
 
 import java.io.BufferedWriter;
 import java.io.IOException;
+import java.net.URISyntaxException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.sql.Connection;
@@ -16,20 +19,37 @@ import java.sql.PreparedStatement;
 import java.util.List;
 import java.util.Random;
 import java.util.Scanner;
+import java.util.stream.Collectors;
 
 public class PersonService implements UniversalService<Person>, UniversalRepository {
 
-    private final Logger logger = new Logger("PersonService");
+    private static final Logger logger = LogManager.getLogger(PersonService.class);
 
-    private final PersonRepo personRepo = new PersonRepo();
+    private final PersonRepo personRepo;
+
+    public PersonService(PersonRepo personRepo) {
+        this.personRepo = personRepo;
+
+        LoggerContext context = (LoggerContext) LogManager.getContext(false);
+        try {
+            context.setConfigLocation(PersonService.class.getResource("/log4j.xml").toURI());
+        } catch (URISyntaxException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
     Person person;
 
     public Person createElementByUser() {
         System.out.println("Then you must create the Person");
         person = new Person();
-        System.out.println("Enter id of the Person");
+
+        int size = personRepo.getAllPeople().size();
+        person.setId(size + 1);
+
+        System.out.println("Enter course id of the Person");
         Scanner scanner = new Scanner(System.in);
-        person.setId(scanner.nextInt());
+        person.setCourseId(scanner.nextInt());
 
         System.out.println("Enter first name of the Person");
         Scanner scanner1 = new Scanner(System.in);
@@ -98,8 +118,7 @@ public class PersonService implements UniversalService<Person>, UniversalReposit
     }
 
 
-    public boolean add(Person elementByUser, List<Person> people, Integer courseId) {
-        elementByUser.setCourseId(courseId);
+    public boolean add(Person elementByUser, List<Person> people) {
         insertPersonIntoDatabase(elementByUser);
         logger.info("added: " + elementByUser);
         return people.add(elementByUser);
@@ -107,7 +126,7 @@ public class PersonService implements UniversalService<Person>, UniversalReposit
 
     public void add(Person person) {
         int size = personRepo.getAllPeople().size();
-        person.setId(size + 2);
+        person.setId(size + 1);
         insertPersonIntoDatabase(person);
     }
 
@@ -193,7 +212,7 @@ public class PersonService implements UniversalService<Person>, UniversalReposit
     public List<String> emailsToList(List<Person> people) {
         return people.stream()
                 .map(Person::getEmail)
-                .toList();
+                .collect(Collectors.toList());
     }
 
     public void printEmailAndFullName(List<Person> people) {

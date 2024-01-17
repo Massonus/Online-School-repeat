@@ -1,6 +1,8 @@
 package org.massonus.view;
 
+import org.massonus.entity.Course;
 import org.massonus.entity.Person;
+import org.massonus.service.CourseService;
 import org.massonus.service.PersonService;
 
 import java.util.Collections;
@@ -8,9 +10,16 @@ import java.util.List;
 import java.util.Scanner;
 
 public class PersonView {
-    private static final PersonService personService = new PersonService();
+    private final PersonService personService;
+    private final CourseService courseService;
 
-    public void workWithPerson(List<Person> people, Integer courseId) {
+    public PersonView(PersonService personService, CourseService courseService) {
+        this.personService = personService;
+        this.courseService = courseService;
+    }
+
+    public void workWithPeople(List<Course> courses) {
+        List<Person> people = courseService.getAllPeople(courses);
 
         while (true) {
             System.out.println("\n What you want to do?");
@@ -20,6 +29,9 @@ public class PersonView {
             System.out.println("4. To check that array is Empty");
             System.out.println("5. To get size of array");
             System.out.println("6. To sort by last name");
+            System.out.println("7. To print all people where LastName until N");
+            System.out.println("8. To write emails to the file");
+            System.out.println("9. To print emails and First and Last name");
             System.out.println("0. To return");
 
             Scanner scanner = new Scanner(System.in);
@@ -33,7 +45,7 @@ public class PersonView {
 
                 case "2":
                     Person newElement = personService.createElementByUser();
-                    personService.add(newElement, people, courseId);
+                    personService.add(newElement, people);
                     break;
 
                 case "3":
@@ -53,40 +65,17 @@ public class PersonView {
                     Collections.sort(people);
                     break;
 
-                case "0":
-                    return;
-            }
-        }
-    }
-
-    public static void workWithAllPeople(List<Person> allPeople) {
-
-        while (true) {
-            System.out.println("\n1. To print all people as List");
-            System.out.println("2. To print all people where LastName until N");
-            System.out.println("3. To write emails to the file");
-            System.out.println("4. To print emails and First and Last name");
-            System.out.println("0. To return");
-
-            Scanner scanner = new Scanner(System.in);
-            String choice = scanner.nextLine();
-
-            switch (choice) {
-                case "1":
-                    allPeople.forEach(System.out::println);
+                case "7":
+                    personService.printFilteredEmails(people);
                     break;
 
-                case "2":
-                    personService.printFilteredEmails(allPeople);
-                    break;
-
-                case "3":
-                    List<String> emails = personService.emailsToList(allPeople);
+                case "8":
+                    List<String> emails = personService.emailsToList(people);
                     personService.writeEmailsToTheFile(emails);
                     break;
 
-                case "4":
-                    personService.printEmailAndFullName(allPeople);
+                case "9":
+                    personService.printEmailAndFullName(people);
                     break;
 
                 case "0":

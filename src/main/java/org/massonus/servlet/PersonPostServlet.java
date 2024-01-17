@@ -5,11 +5,10 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import org.massonus.entity.Lecture;
 import org.massonus.entity.Person;
 import org.massonus.entity.Role;
-import org.massonus.service.LectureService;
 import org.massonus.service.PersonService;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -19,7 +18,9 @@ public class PersonPostServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        final PersonService personService = new PersonService();
+        final ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("ApplicationContext.xml");
+        final PersonService personService = context.getBean("personService", PersonService.class);
+
         response.setContentType("text/html");
 
         String first_name = request.getParameter("first_name");

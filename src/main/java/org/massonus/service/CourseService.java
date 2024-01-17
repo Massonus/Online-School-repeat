@@ -7,6 +7,7 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.Comparator;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class CourseService implements UniversalService<Course> {
 
@@ -85,7 +86,7 @@ public class CourseService implements UniversalService<Course> {
         List<Lecture> lectures = courses.stream()
                 .map(Course::getLectures)
                 .flatMap(Collection::stream)
-                .toList();
+                .collect(Collectors.toList());
         logger.info("List of lectures created " + lectures.size());
         return lectures;
     }
@@ -94,7 +95,7 @@ public class CourseService implements UniversalService<Course> {
         List<Person> people = courses.stream()
                 .map(Course::getPeople)
                 .flatMap(Collection::stream)
-                .toList();
+                .collect(Collectors.toList());
         logger.info("List of people created " + people.size());
         return people;
     }
@@ -102,7 +103,7 @@ public class CourseService implements UniversalService<Course> {
     public List<Course> sortCoursesById(List<Course> courses) {
         return courses.stream()
                 .sorted(Comparator.comparing(Course::getId))
-                .toList();
+                .collect(Collectors.toList());
     }
 }
 

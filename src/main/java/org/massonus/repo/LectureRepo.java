@@ -17,14 +17,18 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public class LectureRepo implements UniversalRepository {
-    private final PersonRepo personRepo = new PersonRepo();
-    private final AdditionalMaterialsRepo materialsRepo = new AdditionalMaterialsRepo();
-    private final HomeworkRepo homeworkRepo = new HomeworkRepo();
     private static final Logger logger = LogManager.getLogger(LectureRepo.class);
+    private final PersonRepo personRepo;
+    private final AdditionalMaterialsRepo materialsRepo;
+    private final HomeworkRepo homeworkRepo;
     private Integer id;
     private Integer teacherId;
 
-    public LectureRepo() {
+    public LectureRepo(PersonRepo personRepo, AdditionalMaterialsRepo materialsRepo, HomeworkRepo homeworkRepo) {
+        this.personRepo = personRepo;
+        this.materialsRepo = materialsRepo;
+        this.homeworkRepo = homeworkRepo;
+
         LoggerContext context = (LoggerContext) LogManager.getContext(false);
         try {
             context.setConfigLocation(LectureRepo.class.getResource("/log4j.xml").toURI());
