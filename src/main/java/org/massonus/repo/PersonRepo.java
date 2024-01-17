@@ -9,6 +9,7 @@ import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class PersonRepo implements UniversalRepository {
     private final Logger logger = new Logger("LectureRepo");
@@ -46,6 +47,6 @@ public class PersonRepo implements UniversalRepository {
         List<Person> allPeople = getAllPeople();
         return allPeople.stream()
                 .filter(a -> a.getRole().toString().equals("TEACHER"))
-                .toList();
+                .collect(Collectors.toList());
     }
 }

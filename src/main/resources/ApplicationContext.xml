@@ -44,6 +44,8 @@
     <bean id="lectureService"
           class="org.massonus.service.LectureService">
         <constructor-arg ref="lectureRepo"/>
+        <constructor-arg ref="materialsService"/>
+        <constructor-arg ref="homeworkService"/>
     </bean>
 
     <bean id="lectureView"

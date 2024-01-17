@@ -1,10 +1,12 @@
 package org.massonus.service;
 
 import org.massonus.entity.AdditionalMaterial;
+import org.massonus.entity.Homework;
 import org.massonus.entity.Lecture;
 import org.massonus.entity.Person;
 import org.massonus.log.Logger;
 import org.massonus.repo.LectureRepo;
+import org.massonus.repo.PersonRepo;
 import org.massonus.repo.UniversalRepository;
 
 import java.sql.Connection;
@@ -15,23 +17,23 @@ import java.util.stream.Collectors;
 public class LectureService implements UniversalService<Lecture>, UniversalRepository {
     private final Logger logger = new Logger("LectureService");
     private final LectureRepo lectureRepo;
+    private final AdditionalMaterialsService materialsService;
+    private final HomeworkService homeworkService;
 
-    public LectureService(LectureRepo lectureRepo) {
+    public LectureService(LectureRepo lectureRepo, AdditionalMaterialsService materialsService, HomeworkService homeworkService) {
         this.lectureRepo = lectureRepo;
+        this.materialsService = materialsService;
+        this.homeworkService = homeworkService;
     }
 
     private final PersonService personService = new PersonService();
-    private final AdditionalMaterialsService materialsService = new AdditionalMaterialsService();
+    private final PersonRepo personRepo = new PersonRepo();
+
     private Lecture lecture;
 
-    public Lecture createElementByUser(List<Person> people) {
+    public Lecture createElementByUser() {
         lecture = new Lecture();
         System.out.println("Now create the Lecture");
-        System.out.println("Enter id of lecture");
-        Scanner scanner = new Scanner(System.in);
-        int id = scanner.nextInt();
-        lecture.setId(id);
-
         System.out.println("Enter name of lecture");
         Scanner scanner1 = new Scanner(System.in);
         String name = scanner1.nextLine();
@@ -44,12 +46,16 @@ public class LectureService implements UniversalService<Lecture>, UniversalRepos
 
         System.out.println("Choose a teacher for Lecture" +
                 "Enter the id");
-        people.forEach(System.out::println);
-        ;
+
+        List<Person> allPeople = personRepo.getAllTeachers();
+        allPeople.forEach(System.out::println);
+
         Scanner scanner3 = new Scanner(System.in);
         int personId = scanner3.nextInt();
-        lecture.setPerson(personService.getById(people, personId));
+        Person personForLecture = personService.getById(allPeople, personId);
+        lecture.setPerson(personForLecture);
         lecture.setTeacherId(personId);
+        lecture.setCourseId(personForLecture.getCourseId());
 
         return lecture;
     }
@@ -74,7 +80,7 @@ public class LectureService implements UniversalService<Lecture>, UniversalRepos
         return lecture;
     }
 
-    public List<AdditionalMaterial> createAndFillMaterialsListForLecture(Integer lectureId) {
+    private List<AdditionalMaterial> createAndFillMaterialsListForLecture(Integer lectureId) {
         List<AdditionalMaterial> materials = new ArrayList<>();
         System.out.println("Additional material:");
         int lengthMas = lengthMasByUser();
@@ -84,16 +90,31 @@ public class LectureService implements UniversalService<Lecture>, UniversalRepos
         return materials;
     }
 
-    public boolean add(Lecture elementByUser, List<Lecture> lectures, Integer courseId) {
-        elementByUser.setCourseId(courseId);
+    private List<Homework> createAndFillHomeworkListForLecture(Integer lectureId) {
+        List<Homework> homeworkList = new ArrayList<>();
+        System.out.println("Additional material:");
+        int lengthMas = lengthMasByUser();
+        for (int i = 0; i < lengthMas; i++) {
+            homeworkService.add(homeworkList, lectureId);
+        }
+        return homeworkList;
+    }
+
+    public boolean add(Lecture elementByUser, List<Lecture> lectures) {
+        int size = lectures.size();
+        lecture.setId(size + 1);
         insertLectureIntoDatabase(elementByUser);
+        List<AdditionalMaterial> materialsListForLecture = createAndFillMaterialsListForLecture(elementByUser.getId());
+        List<Homework> homeworkListForLecture = createAndFillHomeworkListForLecture(elementByUser.getId());
+        elementByUser.setMaterials(materialsListForLecture);
+        elementByUser.setHomeworks(homeworkListForLecture);
         logger.info("added: " + elementByUser);
         return lectures.add(elementByUser);
     }
 
     public void add(Lecture lecture) {
         int size = lectureRepo.getAllLectures().size();
-        lecture.setId(size + 2);
+        lecture.setId(size + 1);
         insertLectureIntoDatabase(lecture);
     }
 
@@ -103,6 +124,8 @@ public class LectureService implements UniversalService<Lecture>, UniversalRepos
             if (id == element.getId()) {
                 System.out.println(list.get(i));
                 Lecture remove = list.remove(i);
+                materialsService.deleteMaterialFromDatabaseByLectureId(remove.getId());
+                homeworkService.deleteHomeworkFromDatabaseByLectureId(remove.getId());
                 deleteLectureFromDatabase(id);
                 logger.info("element removed " + remove);
                 return true;
@@ -168,5 +191,11 @@ public class LectureService implements UniversalService<Lecture>, UniversalRepos
     public Map<Person, List<Lecture>> groupLectureByPerson(List<Lecture> lectures) {
         return lectures.stream()
                 .collect(Collectors.groupingBy(Lecture::getPerson));
+    }
+
+    public List<Lecture> sortLectureById(List<Lecture> lectures) {
+        return lectures.stream()
+                .sorted(Comparator.comparing(Lecture::getId))
+                .collect(Collectors.toList());
     }
 }

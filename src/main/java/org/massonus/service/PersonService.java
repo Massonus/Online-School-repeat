@@ -16,6 +16,7 @@ import java.sql.PreparedStatement;
 import java.util.List;
 import java.util.Random;
 import java.util.Scanner;
+import java.util.stream.Collectors;
 
 public class PersonService implements UniversalService<Person>, UniversalRepository {
 
@@ -193,7 +194,7 @@ public class PersonService implements UniversalService<Person>, UniversalReposit
     public List<String> emailsToList(List<Person> people) {
         return people.stream()
                 .map(Person::getEmail)
-                .toList();
+                .collect(Collectors.toList());
     }
 
     public void printEmailAndFullName(List<Person> people) {

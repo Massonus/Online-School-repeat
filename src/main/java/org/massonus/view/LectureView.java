@@ -1,12 +1,9 @@
 package org.massonus.view;
 
-import org.massonus.entity.Course;
-import org.massonus.entity.Lecture;
-import org.massonus.entity.Person;
+import org.massonus.entity.*;
 import org.massonus.service.CourseService;
 import org.massonus.service.LectureService;
 
-import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
@@ -29,7 +26,7 @@ public class LectureView {
             System.out.println("2. Add new Lecture ");
             System.out.println("3. To remove Lecture");
             System.out.println("4. To get size of array");
-            System.out.println("5. To sort by index");
+            System.out.println("5. To sort by id");
             System.out.println("6. To print the first lecture and what have the most amount of materials");
             System.out.println("7. To print lectures grouping by teacher");
             System.out.println("0. To return");
@@ -44,10 +41,8 @@ public class LectureView {
                     break;
 
                 case "2":
-                    /*Lecture newElement = lectureService.createElementByUser(people);
-                    List<AdditionalMaterial> materialsListForLecture = lectureService.createAndFillMaterialsListForLecture(newElement.getId());
-                    newElement.setMaterials(materialsListForLecture);
-                    lectureService.add(newElement, lectures, courseId);*/
+                    Lecture newElement = lectureService.createElementByUser();
+                    lectureService.add(newElement, lectures);
                     break;
 
                 case "3":
@@ -60,7 +55,7 @@ public class LectureView {
                     break;
 
                 case "5":
-                    Collections.sort(lectures);
+                    lectures = lectureService.sortLectureById(lectures);
                     break;
 
                 case "6":
