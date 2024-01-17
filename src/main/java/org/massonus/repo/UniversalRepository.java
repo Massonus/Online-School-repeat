@@ -13,7 +13,7 @@ public interface UniversalRepository {
 
     @SneakyThrows
     default Connection createCon() {
-        final String url = "jdbc:postgresql://localhost:5432/Online School";
+        final String url = "jdbc:postgresql://localhost:5432/Online School Repeat";
         final String username = "postgres";
         final String password = "root";
         Class.forName("org.postgresql.Driver").getDeclaredConstructor().newInstance();
