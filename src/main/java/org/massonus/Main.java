@@ -4,6 +4,7 @@ import org.massonus.entity.Course;
 import org.massonus.utils.CourseController;
 import org.massonus.view.AdditionalMaterialsView;
 import org.massonus.view.HomeworkView;
+import org.massonus.view.LectureView;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import java.util.List;
@@ -14,8 +15,9 @@ public class Main {
 
         final AdditionalMaterialsView materialsView = context.getBean("materialsView", AdditionalMaterialsView.class);
         final HomeworkView homeworkView = context.getBean("homeworkView", HomeworkView.class);
+        final LectureView lectureView = context.getBean("lectureView", LectureView.class);
 
-        CourseController courseController = new CourseController(materialsView, homeworkView);
+        CourseController courseController = new CourseController(materialsView, homeworkView, lectureView);
         List<Course> courses = courseController.firstCreate();
         courseController.mainMenu(courses);
     }

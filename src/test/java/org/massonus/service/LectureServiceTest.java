@@ -7,6 +7,7 @@ import org.massonus.entity.AdditionalMaterial;
 import org.massonus.entity.Lecture;
 import org.massonus.entity.Person;
 import org.massonus.entity.Role;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,7 +26,8 @@ class LectureServiceTest {
         expectedPerson = new Person(2, Role.STUDENT);
         expectedLecture = new Lecture(1, "Math", expectedPerson, List.of(new AdditionalMaterial("Math"), new AdditionalMaterial("Geo")));
         Lecture lecture = new Lecture(2, "Math", new Person(1, Role.TEACHER), List.of(new AdditionalMaterial("Math")));
-        target = new LectureService();
+        ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("ApplicationContext.xml");
+        target = context.getBean("lectureService", LectureService.class);
         people = List.of(new Person(1, Role.TEACHER), new Person(2, Role.TEACHER));
         check = new ArrayList<>();
         check.add(lecture);

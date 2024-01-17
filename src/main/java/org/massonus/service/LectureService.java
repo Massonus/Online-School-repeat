@@ -8,14 +8,18 @@ import org.massonus.repo.LectureRepo;
 import org.massonus.repo.UniversalRepository;
 
 import java.sql.Connection;
-import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.util.*;
 import java.util.stream.Collectors;
 
 public class LectureService implements UniversalService<Lecture>, UniversalRepository {
     private final Logger logger = new Logger("LectureService");
-    private final LectureRepo lectureRepo = new LectureRepo();
+    private final LectureRepo lectureRepo;
+
+    public LectureService(LectureRepo lectureRepo) {
+        this.lectureRepo = lectureRepo;
+    }
+
     private final PersonService personService = new PersonService();
     private final AdditionalMaterialsService materialsService = new AdditionalMaterialsService();
     private Lecture lecture;
@@ -40,7 +44,8 @@ public class LectureService implements UniversalService<Lecture>, UniversalRepos
 
         System.out.println("Choose a teacher for Lecture" +
                 "Enter the id");
-        people.forEach(System.out::println);;
+        people.forEach(System.out::println);
+        ;
         Scanner scanner3 = new Scanner(System.in);
         int personId = scanner3.nextInt();
         lecture.setPerson(personService.getById(people, personId));

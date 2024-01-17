@@ -7,6 +7,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.massonus.entity.Lecture;
 import org.massonus.service.LectureService;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -16,7 +17,8 @@ public class LecturePostServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        final LectureService lectureService = new LectureService();
+        ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("ApplicationContext.xml");
+        final LectureService lectureService = context.getBean("lectureService", LectureService.class);
         response.setContentType("text/html");
 
         String subject = request.getParameter("subject");

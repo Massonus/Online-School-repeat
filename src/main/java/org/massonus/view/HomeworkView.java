@@ -16,11 +16,12 @@ import java.util.Scanner;
 public class HomeworkView {
     private static final Logger logger = new Logger("HomeworkView");
     private final HomeworkService homeworkService;
-    private final LectureService lectureService = new LectureService();
+    private final LectureService lectureService;
     private final CourseService courseService = new CourseService();
 
-    public HomeworkView(HomeworkService homeworkService) {
+    public HomeworkView(HomeworkService homeworkService, LectureService lectureService) {
         this.homeworkService = homeworkService;
+        this.lectureService = lectureService;
     }
 
     public void workWithHomework(List<Course> courses) {

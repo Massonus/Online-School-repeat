@@ -19,6 +19,7 @@
     <bean id="materialsView"
           class="org.massonus.view.AdditionalMaterialsView">
         <constructor-arg ref="materialsService"/>
+        <constructor-arg ref="lectureService"/>
     </bean>
 
     <bean id="homeworkRepo"
@@ -33,6 +34,21 @@
     <bean id="homeworkView"
           class="org.massonus.view.HomeworkView">
         <constructor-arg ref="homeworkService"/>
+        <constructor-arg ref="lectureService"/>
+    </bean>
+
+    <bean id="lectureRepo"
+          class="org.massonus.repo.LectureRepo">
+    </bean>
+
+    <bean id="lectureService"
+          class="org.massonus.service.LectureService">
+        <constructor-arg ref="lectureRepo"/>
+    </bean>
+
+    <bean id="lectureView"
+          class="org.massonus.view.LectureView">
+        <constructor-arg ref="lectureService"/>
     </bean>
 
 </beans>
