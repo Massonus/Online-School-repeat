@@ -21,4 +21,18 @@
         <constructor-arg ref="materialsService"/>
     </bean>
 
+    <bean id="homeworkRepo"
+          class="org.massonus.repo.HomeworkRepo">
+    </bean>
+
+    <bean id="homeworkService"
+          class="org.massonus.service.HomeworkService">
+        <constructor-arg ref="homeworkRepo"/>
+    </bean>
+
+    <bean id="homeworkView"
+          class="org.massonus.view.HomeworkView">
+        <constructor-arg ref="homeworkService"/>
+    </bean>
+
 </beans>

@@ -12,7 +12,6 @@ import java.util.Map;
 import java.util.Scanner;
 
 public class LectureView {
-    private final HomeworkView homeworkView = new HomeworkView();
     private static final LectureService lectureService = new LectureService();
 
     public void workWithLecture(List<Lecture> lectures, List<Person> people, Integer courseId) {

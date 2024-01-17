@@ -15,7 +15,12 @@ import java.util.stream.Collectors;
 
 public class HomeworkService implements UniversalService<Homework>, UniversalRepository {
 
-    private final HomeworkRepo homeworkRepo = new HomeworkRepo();
+    private HomeworkRepo homeworkRepo;
+
+    public HomeworkService(HomeworkRepo homeworkRepo) {
+        this.homeworkRepo = homeworkRepo;
+    }
+
     private static final Logger logger = LogManager.getLogger(HomeworkService.class);
 
     public HomeworkService() {

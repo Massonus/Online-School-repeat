@@ -23,10 +23,11 @@ public class CourseController {
     final ControlWorkService workService = new ControlWorkService();
     final LogController logController = new LogController();
     private final AdditionalMaterialsView materialsView;
-    private final HomeworkView homeworkView = new HomeworkView();
+    private final HomeworkView homeworkView;
 
-    public CourseController(AdditionalMaterialsView materialsView) {
+    public CourseController(AdditionalMaterialsView materialsView, HomeworkView homeworkView) {
         this.materialsView = materialsView;
+        this.homeworkView = homeworkView;
     }
 
     final Logger logger = new Logger("CourseController");
