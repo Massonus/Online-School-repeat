@@ -1,8 +1,9 @@
 CREATE TABLE public.homework
 (
-    id         serial  NOT NULL,
-    task       text,
+    id serial NOT NULL,
+    task text,
     lecture_id integer NOT NULL DEFAULT 1,
+    deadline date,
     PRIMARY KEY (id),
     CONSTRAINT lecture_id FOREIGN KEY (lecture_id)
         REFERENCES public.lecture (id) MATCH SIMPLE
