@@ -44,18 +44,25 @@ public class LectureService implements UniversalService<Lecture>, UniversalRepos
         String description = scanner2.nextLine();
         lecture.setDescription(description);
 
+        System.out.println("Enter course id");
+        Scanner scanner = new Scanner(System.in);
+        int courseId = scanner.nextInt();
+        lecture.setCourseId(courseId);
+
         System.out.println("Choose a teacher for Lecture" +
                 "Enter the id");
 
         List<Person> allPeople = personRepo.getAllTeachers();
-        allPeople.forEach(System.out::println);
+        allPeople.stream()
+                .filter(a -> a.getCourseId().equals(courseId))
+                .forEach(System.out::println);
 
         Scanner scanner3 = new Scanner(System.in);
         int personId = scanner3.nextInt();
         Person personForLecture = personService.getById(allPeople, personId);
         lecture.setPerson(personForLecture);
         lecture.setTeacherId(personId);
-        lecture.setCourseId(personForLecture.getCourseId());
+
 
         return lecture;
     }
@@ -92,7 +99,7 @@ public class LectureService implements UniversalService<Lecture>, UniversalRepos
 
     private List<Homework> createAndFillHomeworkListForLecture(Integer lectureId) {
         List<Homework> homeworkList = new ArrayList<>();
-        System.out.println("Additional material:");
+        System.out.println("Homework:");
         int lengthMas = lengthMasByUser();
         for (int i = 0; i < lengthMas; i++) {
             homeworkService.add(homeworkList, lectureId);

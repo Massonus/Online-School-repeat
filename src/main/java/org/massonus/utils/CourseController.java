@@ -41,7 +41,7 @@ public class CourseController {
             System.out.println("3. To sort by name");
             System.out.println("4. To sort by id");
             System.out.println("5. To work with lectures");
-            System.out.println("6. To work with all people");
+            System.out.println("6. To work with people");
             System.out.println("7. To work with materials");
             System.out.println("8. To work with homework");
             System.out.println("9. To work with logs");
