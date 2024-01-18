@@ -5,27 +5,31 @@ import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.core.LoggerContext;
 import org.massonus.entity.Course;
 import org.massonus.repo.CourseRepo;
-import org.massonus.service.AdditionalMaterialsService;
+import org.massonus.service.AdditionalMaterialService;
 import org.massonus.service.ControlWorkService;
 import org.massonus.service.CourseService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
 
 import java.net.URISyntaxException;
 import java.util.Collections;
 import java.util.List;
 import java.util.Scanner;
 
+@Controller
 public class CourseView {
     private static final Logger logger = LogManager.getLogger(CourseView.class);
     private final CourseService courseService;
     private final CourseRepo courseRepo;
-    private final AdditionalMaterialsView materialsView;
+    private final AdditionalMaterialView materialsView;
     private final HomeworkView homeworkView;
     private final LectureView lectureView;
     private final PersonView personView;
     private final ControlWorkService workService = new ControlWorkService();
     private final LogView logView;
 
-    public CourseView(CourseService courseService, CourseRepo courseRepo, AdditionalMaterialsView materialsView, HomeworkView homeworkView, LectureView lectureView, PersonView personView, LogView logView) {
+    @Autowired
+    public CourseView(CourseService courseService, CourseRepo courseRepo, AdditionalMaterialView materialsView, HomeworkView homeworkView, LectureView lectureView, PersonView personView, LogView logView) {
         this.courseService = courseService;
         this.courseRepo = courseRepo;
         this.materialsView = materialsView;
@@ -36,7 +40,7 @@ public class CourseView {
 
         LoggerContext context = (LoggerContext) LogManager.getContext(false);
         try {
-            context.setConfigLocation(AdditionalMaterialsService.class.getResource("/log4j.xml").toURI());
+            context.setConfigLocation(AdditionalMaterialService.class.getResource("/log4j.xml").toURI());
         } catch (URISyntaxException e) {
             throw new RuntimeException(e);
         }

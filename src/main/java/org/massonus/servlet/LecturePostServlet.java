@@ -17,7 +17,7 @@ public class LecturePostServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        final ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("ApplicationContext.xml");
+        final ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("ApplicationContext_oldExample.xml");
         final LectureService lectureService = context.getBean("lectureService", LectureService.class);
 
         response.setContentType("text/html");
@@ -27,7 +27,11 @@ public class LecturePostServlet extends HttpServlet {
         Integer teacher_id = Integer.valueOf(request.getParameter("teacher_id"));
         Integer course_id = Integer.valueOf(request.getParameter("course_id"));
 
-        final Lecture lecture = new Lecture(subject, description, teacher_id, course_id);
+        final Lecture lecture = new Lecture();
+        lecture.setSubject(subject);
+        lecture.setDescription(description);
+        lecture.setTeacherId(teacher_id);
+        lecture.setCourseId(course_id);
         lectureService.add(lecture);
 
         try (PrintWriter writer = response.getWriter()) {

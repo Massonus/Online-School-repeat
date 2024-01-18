@@ -1,6 +1,7 @@
 package org.massonus.entity;
 
 import lombok.Data;
+import org.springframework.stereotype.Component;
 
 import java.io.Serializable;
 import java.time.LocalDate;
@@ -9,6 +10,7 @@ import java.util.List;
 import java.util.Objects;
 
 @Data
+@Component
 public class Lecture implements Comparable<Lecture>, Serializable {
 
     private Integer id;
@@ -36,38 +38,33 @@ public class Lecture implements Comparable<Lecture>, Serializable {
         formatter = DateTimeFormatter.ofPattern("MMM d, EEEE");
     }
 
-    public Lecture(String subject, String description, Integer teacherId, Integer courseId) {
-        this.subject = subject;
-        this.description = description;
-        this.teacherId = teacherId;
-        this.courseId = courseId;
-    }
-
-    public Lecture(Integer id, String subject, Person person, List<AdditionalMaterial> materials) {
-        setId(id);
-        this.subject = subject;
-        this.person = person;
-        this.materials = materials;
-        lectureDate = LocalDate.now();
-    }
-
-    public Lecture(String subject) {
-        this.subject = subject;
-    }
-
     @Override
     public String toString() {
-        return "\n Lecture{" +
-                "id=" + id +
-                ", name='" + subject + '\'' +
-                ", lectureDate=" + formatter.format(lectureDate) +
-                ", person=" + person +
-                ", homeworks=" + homeworks +
-                ", materials=" + materials +
-                ", description='" + description + '\'' +
-                ", teacherId=" + teacherId +
-                ", courseId=" + courseId +
-                '}';
+
+        if (Objects.isNull(formatter)) {
+            return "\n Lecture{" +
+                    "id=" + id +
+                    ", name='" + subject + '\'' +
+                    ", person=" + person +
+                    ", homeworks=" + homeworks +
+                    ", materials=" + materials +
+                    ", description='" + description + '\'' +
+                    ", teacherId=" + teacherId +
+                    ", courseId=" + courseId +
+                    '}';
+        } else {
+            return "\n Lecture{" +
+                    "id=" + id +
+                    ", name='" + subject + '\'' +
+                    ", lectureDate=" + formatter.format(lectureDate) +
+                    ", person=" + person +
+                    ", homeworks=" + homeworks +
+                    ", materials=" + materials +
+                    ", description='" + description + '\'' +
+                    ", teacherId=" + teacherId +
+                    ", courseId=" + courseId +
+                    '}';
+        }
     }
 
     @Override

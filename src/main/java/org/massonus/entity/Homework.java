@@ -1,6 +1,7 @@
 package org.massonus.entity;
 
 import lombok.Data;
+import org.springframework.stereotype.Component;
 
 import java.io.Serializable;
 import java.sql.Date;
@@ -9,6 +10,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.Objects;
 
 @Data
+@Component
 public class Homework implements Serializable {
 
     private Integer id;
@@ -29,22 +31,23 @@ public class Homework implements Serializable {
         sqlDate = Date.valueOf(deadline);
     }
 
-    public Homework(String task, Integer lectureId) {
-        this.task = task;
-        this.lectureId = lectureId;
-        deadline = LocalDate.of(LocalDate.now().getYear(), LocalDate.now().getMonth(), LocalDate.now().getDayOfMonth() + 2);
-        formatterDeadline = DateTimeFormatter.ofPattern("MMM d, EEEE");
-        sqlDate = Date.valueOf(deadline);
-    }
-
     @Override
     public String toString() {
-        return "Homework{" +
-                "id=" + id +
-                ", lectureId=" + lectureId +
-                ", task='" + task + '\'' +
-                ", deadline=" + formatterDeadline.format(deadline) +
-                '}';
+
+        if (Objects.isNull(formatterDeadline)) {
+            return "Homework{" +
+                    "id=" + id +
+                    ", lectureId=" + lectureId +
+                    ", task='" + task + '\'' +
+                    '}';
+        } else {
+            return "Homework{" +
+                    "id=" + id +
+                    ", lectureId=" + lectureId +
+                    ", task='" + task + '\'' +
+                    ", deadline=" + formatterDeadline.format(deadline) +
+                    '}';
+        }
     }
 
     @Override

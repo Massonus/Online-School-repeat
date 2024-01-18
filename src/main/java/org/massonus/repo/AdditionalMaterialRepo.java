@@ -2,14 +2,15 @@ package org.massonus.repo;
 
 import org.massonus.entity.AdditionalMaterial;
 import org.massonus.entity.ResourceType;
+import org.springframework.stereotype.Repository;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
-
-public class AdditionalMaterialsRepo implements UniversalRepository {
+@Repository
+public class AdditionalMaterialRepo implements UniversalRepository {
 
     public List<AdditionalMaterial> getAllMaterials() {
         try {

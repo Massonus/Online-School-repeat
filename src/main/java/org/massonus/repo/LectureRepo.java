@@ -7,6 +7,8 @@ import org.massonus.entity.AdditionalMaterial;
 import org.massonus.entity.Homework;
 import org.massonus.entity.Lecture;
 import org.massonus.entity.Person;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
 
 import java.net.URISyntaxException;
 import java.sql.Connection;
@@ -16,15 +18,17 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+@Repository
 public class LectureRepo implements UniversalRepository {
     private static final Logger logger = LogManager.getLogger(LectureRepo.class);
     private final PersonRepo personRepo;
-    private final AdditionalMaterialsRepo materialsRepo;
+    private final AdditionalMaterialRepo materialsRepo;
     private final HomeworkRepo homeworkRepo;
     private Integer id;
     private Integer teacherId;
 
-    public LectureRepo(PersonRepo personRepo, AdditionalMaterialsRepo materialsRepo, HomeworkRepo homeworkRepo) {
+    @Autowired
+    public LectureRepo(PersonRepo personRepo, AdditionalMaterialRepo materialsRepo, HomeworkRepo homeworkRepo) {
         this.personRepo = personRepo;
         this.materialsRepo = materialsRepo;
         this.homeworkRepo = homeworkRepo;

@@ -5,8 +5,10 @@ import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.core.LoggerContext;
 import org.massonus.entity.AdditionalMaterial;
 import org.massonus.entity.ResourceType;
-import org.massonus.repo.AdditionalMaterialsRepo;
+import org.massonus.repo.AdditionalMaterialRepo;
 import org.massonus.repo.UniversalRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.net.URISyntaxException;
 import java.sql.Connection;
@@ -17,17 +19,19 @@ import java.util.Map;
 import java.util.Scanner;
 import java.util.stream.Collectors;
 
-public class AdditionalMaterialsService implements UniversalService<AdditionalMaterial>, UniversalRepository {
+@Service
+public class AdditionalMaterialService implements UniversalService<AdditionalMaterial>, UniversalRepository {
 
-    private static final Logger logger = LogManager.getLogger(AdditionalMaterialsService.class);
+    private static final Logger logger = LogManager.getLogger(AdditionalMaterialService.class);
 
-    private final AdditionalMaterialsRepo materialsRepo;
+    private final AdditionalMaterialRepo materialsRepo;
 
-    public AdditionalMaterialsService(AdditionalMaterialsRepo materialsRepo) {
+    @Autowired
+    public AdditionalMaterialService(AdditionalMaterialRepo materialsRepo) {
         this.materialsRepo = materialsRepo;
         LoggerContext context = (LoggerContext) LogManager.getContext(false);
         try {
-            context.setConfigLocation(AdditionalMaterialsService.class.getResource("/log4j.xml").toURI());
+            context.setConfigLocation(AdditionalMaterialService.class.getResource("/log4j.xml").toURI());
         } catch (URISyntaxException e) {
             throw new RuntimeException(e);
         }

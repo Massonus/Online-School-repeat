@@ -17,10 +17,13 @@ class UniversalServiceTest {
 
     @BeforeEach
     void setUp() {
-        ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("ApplicationContext.xml");
+        ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("ApplicationContext_oldExample.xml");
         target = context.getBean("personService", PersonService.class);
         check = new ArrayList<>();
-        check.add(new Person(1, Role.TEACHER));
+        Person person = new Person();
+        person.setId(1);
+        person.setRole(Role.TEACHER);
+        check.add(person);
     }
 
     @Test

@@ -1,6 +1,7 @@
 package org.massonus.repo;
 
 import org.massonus.entity.Homework;
+import org.springframework.stereotype.Repository;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -8,6 +9,7 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
+@Repository
 public class HomeworkRepo implements UniversalRepository {
 
     public List<Homework> getAllHomework() {

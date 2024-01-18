@@ -5,6 +5,8 @@ import org.apache.logging.log4j.core.LoggerContext;
 import org.massonus.entity.Course;
 import org.massonus.entity.Lecture;
 import org.massonus.entity.Person;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
 
 import java.net.URISyntaxException;
 import java.sql.Connection;
@@ -14,17 +16,17 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+@Repository
 public class CourseRepo implements UniversalRepository {
     private static final org.apache.logging.log4j.Logger logger = LogManager.getLogger(CourseRepo.class);
-    private PersonRepo personRepo;
-    private LectureRepo lectureRepo;
+    private final PersonRepo personRepo;
+    private final LectureRepo lectureRepo;
 
+    @Autowired
     public CourseRepo(PersonRepo personRepo, LectureRepo lectureRepo) {
         this.personRepo = personRepo;
         this.lectureRepo = lectureRepo;
-    }
 
-    public CourseRepo() {
         LoggerContext context = (LoggerContext) LogManager.getContext(false);
         try {
             context.setConfigLocation(CourseRepo.class.getResource("/log4j.xml").toURI());

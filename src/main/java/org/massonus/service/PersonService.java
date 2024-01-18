@@ -8,6 +8,9 @@ import org.massonus.entity.Person;
 import org.massonus.entity.Role;
 import org.massonus.repo.PersonRepo;
 import org.massonus.repo.UniversalRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
+import org.springframework.stereotype.Service;
 
 import java.io.BufferedWriter;
 import java.io.IOException;
@@ -21,12 +24,14 @@ import java.util.Random;
 import java.util.Scanner;
 import java.util.stream.Collectors;
 
+@Service
 public class PersonService implements UniversalService<Person>, UniversalRepository {
 
     private static final Logger logger = LogManager.getLogger(PersonService.class);
 
     private final PersonRepo personRepo;
 
+    @Autowired
     public PersonService(PersonRepo personRepo) {
         this.personRepo = personRepo;
 

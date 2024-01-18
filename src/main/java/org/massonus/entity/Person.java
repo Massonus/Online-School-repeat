@@ -1,11 +1,13 @@
 package org.massonus.entity;
 
 import lombok.Data;
+import org.springframework.stereotype.Component;
 
 import java.io.Serializable;
 import java.util.Objects;
 
 @Data
+@Component
 public class Person implements Comparable<Person>, Serializable {
 
     private Integer id;
@@ -23,33 +25,6 @@ public class Person implements Comparable<Person>, Serializable {
     private Integer courseId;
 
     private transient Integer task;
-
-    public Person() {
-    }
-
-    public Person(Integer id, Role role) {
-        this.id = id;
-        this.role = role;
-    }
-
-    public Person(String lastName) {
-        this.lastName = lastName;
-    }
-
-    public Person(Integer id, Integer task, Role role) {
-        this.id = id;
-        this.task = task;
-        this.role = role;
-    }
-
-    public Person(String firstName, String lastName, String phone, String email, Role role, Integer courseId) {
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.phone = phone;
-        this.email = email;
-        this.role = role;
-        this.courseId = courseId;
-    }
 
     @Override
     public String toString() {

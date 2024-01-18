@@ -7,7 +7,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.massonus.entity.AdditionalMaterial;
 import org.massonus.entity.ResourceType;
-import org.massonus.service.AdditionalMaterialsService;
+import org.massonus.service.AdditionalMaterialService;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import java.io.IOException;
@@ -19,8 +19,8 @@ public class AdditionalMaterialPostServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-        final ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("ApplicationContext.xml");
-        final AdditionalMaterialsService materialsService = context.getBean("materialsService", AdditionalMaterialsService.class);
+        final ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("ApplicationContext_oldExample.xml");
+        final AdditionalMaterialService materialsService = context.getBean("materialService", AdditionalMaterialService.class);
 
         response.setContentType("text/html");
 
@@ -28,7 +28,10 @@ public class AdditionalMaterialPostServlet extends HttpServlet {
         ResourceType resourceType = ResourceType.valueOf(request.getParameter("resource_type"));
         Integer lectureId = Integer.valueOf(request.getParameter("lecture_id"));
 
-        final AdditionalMaterial material = new AdditionalMaterial(task, resourceType, lectureId);
+        final AdditionalMaterial material = new AdditionalMaterial();
+        material.setTask(task);
+        material.setResourceType(resourceType);
+        material.setLectureId(lectureId);
         materialsService.add(material);
 
         try (PrintWriter writer = response.getWriter()) {

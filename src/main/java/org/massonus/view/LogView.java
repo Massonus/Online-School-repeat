@@ -1,15 +1,19 @@
 package org.massonus.view;
 
 import org.massonus.log.LogService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
 
 import java.util.List;
 import java.util.Scanner;
 
+@Controller
 public class LogView {
     private final LogService logService;
 
     private final List<String> previousLogs;
 
+    @Autowired
     public LogView(LogService logService) {
         this.logService = logService;
         this.previousLogs = logService.readLogs();

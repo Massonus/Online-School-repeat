@@ -6,6 +6,8 @@ import org.apache.logging.log4j.core.LoggerContext;
 import org.massonus.entity.Homework;
 import org.massonus.repo.HomeworkRepo;
 import org.massonus.repo.UniversalRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.net.URISyntaxException;
 import java.sql.Connection;
@@ -13,10 +15,12 @@ import java.sql.PreparedStatement;
 import java.util.*;
 import java.util.stream.Collectors;
 
+@Service
 public class HomeworkService implements UniversalService<Homework>, UniversalRepository {
     private static final Logger logger = LogManager.getLogger(HomeworkService.class);
     private final HomeworkRepo homeworkRepo;
 
+    @Autowired
     public HomeworkService(HomeworkRepo homeworkRepo) {
         this.homeworkRepo = homeworkRepo;
         LoggerContext context = (LoggerContext) LogManager.getContext(false);

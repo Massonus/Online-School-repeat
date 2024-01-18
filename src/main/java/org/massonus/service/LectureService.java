@@ -10,6 +10,8 @@ import org.massonus.entity.Person;
 import org.massonus.repo.LectureRepo;
 import org.massonus.repo.PersonRepo;
 import org.massonus.repo.UniversalRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.net.URISyntaxException;
 import java.sql.Connection;
@@ -17,14 +19,16 @@ import java.sql.PreparedStatement;
 import java.util.*;
 import java.util.stream.Collectors;
 
+@Service
 public class LectureService implements UniversalService<Lecture>, UniversalRepository {
     private static final Logger logger = LogManager.getLogger(LectureService.class);
     private final LectureRepo lectureRepo;
-    private final AdditionalMaterialsService materialsService;
+    private final AdditionalMaterialService materialsService;
     private final HomeworkService homeworkService;
     private final PersonService personService;
 
-    public LectureService(LectureRepo lectureRepo, AdditionalMaterialsService materialsService, HomeworkService homeworkService, PersonService personService) {
+    @Autowired
+    public LectureService(LectureRepo lectureRepo, AdditionalMaterialService materialsService, HomeworkService homeworkService, PersonService personService) {
         this.lectureRepo = lectureRepo;
         this.materialsService = materialsService;
         this.homeworkService = homeworkService;

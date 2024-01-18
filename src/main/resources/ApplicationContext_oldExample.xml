@@ -7,8 +7,10 @@
         http://www.springframework.org/schema/context
         http://www.springframework.org/schema/context/spring-context.xsd">
 
+    <bean class="org.springframework.context.annotation.CommonAnnotationBeanPostProcessor"/>
+
     <bean id="materialsRepo"
-          class="org.massonus.repo.AdditionalMaterialsRepo">
+          class="org.massonus.repo.AdditionalMaterialRepo">
     </bean>
 
     <bean id="homeworkRepo"
@@ -33,7 +35,7 @@
     </bean>
 
     <bean id="materialsService"
-          class="org.massonus.service.AdditionalMaterialsService">
+          class="org.massonus.service.AdditionalMaterialService">
             <constructor-arg ref="materialsRepo"/>
     </bean>
 
@@ -60,7 +62,7 @@
     </bean>
 
     <bean id="materialsView"
-          class="org.massonus.view.AdditionalMaterialsView">
+          class="org.massonus.view.AdditionalMaterialView">
         <constructor-arg ref="materialsService"/>
         <constructor-arg ref="lectureService"/>
         <constructor-arg ref="courseService"/>
