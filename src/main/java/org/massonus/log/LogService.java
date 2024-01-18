@@ -1,5 +1,7 @@
 package org.massonus.log;
 
+import org.springframework.stereotype.Service;
+
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -9,6 +11,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
 
+@Service
 public class LogService {
     final Path path = Path.of("src/main/java/org/massonus/log/logs.txt");
 

@@ -5,15 +5,19 @@ import org.massonus.entity.Lecture;
 import org.massonus.entity.Person;
 import org.massonus.service.CourseService;
 import org.massonus.service.LectureService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
 
 import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
 
+@Controller
 public class LectureView {
     private final LectureService lectureService;
     private final CourseService courseService;
 
+    @Autowired
     public LectureView(LectureService lectureService, CourseService courseService) {
         this.lectureService = lectureService;
         this.courseService = courseService;

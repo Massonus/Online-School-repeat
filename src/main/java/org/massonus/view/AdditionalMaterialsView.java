@@ -9,18 +9,22 @@ import org.massonus.entity.Lecture;
 import org.massonus.service.AdditionalMaterialsService;
 import org.massonus.service.CourseService;
 import org.massonus.service.LectureService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
 
 import java.net.URISyntaxException;
 import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
 
+@Controller
 public class AdditionalMaterialsView {
     private static final Logger logger = LogManager.getLogger(AdditionalMaterialsView.class);
     private final AdditionalMaterialsService materialService;
     private final LectureService lectureService;
     private final CourseService courseService;
 
+    @Autowired
     public AdditionalMaterialsView(AdditionalMaterialsService materialService, LectureService lectureService, CourseService courseService) {
         this.materialService = materialService;
         this.lectureService = lectureService;

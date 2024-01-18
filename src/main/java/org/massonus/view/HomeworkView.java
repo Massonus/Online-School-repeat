@@ -9,18 +9,22 @@ import org.massonus.entity.Lecture;
 import org.massonus.service.CourseService;
 import org.massonus.service.HomeworkService;
 import org.massonus.service.LectureService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
 
 import java.net.URISyntaxException;
 import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
 
+@Controller
 public class HomeworkView {
     private static final Logger logger = LogManager.getLogger(HomeworkView.class);
     private final HomeworkService homeworkService;
     private final LectureService lectureService;
     private final CourseService courseService;
 
+    @Autowired
     public HomeworkView(HomeworkService homeworkService, LectureService lectureService, CourseService courseService) {
         this.homeworkService = homeworkService;
         this.lectureService = lectureService;

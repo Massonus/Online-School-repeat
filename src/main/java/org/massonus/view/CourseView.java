@@ -8,12 +8,15 @@ import org.massonus.repo.CourseRepo;
 import org.massonus.service.AdditionalMaterialsService;
 import org.massonus.service.ControlWorkService;
 import org.massonus.service.CourseService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
 
 import java.net.URISyntaxException;
 import java.util.Collections;
 import java.util.List;
 import java.util.Scanner;
 
+@Controller
 public class CourseView {
     private static final Logger logger = LogManager.getLogger(CourseView.class);
     private final CourseService courseService;
@@ -25,6 +28,7 @@ public class CourseView {
     private final ControlWorkService workService = new ControlWorkService();
     private final LogView logView;
 
+    @Autowired
     public CourseView(CourseService courseService, CourseRepo courseRepo, AdditionalMaterialsView materialsView, HomeworkView homeworkView, LectureView lectureView, PersonView personView, LogView logView) {
         this.courseService = courseService;
         this.courseRepo = courseRepo;
