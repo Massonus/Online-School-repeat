@@ -57,17 +57,31 @@ public class Lecture implements Comparable<Lecture>, Serializable {
 
     @Override
     public String toString() {
-        return "\n Lecture{" +
-                "id=" + id +
-                ", name='" + subject + '\'' +
-                ", lectureDate=" + formatter.format(lectureDate) +
-                ", person=" + person +
-                ", homeworks=" + homeworks +
-                ", materials=" + materials +
-                ", description='" + description + '\'' +
-                ", teacherId=" + teacherId +
-                ", courseId=" + courseId +
-                '}';
+
+        if (Objects.isNull(formatter)) {
+            return "\n Lecture{" +
+                    "id=" + id +
+                    ", name='" + subject + '\'' +
+                    ", person=" + person +
+                    ", homeworks=" + homeworks +
+                    ", materials=" + materials +
+                    ", description='" + description + '\'' +
+                    ", teacherId=" + teacherId +
+                    ", courseId=" + courseId +
+                    '}';
+        } else {
+            return "\n Lecture{" +
+                    "id=" + id +
+                    ", name='" + subject + '\'' +
+                    ", lectureDate=" + formatter.format(lectureDate) +
+                    ", person=" + person +
+                    ", homeworks=" + homeworks +
+                    ", materials=" + materials +
+                    ", description='" + description + '\'' +
+                    ", teacherId=" + teacherId +
+                    ", courseId=" + courseId +
+                    '}';
+        }
     }
 
     @Override

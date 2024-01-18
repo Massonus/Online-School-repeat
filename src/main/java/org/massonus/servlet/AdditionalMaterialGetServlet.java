@@ -7,7 +7,6 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.massonus.entity.AdditionalMaterial;
 import org.massonus.repo.AdditionalMaterialsRepo;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -18,9 +17,7 @@ public class AdditionalMaterialGetServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-
-        final ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("ApplicationContext.xml");
-        final AdditionalMaterialsRepo additionalMaterialsRepo = context.getBean("materialsRepo", AdditionalMaterialsRepo.class);
+        final AdditionalMaterialsRepo additionalMaterialsRepo = new AdditionalMaterialsRepo();
         final List<AdditionalMaterial> materials = additionalMaterialsRepo.getAllMaterials();
 
         resp.setContentType("text/html");

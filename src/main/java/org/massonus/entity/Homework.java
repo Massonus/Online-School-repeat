@@ -39,12 +39,21 @@ public class Homework implements Serializable {
 
     @Override
     public String toString() {
-        return "Homework{" +
-                "id=" + id +
-                ", lectureId=" + lectureId +
-                ", task='" + task + '\'' +
-                ", deadline=" + formatterDeadline.format(deadline) +
-                '}';
+
+        if (Objects.isNull(formatterDeadline)) {
+            return "Homework{" +
+                    "id=" + id +
+                    ", lectureId=" + lectureId +
+                    ", task='" + task + '\'' +
+                    '}';
+        } else {
+            return "Homework{" +
+                    "id=" + id +
+                    ", lectureId=" + lectureId +
+                    ", task='" + task + '\'' +
+                    ", deadline=" + formatterDeadline.format(deadline) +
+                    '}';
+        }
     }
 
     @Override
