@@ -32,10 +32,11 @@ public class PersonView {
             System.out.println("3. To remove element");
             System.out.println("4. To check that array is Empty");
             System.out.println("5. To get size of array");
-            System.out.println("6. To sort by last name");
-            System.out.println("7. To print all people where LastName until N");
-            System.out.println("8. To write emails to the file");
-            System.out.println("9. To print emails and First and Last name");
+            System.out.println("6. To sort by id");
+            System.out.println("7. To sort by last name");
+            System.out.println("8. To print all people where LastName until N");
+            System.out.println("9. To write emails to the file");
+            System.out.println("10. To print emails and First and Last name");
             System.out.println("0. To return");
 
             Scanner scanner = new Scanner(System.in);
@@ -66,19 +67,23 @@ public class PersonView {
                     break;
 
                 case "6":
-                    Collections.sort(people);
+                    people = personService.sortPeopleById(people);
                     break;
 
                 case "7":
-                    personService.printFilteredEmails(people);
+                    Collections.sort(people);
                     break;
 
                 case "8":
+                    personService.printFilteredEmails(people);
+                    break;
+
+                case "9":
                     List<String> emails = personService.emailsToList(people);
                     personService.writeEmailsToTheFile(emails);
                     break;
 
-                case "9":
+                case "10":
                     personService.printEmailAndFullName(people);
                     break;
 
