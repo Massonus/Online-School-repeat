@@ -6,10 +6,13 @@ import org.massonus.repo.*;
 import org.massonus.service.*;
 import org.massonus.view.*;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.context.annotation.Scope;
 
-@org.springframework.context.annotation.Configuration
-public class Configuration {
+@Configuration
+@PropertySource("classpath:onlineSchool.properties")
+public class Config {
     @Scope("singleton")
     @Bean
     public AdditionalMaterial additionalMaterial() {

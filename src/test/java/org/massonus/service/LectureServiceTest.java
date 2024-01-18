@@ -42,7 +42,7 @@ class LectureServiceTest {
         lecture.setPerson(person);
         lecture.setMaterials(List.of(new AdditionalMaterial()));
 
-        final ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("ApplicationContext.xml");
+        final ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("ApplicationContext_oldExample.xml");
         target = context.getBean("lectureService", LectureService.class);
 
         people = List.of(person, expectedPerson);

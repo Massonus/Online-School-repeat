@@ -12,7 +12,7 @@ import java.util.List;
 public class Main {
     public static void main(String[] args) {
 
-        final ApplicationContext context = new AnnotationConfigApplicationContext(Configuration.class);
+        final ApplicationContext context = new AnnotationConfigApplicationContext(Config.class);
 
         final AdditionalMaterialView materialsView = context.getBean(AdditionalMaterialView.class);
         final HomeworkView homeworkView = context.getBean(HomeworkView.class);

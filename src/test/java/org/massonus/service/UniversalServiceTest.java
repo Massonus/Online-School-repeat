@@ -17,7 +17,7 @@ class UniversalServiceTest {
 
     @BeforeEach
     void setUp() {
-        ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("ApplicationContext.xml");
+        ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("ApplicationContext_oldExample.xml");
         target = context.getBean("personService", PersonService.class);
         check = new ArrayList<>();
         Person person = new Person();

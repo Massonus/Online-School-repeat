@@ -19,7 +19,7 @@ public class AdditionalMaterialPostServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-        final ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("ApplicationContext.xml");
+        final ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("ApplicationContext_oldExample.xml");
         final AdditionalMaterialService materialsService = context.getBean("materialService", AdditionalMaterialService.class);
 
         response.setContentType("text/html");

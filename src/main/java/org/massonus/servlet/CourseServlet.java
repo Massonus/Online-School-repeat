@@ -19,7 +19,7 @@ public class CourseServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
-        final ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("ApplicationContext.xml");
+        final ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("ApplicationContext_oldExample.xml");
         final CourseRepo courseRepo = context.getBean("courseRepo", CourseRepo.class);
         final List<Course> courses = courseRepo.getAllCourses();
 
