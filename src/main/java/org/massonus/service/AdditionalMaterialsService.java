@@ -7,6 +7,8 @@ import org.massonus.entity.AdditionalMaterial;
 import org.massonus.entity.ResourceType;
 import org.massonus.repo.AdditionalMaterialsRepo;
 import org.massonus.repo.UniversalRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.net.URISyntaxException;
 import java.sql.Connection;
@@ -17,12 +19,14 @@ import java.util.Map;
 import java.util.Scanner;
 import java.util.stream.Collectors;
 
+@Service
 public class AdditionalMaterialsService implements UniversalService<AdditionalMaterial>, UniversalRepository {
 
     private static final Logger logger = LogManager.getLogger(AdditionalMaterialsService.class);
 
     private final AdditionalMaterialsRepo materialsRepo;
 
+    @Autowired
     public AdditionalMaterialsService(AdditionalMaterialsRepo materialsRepo) {
         this.materialsRepo = materialsRepo;
         LoggerContext context = (LoggerContext) LogManager.getContext(false);

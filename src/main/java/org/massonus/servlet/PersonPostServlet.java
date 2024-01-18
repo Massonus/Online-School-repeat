@@ -30,7 +30,13 @@ public class PersonPostServlet extends HttpServlet {
         Role role = Role.valueOf(request.getParameter("role"));
         Integer course_id = Integer.valueOf(request.getParameter("course_id"));
 
-        final Person person = new Person(first_name, last_name, phone, email, role, course_id);
+        final Person person = new Person();
+        person.setFirstName(first_name);
+        person.setLastName(last_name);
+        person.setPhone(phone);
+        person.setEmail(email);
+        person.setRole(role);
+        person.setCourseId(course_id);
         personService.add(person);
 
         try (PrintWriter writer = response.getWriter()) {

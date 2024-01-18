@@ -20,7 +20,10 @@ class UniversalServiceTest {
         ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("ApplicationContext.xml");
         target = context.getBean("personService", PersonService.class);
         check = new ArrayList<>();
-        check.add(new Person(1, Role.TEACHER));
+        Person person = new Person();
+        person.setId(1);
+        person.setRole(Role.TEACHER);
+        check.add(person);
     }
 
     @Test

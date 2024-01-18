@@ -26,7 +26,9 @@ public class HomeworkPostServlet extends HttpServlet {
         String task = request.getParameter("task");
         Integer lectureId = Integer.valueOf(request.getParameter("lecture_id"));
 
-        final Homework homework = new Homework(task, lectureId);
+        final Homework homework = new Homework();
+        homework.setTask(task);
+        homework.setLectureId(lectureId);
         homeworkService.add(homework);
 
         try (PrintWriter writer = response.getWriter()) {

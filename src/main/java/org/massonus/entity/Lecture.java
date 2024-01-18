@@ -36,25 +36,6 @@ public class Lecture implements Comparable<Lecture>, Serializable {
         formatter = DateTimeFormatter.ofPattern("MMM d, EEEE");
     }
 
-    public Lecture(String subject, String description, Integer teacherId, Integer courseId) {
-        this.subject = subject;
-        this.description = description;
-        this.teacherId = teacherId;
-        this.courseId = courseId;
-    }
-
-    public Lecture(Integer id, String subject, Person person, List<AdditionalMaterial> materials) {
-        setId(id);
-        this.subject = subject;
-        this.person = person;
-        this.materials = materials;
-        lectureDate = LocalDate.now();
-    }
-
-    public Lecture(String subject) {
-        this.subject = subject;
-    }
-
     @Override
     public String toString() {
 

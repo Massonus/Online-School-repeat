@@ -29,14 +29,6 @@ public class Homework implements Serializable {
         sqlDate = Date.valueOf(deadline);
     }
 
-    public Homework(String task, Integer lectureId) {
-        this.task = task;
-        this.lectureId = lectureId;
-        deadline = LocalDate.of(LocalDate.now().getYear(), LocalDate.now().getMonth(), LocalDate.now().getDayOfMonth() + 2);
-        formatterDeadline = DateTimeFormatter.ofPattern("MMM d, EEEE");
-        sqlDate = Date.valueOf(deadline);
-    }
-
     @Override
     public String toString() {
 

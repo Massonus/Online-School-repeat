@@ -23,12 +23,29 @@ class LectureServiceTest {
 
     @BeforeEach
     void setUp() {
-        expectedPerson = new Person(2, Role.STUDENT);
-        expectedLecture = new Lecture(1, "Math", expectedPerson, List.of(new AdditionalMaterial("Math"), new AdditionalMaterial("Geo")));
-        Lecture lecture = new Lecture(2, "Math", new Person(1, Role.TEACHER), List.of(new AdditionalMaterial("Math")));
-        ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("ApplicationContext.xml");
+
+        expectedPerson = new Person();
+        expectedPerson.setId(2);
+        expectedPerson.setRole(Role.TEACHER);
+        expectedLecture = new Lecture();
+        expectedLecture.setId(1);
+        expectedLecture.setSubject("Math");
+        expectedLecture.setPerson(expectedPerson);
+        expectedLecture.setMaterials(List.of(new AdditionalMaterial(), new AdditionalMaterial()));
+
+        Lecture lecture = new Lecture();
+        lecture.setId(2);
+        lecture.setSubject("Math");
+        Person person = new Person();
+        person.setId(1);
+        person.setRole(Role.TEACHER);
+        lecture.setPerson(person);
+        lecture.setMaterials(List.of(new AdditionalMaterial()));
+
+        final ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("ApplicationContext.xml");
         target = context.getBean("lectureService", LectureService.class);
-        people = List.of(new Person(1, Role.TEACHER), new Person(2, Role.TEACHER));
+
+        people = List.of(person, expectedPerson);
         check = new ArrayList<>();
         check.add(lecture);
         check.add(expectedLecture);

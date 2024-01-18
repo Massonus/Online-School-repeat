@@ -28,7 +28,10 @@ public class AdditionalMaterialPostServlet extends HttpServlet {
         ResourceType resourceType = ResourceType.valueOf(request.getParameter("resource_type"));
         Integer lectureId = Integer.valueOf(request.getParameter("lecture_id"));
 
-        final AdditionalMaterial material = new AdditionalMaterial(task, resourceType, lectureId);
+        final AdditionalMaterial material = new AdditionalMaterial();
+        material.setTask(task);
+        material.setResourceType(resourceType);
+        material.setLectureId(lectureId);
         materialsService.add(material);
 
         try (PrintWriter writer = response.getWriter()) {

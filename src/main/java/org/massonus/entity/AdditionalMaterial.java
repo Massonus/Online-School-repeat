@@ -2,12 +2,14 @@ package org.massonus.entity;
 
 import lombok.Data;
 import lombok.ToString;
+import org.springframework.stereotype.Component;
 
 import java.io.Serializable;
 import java.util.Objects;
 
 @Data
 @ToString
+@Component
 public class AdditionalMaterial implements Comparable<AdditionalMaterial>, Serializable {
 
     private Integer id;
@@ -17,25 +19,6 @@ public class AdditionalMaterial implements Comparable<AdditionalMaterial>, Seria
     private ResourceType resourceType;
 
     private Integer lectureId;
-
-    public AdditionalMaterial() {
-
-    }
-
-    public AdditionalMaterial(String task, ResourceType resourceType, Integer lectureId) {
-        this.task = task;
-        this.resourceType = resourceType;
-        this.lectureId = lectureId;
-    }
-
-    public AdditionalMaterial(String task, ResourceType resourceType) {
-        this.task = task;
-        this.resourceType = resourceType;
-    }
-
-    public AdditionalMaterial(String task) {
-        this.task = task;
-    }
 
     @Override
     public boolean equals(Object o) {
