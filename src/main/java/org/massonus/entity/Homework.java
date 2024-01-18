@@ -1,6 +1,7 @@
 package org.massonus.entity;
 
 import lombok.Data;
+import org.springframework.stereotype.Component;
 
 import java.io.Serializable;
 import java.sql.Date;
@@ -9,6 +10,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.Objects;
 
 @Data
+@Component
 public class Homework implements Serializable {
 
     private Integer id;

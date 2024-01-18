@@ -10,7 +10,7 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 @Repository
-public class AdditionalMaterialsRepo implements UniversalRepository {
+public class AdditionalMaterialRepo implements UniversalRepository {
 
     public List<AdditionalMaterial> getAllMaterials() {
         try {

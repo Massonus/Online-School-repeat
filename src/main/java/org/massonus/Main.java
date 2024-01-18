@@ -6,16 +6,15 @@ import org.massonus.service.CourseService;
 import org.massonus.view.*;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import java.util.List;
 
 public class Main {
     public static void main(String[] args) {
 
-        final ApplicationContext context = new AnnotationConfigApplicationContext(Config.class);
+        final ApplicationContext context = new AnnotationConfigApplicationContext(Configuration.class);
 
-        final AdditionalMaterialsView materialsView = context.getBean(AdditionalMaterialsView.class);
+        final AdditionalMaterialView materialsView = context.getBean(AdditionalMaterialView.class);
         final HomeworkView homeworkView = context.getBean(HomeworkView.class);
         final LectureView lectureView = context.getBean(LectureView.class);
         final PersonView personView = context.getBean(PersonView.class);

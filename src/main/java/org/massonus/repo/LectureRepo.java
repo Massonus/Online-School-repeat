@@ -22,13 +22,13 @@ import java.util.stream.Collectors;
 public class LectureRepo implements UniversalRepository {
     private static final Logger logger = LogManager.getLogger(LectureRepo.class);
     private final PersonRepo personRepo;
-    private final AdditionalMaterialsRepo materialsRepo;
+    private final AdditionalMaterialRepo materialsRepo;
     private final HomeworkRepo homeworkRepo;
     private Integer id;
     private Integer teacherId;
 
     @Autowired
-    public LectureRepo(PersonRepo personRepo, AdditionalMaterialsRepo materialsRepo, HomeworkRepo homeworkRepo) {
+    public LectureRepo(PersonRepo personRepo, AdditionalMaterialRepo materialsRepo, HomeworkRepo homeworkRepo) {
         this.personRepo = personRepo;
         this.materialsRepo = materialsRepo;
         this.homeworkRepo = homeworkRepo;

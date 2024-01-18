@@ -5,7 +5,7 @@ import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.core.LoggerContext;
 import org.massonus.entity.AdditionalMaterial;
 import org.massonus.entity.ResourceType;
-import org.massonus.repo.AdditionalMaterialsRepo;
+import org.massonus.repo.AdditionalMaterialRepo;
 import org.massonus.repo.UniversalRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -20,18 +20,18 @@ import java.util.Scanner;
 import java.util.stream.Collectors;
 
 @Service
-public class AdditionalMaterialsService implements UniversalService<AdditionalMaterial>, UniversalRepository {
+public class AdditionalMaterialService implements UniversalService<AdditionalMaterial>, UniversalRepository {
 
-    private static final Logger logger = LogManager.getLogger(AdditionalMaterialsService.class);
+    private static final Logger logger = LogManager.getLogger(AdditionalMaterialService.class);
 
-    private final AdditionalMaterialsRepo materialsRepo;
+    private final AdditionalMaterialRepo materialsRepo;
 
     @Autowired
-    public AdditionalMaterialsService(AdditionalMaterialsRepo materialsRepo) {
+    public AdditionalMaterialService(AdditionalMaterialRepo materialsRepo) {
         this.materialsRepo = materialsRepo;
         LoggerContext context = (LoggerContext) LogManager.getContext(false);
         try {
-            context.setConfigLocation(AdditionalMaterialsService.class.getResource("/log4j.xml").toURI());
+            context.setConfigLocation(AdditionalMaterialService.class.getResource("/log4j.xml").toURI());
         } catch (URISyntaxException e) {
             throw new RuntimeException(e);
         }

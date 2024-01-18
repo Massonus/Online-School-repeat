@@ -1,11 +1,13 @@
 package org.massonus.entity;
 
 import lombok.Data;
+import org.springframework.stereotype.Component;
 
 import java.io.Serializable;
 import java.util.Objects;
 
 @Data
+@Component
 public class Person implements Comparable<Person>, Serializable {
 
     private Integer id;

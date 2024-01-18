@@ -1,6 +1,7 @@
 package org.massonus.entity;
 
 import lombok.Data;
+import org.springframework.stereotype.Component;
 
 import java.io.Serializable;
 import java.time.LocalDate;
@@ -9,6 +10,7 @@ import java.util.List;
 import java.util.Objects;
 
 @Data
+@Component
 public class Lecture implements Comparable<Lecture>, Serializable {
 
     private Integer id;

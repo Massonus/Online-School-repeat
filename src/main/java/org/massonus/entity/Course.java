@@ -2,6 +2,7 @@ package org.massonus.entity;
 
 import lombok.Data;
 import lombok.ToString;
+import org.springframework.stereotype.Component;
 
 import java.io.Serializable;
 import java.util.List;
@@ -9,6 +10,7 @@ import java.util.Objects;
 
 @Data
 @ToString
+@Component
 public class Course implements Comparable<Course>, Serializable {
 
     private Integer id;
