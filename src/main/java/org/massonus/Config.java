@@ -1,6 +1,5 @@
 package org.massonus;
 
-import org.massonus.entity.*;
 import org.massonus.log.LogService;
 import org.massonus.repo.*;
 import org.massonus.service.*;

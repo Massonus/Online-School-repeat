@@ -2,7 +2,6 @@ package org.massonus.entity;
 
 import lombok.Data;
 import lombok.ToString;
-import org.springframework.stereotype.Component;
 
 import java.io.Serializable;
 import java.util.Objects;
