@@ -6,13 +6,13 @@ import org.massonus.entity.Person;
 import org.massonus.service.CourseService;
 import org.massonus.service.LectureService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
+import org.springframework.stereotype.Component;
 
 import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
 
-@Controller
+@Component
 public class LectureView {
     private final LectureService lectureService;
     private final CourseService courseService;

@@ -5,13 +5,13 @@ import org.massonus.entity.Person;
 import org.massonus.service.CourseService;
 import org.massonus.service.PersonService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
+import org.springframework.stereotype.Component;
 
 import java.util.Collections;
 import java.util.List;
 import java.util.Scanner;
 
-@Controller
+@Component
 public class PersonView {
     private final PersonService personService;
     private final CourseService courseService;

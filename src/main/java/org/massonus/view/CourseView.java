@@ -9,14 +9,14 @@ import org.massonus.service.AdditionalMaterialService;
 import org.massonus.service.ControlWorkService;
 import org.massonus.service.CourseService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
+import org.springframework.stereotype.Component;
 
 import java.net.URISyntaxException;
 import java.util.Collections;
 import java.util.List;
 import java.util.Scanner;
 
-@Controller
+@Component
 public class CourseView {
     private static final Logger logger = LogManager.getLogger(CourseView.class);
     private final CourseService courseService;
