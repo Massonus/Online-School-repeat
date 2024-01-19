@@ -10,7 +10,6 @@ import java.time.format.DateTimeFormatter;
 import java.util.Objects;
 
 @Data
-@Component
 public class Homework implements Serializable {
 
     private Integer id;

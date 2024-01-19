@@ -10,7 +10,6 @@ import java.util.Objects;
 
 @Data
 @ToString
-@Component
 public class Course implements Comparable<Course>, Serializable {
 
     private Integer id;

@@ -13,35 +13,6 @@ import org.springframework.context.annotation.Scope;
 @Configuration
 @PropertySource("classpath:onlineSchool.properties")
 public class Config {
-    @Scope("singleton")
-    @Bean
-    public AdditionalMaterial additionalMaterial() {
-        return new AdditionalMaterial();
-    }
-
-    @Scope("singleton")
-    @Bean
-    public Course course() {
-        return new Course();
-    }
-
-    @Scope("singleton")
-    @Bean
-    public Homework homework() {
-        return new Homework();
-    }
-
-    @Scope("singleton")
-    @Bean
-    public Lecture lecture() {
-        return new Lecture();
-    }
-
-    @Scope("singleton")
-    @Bean
-    public Person person() {
-        return new Person();
-    }
 
     @Scope("singleton")
     @Bean

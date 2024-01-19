@@ -9,7 +9,6 @@ import java.util.Objects;
 
 @Data
 @ToString
-@Component
 public class AdditionalMaterial implements Comparable<AdditionalMaterial>, Serializable {
 
     private Integer id;
