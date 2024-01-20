@@ -6,6 +6,7 @@ import javax.persistence.*;
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 
@@ -33,16 +34,19 @@ public class Lecture implements Comparable<Lecture>, Serializable {
     @JoinColumn(name = "material_id")
     private List<AdditionalMaterial> materials;
 
-    @JoinColumn(name = "description")
+    @Column(name = "description")
     private String description;
 
-    @JoinColumn(name = "teacher_id")
+    @Column(name = "teacher_id")
     private Integer teacherId;
 
-    @JoinColumn(name = "course_id")
+    @Column(name = "course_id")
     private Integer courseId;
 
-    @JoinColumn(name = "lecture_date")
+    @Column(name = "lecture_date")
+    private Date lectureDateSql;
+
+    @Transient
     private transient LocalDate lectureDate;
 
     @Transient

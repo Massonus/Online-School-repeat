@@ -22,6 +22,7 @@ public class Homework implements Serializable {
     private String task;
 
     @Column(name = "deadline")
+    @Transient
     private transient LocalDate deadline;
 
     @Column(name = "lecture_id")
@@ -30,7 +31,7 @@ public class Homework implements Serializable {
     @Transient
     private transient final DateTimeFormatter formatterDeadline;
 
-    @Transient
+    @Column(name = "deadline")
     private Date sqlDate;
 
 

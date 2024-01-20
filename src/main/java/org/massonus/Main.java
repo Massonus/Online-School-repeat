@@ -1,8 +1,6 @@
 package org.massonus;
 
-import org.massonus.entity.AdditionalMaterial;
 import org.massonus.entity.Course;
-import org.massonus.repo.AdditionalMaterialRepo;
 import org.massonus.repo.CourseRepo;
 import org.massonus.service.CourseService;
 import org.massonus.view.*;
@@ -25,6 +23,7 @@ public class Main {
         final LogView logView = context.getBean(LogView.class);
 
         final CourseView courseView = new CourseView(courseService, courseRepo, materialsView, homeworkView, lectureView, personView, logView);
+        CourseRepo.saveCourse(new Course());
         List<Course> courses = courseView.firstCreate();
         courseView.mainMenu(courses);
     }
