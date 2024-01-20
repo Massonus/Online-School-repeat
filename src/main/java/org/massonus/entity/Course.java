@@ -33,6 +33,10 @@ public class Course implements Comparable<Course>, Serializable {
     public Course() {
     }
 
+    public Course(String courseName) {
+        CourseName = courseName;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
