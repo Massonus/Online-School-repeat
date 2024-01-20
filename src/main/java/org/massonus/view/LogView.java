@@ -2,12 +2,12 @@ package org.massonus.view;
 
 import org.massonus.log.LogService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
+import org.springframework.stereotype.Component;
 
 import java.util.List;
 import java.util.Scanner;
 
-@Controller
+@Component
 public class LogView {
     private final LogService logService;
 

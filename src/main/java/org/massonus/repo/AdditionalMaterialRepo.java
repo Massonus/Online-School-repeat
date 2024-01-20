@@ -1,5 +1,8 @@
 package org.massonus.repo;
 
+import org.hibernate.Session;
+import org.hibernate.Transaction;
+import org.massonus.SessionCreator;
 import org.massonus.entity.AdditionalMaterial;
 import org.massonus.entity.ResourceType;
 import org.springframework.stereotype.Repository;
@@ -44,5 +47,16 @@ public class AdditionalMaterialRepo implements UniversalRepository {
         }
         throw new IllegalArgumentException();
     }
+
+    /*public static Boolean saveMaterial(final AdditionalMaterial material) {
+        try (final Session session = SessionCreator.getSessionFactory().openSession()) {
+            final Transaction transaction = session.beginTransaction();
+            session.save(material);
+            transaction.commit();
+            return true;
+        } catch (final Exception e) {
+            throw new IllegalStateException(e);
+        }
+    }*/
 
 }

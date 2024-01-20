@@ -23,6 +23,7 @@ public class Main {
         final LogView logView = context.getBean(LogView.class);
 
         final CourseView courseView = new CourseView(courseService, courseRepo, materialsView, homeworkView, lectureView, personView, logView);
+        CourseRepo.saveCourse(new Course("First"));
         List<Course> courses = courseView.firstCreate();
         courseView.mainMenu(courses);
     }

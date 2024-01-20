@@ -9,7 +9,6 @@ import org.massonus.entity.Role;
 import org.massonus.repo.PersonRepo;
 import org.massonus.repo.UniversalRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
 
 import java.io.BufferedWriter;
@@ -19,6 +18,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Random;
 import java.util.Scanner;
@@ -206,6 +206,12 @@ public class PersonService implements UniversalService<Person>, UniversalReposit
             throw new RuntimeException(e);
         }
         return true;
+    }
+
+    public List<Person> sortPeopleById(List<Person> people) {
+        return people.stream()
+                .sorted(Comparator.comparing(Person::getId))
+                .collect(Collectors.toList());
     }
 
     public void printFilteredEmails(List<Person> people) {

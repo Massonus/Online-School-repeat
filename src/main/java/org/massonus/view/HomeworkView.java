@@ -10,14 +10,14 @@ import org.massonus.service.CourseService;
 import org.massonus.service.HomeworkService;
 import org.massonus.service.LectureService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
+import org.springframework.stereotype.Component;
 
 import java.net.URISyntaxException;
 import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
 
-@Controller
+@Component
 public class HomeworkView {
     private static final Logger logger = LogManager.getLogger(HomeworkView.class);
     private final HomeworkService homeworkService;

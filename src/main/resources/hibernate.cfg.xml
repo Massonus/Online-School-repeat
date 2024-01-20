@@ -1,0 +1,45 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE hibernate-configuration PUBLIC
+        "-//Hibernate/Hibernate Configuration DTD 3.0//EN"
+        "http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
+
+<hibernate-configuration>
+
+    <session-factory>
+
+        <property name="connection.driver_class">
+            org.postgresql.Driver
+        </property>
+
+        <property name="connection.url">
+            jdbc:postgresql://localhost:5432/Test
+        </property>
+
+        <property name="connection.username">postgres</property>
+        <property name="connection.password">root</property>
+
+        <property name="connection.pool_size">1</property>
+
+        <property name="dialect">
+            org.hibernate.dialect.PostgreSQL82Dialect
+        </property>
+
+        <!--Каждый раз при запуске приложения, где используется Hibernate, таблицы будут удаляться и создаваться. Противоположный - validate-->
+        <property name="hibernate.hbm2ddl.auto">create-drop</property>
+
+        <!--показывает SQL код при работе программы-->
+        <property name="show_sql">true</property>
+        <!--показывает правильный формат SQL-->
+        <property name="format_sql">true</property>
+
+        <!--mapping есть обязательным, как и другие настройки-->
+        <mapping class="org.massonus.entity.AdditionalMaterial"/>
+        <mapping class="org.massonus.entity.Course"/>
+        <mapping class="org.massonus.entity.Homework"/>
+        <mapping class="org.massonus.entity.Lecture"/>
+        <mapping class="org.massonus.entity.Person"/>
+
+
+    </session-factory>
+
+</hibernate-configuration>
