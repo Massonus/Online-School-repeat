@@ -2,33 +2,50 @@ package org.massonus.entity;
 
 import lombok.Data;
 
+import javax.persistence.*;
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Objects;
 
+@Entity
+@Table (name = "lecture")
 @Data
 public class Lecture implements Comparable<Lecture>, Serializable {
 
+    @Id
+    @Column(name = "lecture_id")
     private Integer id;
 
+    @Column(name = "subject")
     private String subject;
 
+    @ManyToOne
+    @JoinColumn(name = "person_id")
     private Person person;
 
+    @OneToMany
+    @JoinColumn(name = "homework_id")
     private List<Homework> homeworks;
 
+    @OneToMany
+    @JoinColumn(name = "material_id")
     private List<AdditionalMaterial> materials;
 
+    @JoinColumn(name = "description")
     private String description;
 
+    @JoinColumn(name = "teacher_id")
     private Integer teacherId;
 
+    @JoinColumn(name = "course_id")
     private Integer courseId;
 
+    @JoinColumn(name = "lecture_date")
     private transient LocalDate lectureDate;
 
+    @Transient
     private transient DateTimeFormatter formatter;
 
     public Lecture() {

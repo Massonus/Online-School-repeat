@@ -1,6 +1,8 @@
 package org.massonus;
 
+import org.massonus.entity.AdditionalMaterial;
 import org.massonus.entity.Course;
+import org.massonus.repo.AdditionalMaterialRepo;
 import org.massonus.repo.CourseRepo;
 import org.massonus.service.CourseService;
 import org.massonus.view.*;

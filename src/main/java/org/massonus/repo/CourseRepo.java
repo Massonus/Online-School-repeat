@@ -2,6 +2,10 @@ package org.massonus.repo;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.core.LoggerContext;
+import org.hibernate.Session;
+import org.hibernate.Transaction;
+import org.massonus.SessionCreator;
+import org.massonus.entity.AdditionalMaterial;
 import org.massonus.entity.Course;
 import org.massonus.entity.Lecture;
 import org.massonus.entity.Person;
@@ -63,6 +67,17 @@ public class CourseRepo implements UniversalRepository {
             System.out.println("Connection failed..." + ex);
         }
         throw new IllegalArgumentException();
+    }
+
+    public static Boolean saveCourse(final Course course) {
+        try (final Session session = SessionCreator.getSessionFactory().openSession()) {
+            final Transaction transaction = session.beginTransaction();
+            session.save(course);
+            transaction.commit();
+            return true;
+        } catch (final Exception e) {
+            throw new IllegalStateException(e);
+        }
     }
 
     private List<Person> getPeopleForCourse() {
