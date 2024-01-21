@@ -25,8 +25,7 @@ public class HomeworkRepo implements UniversalRepository {
                     Homework homework = new Homework();
                     homework.setId(resultSet.getInt("id"));
                     homework.setTask(resultSet.getString("task"));
-                    homework.setLectureId(resultSet.getInt("lecture_id"));
-                    homework.setDeadline(resultSet.getDate("deadline").toLocalDate());
+                    homework.setLocalDateDeadline(resultSet.getDate("deadline").toLocalDate());
                     homeworkList.add(homework);
                 }
 

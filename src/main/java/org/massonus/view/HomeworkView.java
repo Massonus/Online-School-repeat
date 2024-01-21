@@ -127,7 +127,6 @@ public class HomeworkView {
     }
 
     private void workWithAllHomework(List<Homework> allHomework) {
-        Map<Integer, List<Homework>> homeworksAsMap = homeworkService.groupHomeworksByLectureId(allHomework);
 
         while (true) {
             System.out.println("\n1. To print all homework as List");
@@ -143,7 +142,7 @@ public class HomeworkView {
                     allHomework.forEach(System.out::println);
                     break;
 
-                case "2":
+                /*case "2":
                     allHomework = homeworkService.sortHomeworkByLectureId(allHomework);
                     break;
 
@@ -152,7 +151,7 @@ public class HomeworkView {
                     break;
 
                 case "0":
-                    return;
+                    return;*/
             }
         }
     }

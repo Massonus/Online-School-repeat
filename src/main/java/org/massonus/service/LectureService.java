@@ -62,22 +62,16 @@ public class LectureService implements UniversalService<Lecture>, UniversalRepos
         System.out.println("Enter course id");
         Scanner scanner = new Scanner(System.in);
         int courseId = scanner.nextInt();
-        lecture.setCourseId(courseId);
 
         System.out.println("Choose a teacher for Lecture" +
                 "Enter the id");
 
         List<Person> allPeople = personRepo.getAllTeachers();
-        allPeople.stream()
-                .filter(a -> a.getCourseId().equals(courseId))
-                .forEach(System.out::println);
 
         Scanner scanner3 = new Scanner(System.in);
         int personId = scanner3.nextInt();
         Person personForLecture = personService.getById(allPeople, personId);
         lecture.setPerson(personForLecture);
-        lecture.setTeacherId(personId);
-
 
         return lecture;
     }
@@ -107,7 +101,7 @@ public class LectureService implements UniversalService<Lecture>, UniversalRepos
         System.out.println("Additional material:");
         int lengthMas = lengthMasByUser();
         for (int i = 0; i < lengthMas; i++) {
-            materialsService.add(materials, lectureId);
+            materialsService.add(materials);
         }
         return materials;
     }
@@ -159,15 +153,13 @@ public class LectureService implements UniversalService<Lecture>, UniversalRepos
     private void insertLectureIntoDatabase(final Lecture lecture) {
         try {
 
-            String sql = "INSERT INTO public.lecture(id, subject, description, teacher_id, course_id)VALUES (?, ?, ?, ?, ?)";
+            String sql = "INSERT INTO public.lecture(id, subject, description, teacher_id, course_id)VALUES (?, ?, ?)";
             try (Connection conn = createCon();
                  PreparedStatement preparedStatement = conn.prepareStatement(sql)) {
 
                 preparedStatement.setInt(1, lecture.getId());
                 preparedStatement.setString(2, lecture.getSubject());
                 preparedStatement.setString(3, lecture.getDescription());
-                preparedStatement.setInt(4, lecture.getTeacherId());
-                preparedStatement.setInt(5, lecture.getCourseId());
 
 
                 int rows = preparedStatement.executeUpdate();

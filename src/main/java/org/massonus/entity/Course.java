@@ -5,8 +5,7 @@ import lombok.ToString;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
 @Entity
 @Table(name = "course")
@@ -20,21 +19,22 @@ public class Course implements Comparable<Course>, Serializable {
     private Integer id;
 
     @Column(name = "course_name")
-    private String CourseName;
+    private String courseName;
 
-    @OneToMany
-    @JoinColumn(name = "person_id")
-    private List<Person> people;
+    @ManyToMany(mappedBy = "courses", fetch = FetchType.LAZY)
+    private List<Person> people = new ArrayList<>();
 
-    @OneToMany
-    @JoinColumn(name = "lecture_id")
-    private List<Lecture> lectures;
+    @OneToMany(mappedBy = "course",
+            cascade = CascadeType.ALL,
+            orphanRemoval = true)
+    @ToString.Exclude
+    private List<Lecture> lectures = new ArrayList<>();
 
     public Course() {
     }
 
     public Course(String courseName) {
-        CourseName = courseName;
+        this.courseName = courseName;
     }
 
     @Override
@@ -42,17 +42,17 @@ public class Course implements Comparable<Course>, Serializable {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Course course = (Course) o;
-        return Objects.equals(CourseName, course.CourseName);
+        return Objects.equals(courseName, course.courseName);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(CourseName);
+        return Objects.hash(courseName);
     }
 
     @Override
     public int compareTo(Course o) {
-        return this.CourseName.compareTo(o.CourseName);
+        return this.courseName.compareTo(o.courseName);
     }
 }
 

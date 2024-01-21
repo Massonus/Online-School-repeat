@@ -4,7 +4,7 @@ import lombok.Data;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.util.Objects;
+import java.util.*;
 
 @Entity
 @Table (name = "person")
@@ -12,7 +12,8 @@ import java.util.Objects;
 public class Person implements Comparable<Person>, Serializable {
 
     @Id
-    @Column(name = "person_id")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "person_id", nullable = false)
     private Integer id;
 
     @Column(name = "first_name")
@@ -21,17 +22,17 @@ public class Person implements Comparable<Person>, Serializable {
     @Column(name = "last_name")
     private String lastName;
 
-    @Column(name = "phone")
     private String phone;
 
-    @Column(name = "email")
     private String email;
 
-    @Column(name = "role")
     private Role role;
 
-    @Column(name = "course_id")
-    private Integer courseId;
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(name = "person_course",
+    joinColumns = @JoinColumn(name = "person_id"),
+    inverseJoinColumns = @JoinColumn(name = "course_id"))
+    private List<Course> courses = new ArrayList<>();
 
     @Transient
     private transient Integer task;
@@ -47,7 +48,6 @@ public class Person implements Comparable<Person>, Serializable {
                 ", lastName='" + lastName + '\'' +
                 ", phone='" + phone + '\'' +
                 ", email='" + email + '\'' +
-                ", courseId=" + courseId +
                 ", role=" + role +
                 '}';
     }

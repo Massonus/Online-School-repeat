@@ -54,7 +54,6 @@ public class PersonService implements UniversalService<Person>, UniversalReposit
 
         System.out.println("Enter course id of the Person");
         Scanner scanner = new Scanner(System.in);
-        person.setCourseId(scanner.nextInt());
 
         System.out.println("Enter first name of the Person");
         Scanner scanner1 = new Scanner(System.in);
@@ -151,7 +150,7 @@ public class PersonService implements UniversalService<Person>, UniversalReposit
 
     private void insertPersonIntoDatabase(final Person person) {
         try {
-            String sql = "INSERT INTO public.person(id, first_name, last_name, phone, email, role, course_id)VALUES (?, ?, ?, ?, ?, ?, ?)";
+            String sql = "INSERT INTO public.person(id, first_name, last_name, phone, email, role, course_id)VALUES (?, ?, ?, ?, ?, ?)";
             try (Connection conn = createCon();
                  PreparedStatement preparedStatement = conn.prepareStatement(sql)) {
 
@@ -161,7 +160,6 @@ public class PersonService implements UniversalService<Person>, UniversalReposit
                 preparedStatement.setString(4, person.getPhone());
                 preparedStatement.setString(5, person.getEmail());
                 preparedStatement.setString(6, person.getRole().toString());
-                preparedStatement.setInt(7, person.getCourseId());
 
 
                 int rows = preparedStatement.executeUpdate();

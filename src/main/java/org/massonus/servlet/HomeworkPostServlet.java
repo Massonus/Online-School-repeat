@@ -28,7 +28,6 @@ public class HomeworkPostServlet extends HttpServlet {
 
         final Homework homework = new Homework();
         homework.setTask(task);
-        homework.setLectureId(lectureId);
         homeworkService.add(homework);
 
         try (PrintWriter writer = response.getWriter()) {

@@ -57,11 +57,7 @@ public class LectureRepo implements UniversalRepository {
                     lecture.setSubject(resultSet.getString("subject"));
                     lecture.setDescription(resultSet.getString("description"));
                     teacherId = resultSet.getInt("teacher_id");
-                    lecture.setTeacherId(teacherId);
                     lecture.setPerson(getPersonForLecture());
-                    lecture.setHomeworks(getHomeworkListForLEcture());
-                    lecture.setMaterials(getMaterialsListForLecture());
-                    lecture.setCourseId(resultSet.getInt("course_id"));
                     lecture.setLectureDate(resultSet.getDate("lecture_date").toLocalDate());
                     lectures.add(lecture);
                 }
@@ -116,10 +112,6 @@ public class LectureRepo implements UniversalRepository {
                     lecture.setSubject(resultSet.getString("subject"));
                     lecture.setLectureDate(resultSet.getDate("lecture_date").toLocalDate());
                     lecture.setDescription(resultSet.getString("description"));
-                    lecture.setTeacherId(resultSet.getInt("teacher_id"));
-                    lecture.setMaterials(getMaterialsListForLecture());
-                    lecture.setHomeworks(getHomeworkListForLEcture());
-                    lecture.setCourseId(resultSet.getInt("course_id"));
                     lectures.add(lecture);
                 }
                 System.out.println(lectures);
@@ -154,15 +146,15 @@ public class LectureRepo implements UniversalRepository {
         return list.get(0);
     }
 
-    private List<Homework> getHomeworkListForLEcture() {
+    /*private List<Homework> getHomeworkListForLEcture() {
         return homeworkRepo.getAllHomework().stream()
                 .filter(h -> h.getLectureId().equals(id))
                 .collect(Collectors.toList());
-    }
+    }*/
 
-    private List<AdditionalMaterial> getMaterialsListForLecture() {
+    /*private List<AdditionalMaterial> getMaterialsListForLecture() {
         return materialsRepo.getAllMaterials().stream()
                 .filter(m -> m.getLectureId().equals(id))
                 .collect(Collectors.toList());
-    }
+    }*/
 }

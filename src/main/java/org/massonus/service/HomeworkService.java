@@ -64,7 +64,6 @@ public class HomeworkService implements UniversalService<Homework>, UniversalRep
 
     public boolean add(List<Homework> homeworks, Integer lectureId) {
         Homework elementByUser = createElementByUser();
-        elementByUser.setLectureId(lectureId);
         insertHomeworkIntoDatabase(elementByUser);
         logger.info("added: " + elementByUser);
         return homeworks.add(elementByUser);
@@ -93,15 +92,14 @@ public class HomeworkService implements UniversalService<Homework>, UniversalRep
     private void insertHomeworkIntoDatabase(final Homework homework) {
         try {
 
-            String sql = "INSERT INTO public.homework(id, task, lecture_id, deadline)VALUES (?, ?, ?, ?)";
+            String sql = "INSERT INTO public.homework(id, task, lecture_id, deadline)VALUES (?, ?, ?)";
 
             try (Connection conn = createCon();
                  PreparedStatement preparedStatement = conn.prepareStatement(sql)) {
 
                 preparedStatement.setInt(1, homework.getId());
                 preparedStatement.setString(2, homework.getTask());
-                preparedStatement.setInt(3, homework.getLectureId());
-                preparedStatement.setDate(4, homework.getSqlDate());
+                preparedStatement.setDate(4, homework.getDeadline());
 
                 int rows = preparedStatement.executeUpdate();
                 System.out.println("add Lines Homework: " + rows);
@@ -149,7 +147,7 @@ public class HomeworkService implements UniversalService<Homework>, UniversalRep
         return null;
     }
 
-    public List<Homework> sortHomeworkByLectureId(List<Homework> homeworks) {
+    /*public List<Homework> sortHomeworkByLectureId(List<Homework> homeworks) {
         return homeworks.stream()
                 .sorted(Comparator.comparing(Homework::getLectureId))
                 .collect(Collectors.toList());
@@ -158,5 +156,5 @@ public class HomeworkService implements UniversalService<Homework>, UniversalRep
     public Map<Integer, List<Homework>> groupHomeworksByLectureId(List<Homework> homeworks) {
         return homeworks.stream()
                 .collect(Collectors.groupingBy(Homework::getLectureId));
-    }
+    }*/
 }

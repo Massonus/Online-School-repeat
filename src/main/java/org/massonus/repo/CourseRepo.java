@@ -5,7 +5,6 @@ import org.apache.logging.log4j.core.LoggerContext;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.massonus.SessionCreator;
-import org.massonus.entity.AdditionalMaterial;
 import org.massonus.entity.Course;
 import org.massonus.entity.Lecture;
 import org.massonus.entity.Person;
@@ -55,8 +54,6 @@ public class CourseRepo implements UniversalRepository {
                     id = resultSet.getInt("id");
                     course.setId(id);
                     course.setCourseName(resultSet.getString("course_name"));
-                    course.setPeople(getPeopleForCourse());
-                    course.setLectures(getLecturesForCourse());
                     courses.add(course);
                     logger.info("Course created {}", course);
                 }
@@ -80,15 +77,15 @@ public class CourseRepo implements UniversalRepository {
         }
     }
 
-    private List<Person> getPeopleForCourse() {
+    /*private List<Person> getPeopleForCourse() {
         return personRepo.getAllPeople().stream()
                 .filter(p -> p.getCourseId().equals(id))
                 .collect(Collectors.toList());
-    }
+    }*/
 
-    private List<Lecture> getLecturesForCourse() {
+    /*private List<Lecture> getLecturesForCourse() {
         return lectureRepo.getAllLectures().stream()
                 .filter(l -> l.getCourseId().equals(id))
                 .collect(Collectors.toList());
-    }
+    }*/
 }

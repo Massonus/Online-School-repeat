@@ -36,7 +36,6 @@ public class AdditionalMaterialRepo implements UniversalRepository {
                     } else {
                         material.setResourceType(ResourceType.VIDEO);
                     }
-                    material.setLectureId(resultSet.getInt("lecture_id"));
                     materials.add(material);
                 }
 

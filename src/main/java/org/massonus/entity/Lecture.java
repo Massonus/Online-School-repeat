@@ -1,11 +1,13 @@
 package org.massonus.entity;
 
 import lombok.Data;
+import lombok.ToString;
 
 import javax.persistence.*;
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Objects;
@@ -16,32 +18,34 @@ import java.util.Objects;
 public class Lecture implements Comparable<Lecture>, Serializable {
 
     @Id
-    @Column(name = "lecture_id")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "lecture_id", nullable = false)
     private Integer id;
 
-    @Column(name = "subject")
     private String subject;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "course_id")
+    @ToString.Exclude
+    private Course course;
 
     @ManyToOne
     @JoinColumn(name = "person_id")
     private Person person;
 
-    @OneToMany
-    @JoinColumn(name = "homework_id")
-    private List<Homework> homeworks;
+    @OneToMany(mappedBy = "lecture",
+            cascade = CascadeType.ALL,
+            orphanRemoval = true)
+    @ToString.Exclude
+    private List<Homework> homeworks = new ArrayList<>();
 
-    @OneToMany
-    @JoinColumn(name = "material_id")
-    private List<AdditionalMaterial> materials;
+    @OneToMany(mappedBy = "lecture",
+    cascade = CascadeType.ALL,
+    orphanRemoval = true)
+    @ToString.Exclude
+    private List<AdditionalMaterial> materials = new ArrayList<>();
 
-    @Column(name = "description")
     private String description;
-
-    @Column(name = "teacher_id")
-    private Integer teacherId;
-
-    @Column(name = "course_id")
-    private Integer courseId;
 
     @Column(name = "lecture_date")
     private Date lectureDateSql;
@@ -68,8 +72,6 @@ public class Lecture implements Comparable<Lecture>, Serializable {
                     ", homeworks=" + homeworks +
                     ", materials=" + materials +
                     ", description='" + description + '\'' +
-                    ", teacherId=" + teacherId +
-                    ", courseId=" + courseId +
                     '}';
         } else {
             return "\n Lecture{" +
@@ -80,8 +82,6 @@ public class Lecture implements Comparable<Lecture>, Serializable {
                     ", homeworks=" + homeworks +
                     ", materials=" + materials +
                     ", description='" + description + '\'' +
-                    ", teacherId=" + teacherId +
-                    ", courseId=" + courseId +
                     '}';
         }
     }

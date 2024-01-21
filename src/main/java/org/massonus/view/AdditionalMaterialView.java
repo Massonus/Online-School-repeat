@@ -108,7 +108,7 @@ public class AdditionalMaterialView {
                     break;
 
                 case "2":
-                    materialService.add(materials, lectureId);
+                    materialService.add(materials);
                     break;
 
                 case "3":
@@ -150,7 +150,7 @@ public class AdditionalMaterialView {
 
     private void workWithAllMaterials(List<AdditionalMaterial> allMaterials) {
 
-        Map<Integer, List<AdditionalMaterial>> materialsAsMap = materialService.groupingMaterialsAsMap(allMaterials);
+
 
         while (true) {
             System.out.println("\n1. To print all materials as List");
@@ -168,7 +168,7 @@ public class AdditionalMaterialView {
                     logger.info("returned");
                     break;
 
-                case "2":
+                /*case "2":
                     allMaterials = materialService.sortMaterialsByLectureId(allMaterials);
                     logger.info("sorted by lectureId");
                     break;
@@ -184,7 +184,7 @@ public class AdditionalMaterialView {
                     List<AdditionalMaterial> materials = materialsAsMap.get(i);
                     materials.forEach(System.out::println);
                     logger.info("printed map by key: " + i);
-                    break;
+                    break;*/
 
                 case "0":
                     return;

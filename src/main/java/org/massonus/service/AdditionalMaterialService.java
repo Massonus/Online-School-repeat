@@ -80,9 +80,8 @@ public class AdditionalMaterialService implements UniversalService<AdditionalMat
         return false;
     }
 
-    public boolean add(List<AdditionalMaterial> materials, Integer lectureId) {
+    public boolean add(List<AdditionalMaterial> materials) {
         AdditionalMaterial elementByUser = createElementByUser();
-        elementByUser.setLectureId(lectureId);
         insertMaterialIntoDatabase(elementByUser);
         logger.info("added: " + elementByUser);
         return materials.add(elementByUser);
@@ -97,7 +96,7 @@ public class AdditionalMaterialService implements UniversalService<AdditionalMat
     private void insertMaterialIntoDatabase(final AdditionalMaterial material) {
         try {
 
-            String sql = "INSERT INTO public.additional_material(id, task, resource_type, lecture_id)VALUES (?, ?, ?, ?)";
+            String sql = "INSERT INTO public.additional_material(id, task, resource_type, lecture_id)VALUES (?, ?, ?)";
 
             try (Connection conn = createCon();
                  PreparedStatement preparedStatement = conn.prepareStatement(sql)) {
@@ -105,7 +104,6 @@ public class AdditionalMaterialService implements UniversalService<AdditionalMat
                 preparedStatement.setInt(1, material.getId());
                 preparedStatement.setString(2, material.getTask());
                 preparedStatement.setString(3, material.getResourceType().toString());
-                preparedStatement.setInt(4, material.getLectureId());
 
                 int rows = preparedStatement.executeUpdate();
                 System.out.println("add Lines Material: " + rows);
@@ -171,14 +169,14 @@ public class AdditionalMaterialService implements UniversalService<AdditionalMat
                 .collect(Collectors.toList());
     }
 
-    public List<AdditionalMaterial> sortMaterialsByLectureId(List<AdditionalMaterial> materials) {
+    /*public List<AdditionalMaterial> sortMaterialsByLectureId(List<AdditionalMaterial> materials) {
         return materials.stream()
                 .sorted(Comparator.comparing(AdditionalMaterial::getLectureId))
                 .collect(Collectors.toList());
-    }
+    }*/
 
-    public Map<Integer, List<AdditionalMaterial>> groupingMaterialsAsMap(List<AdditionalMaterial> materials) {
+    /*public Map<Integer, List<AdditionalMaterial>> groupingMaterialsAsMap(List<AdditionalMaterial> materials) {
         return materials.stream()
                 .collect(Collectors.groupingBy(AdditionalMaterial::getLectureId));
-    }
+    }*/
 }

@@ -17,14 +17,14 @@ public class AdditionalMaterial implements Comparable<AdditionalMaterial>, Seria
     @Column(name = "material_id", nullable = false)
     private Integer id;
 
-    @Column(name = "task")
     private String task;
 
-    @Column(name = "type")
     private ResourceType resourceType;
 
-    @Column(name = "lecture_id")
-    private Integer lectureId;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "lecture_id")
+    @ToString.Exclude
+    private Lecture lecture;
 
     public AdditionalMaterial() {
     }
