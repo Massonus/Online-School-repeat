@@ -22,13 +22,13 @@ public class PersonView {
     }
 
     public void workWithPeople() {
-
+        List<Person> people = personRepo.getPeopleList();
         while (true) {
-            List<Person> people = personRepo.getPeopleList();
 
             System.out.println("\n What you want to do?");
             System.out.println("1. Print all People");
             System.out.println("2. Add new Person");
+            System.out.println("3. Change information about person by id");
             System.out.println("3. Delete element");
             System.out.println("4. Get size of array");
             System.out.println("5. Sort by id");
@@ -44,6 +44,7 @@ public class PersonView {
             switch (choice) {
 
                 case "1":
+                    people = personRepo.getPeopleList();
                     personService.printAll(people);
                     break;
 
@@ -54,34 +55,39 @@ public class PersonView {
 
                 case "3":
                     int id = personService.choiceId();
-                    Person personById = personRepo.getPersonById(id);
-                    personRepo.deletePerson(personById);
+                    Person person = personService.personRefactor(personRepo.getPersonById(id));
+                    personRepo.updatePerson(person);
                     break;
 
                 case "4":
-                    System.out.println(people.size());
+                    Person personById = personRepo.getPersonById(personService.choiceId());
+                    personRepo.deletePerson(personById);
                     break;
 
                 case "5":
+                    System.out.println(people.size());
+                    break;
+
+                case "6":
                     people = personService.sortPeopleById(people);
                     System.out.println(people);
                     break;
 
-                case "6":
+                case "7":
                     Collections.sort(people);
                     System.out.println(people);
                     break;
 
-                case "7":
+                case "8":
                     personService.printFilteredEmails(people);
                     break;
 
-                case "8":
+                case "9":
                     List<String> emails = personService.emailsToList(people);
                     personService.writeEmailsToTheFile(emails);
                     break;
 
-                case "9":
+                case "10":
                     personService.printEmailAndFullName(people);
                     break;
 

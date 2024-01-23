@@ -62,7 +62,7 @@ public class Config {
     @Scope("singleton")
     @Bean
     public PersonService personService() {
-        return new PersonService(personRepo(), lectureService());
+        return new PersonService(personRepo(), lectureService(), courseRepo());
     }
 
     @Scope("singleton")

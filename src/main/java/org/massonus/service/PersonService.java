@@ -5,6 +5,7 @@ import org.massonus.entity.Course;
 import org.massonus.entity.Lecture;
 import org.massonus.entity.Person;
 import org.massonus.entity.Role;
+import org.massonus.repo.CourseRepo;
 import org.massonus.repo.PersonRepo;
 import org.massonus.repo.UniversalRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,11 +23,13 @@ public class PersonService implements UniversalService<Person>, UniversalReposit
 
     private final PersonRepo personRepo;
     private final LectureService lectureService;
+    private final CourseRepo courseRepo;
 
     @Autowired
-    public PersonService(PersonRepo personRepo, LectureService lectureService) {
+    public PersonService(PersonRepo personRepo, LectureService lectureService, CourseRepo courseRepo) {
         this.personRepo = personRepo;
         this.lectureService = lectureService;
+        this.courseRepo = courseRepo;
     }
 
     Person person;
@@ -34,12 +37,6 @@ public class PersonService implements UniversalService<Person>, UniversalReposit
     public Person createElementByUser() {
         System.out.println("Then you must create the Person");
         person = new Person();
-
-        int size = personRepo.getPeopleList().size();
-        person.setId(size + 1);
-
-        System.out.println("Enter course id of the Person");
-        Scanner scanner = new Scanner(System.in);
 
         System.out.println("Enter first name of the Person");
         Scanner scanner1 = new Scanner(System.in);
@@ -104,7 +101,63 @@ public class PersonService implements UniversalService<Person>, UniversalReposit
         return person;
     }
 
-    public List<Lecture> createAndFillLecturesForPerson(final Course course, final Person person) {
+    public Person personRefactor(final Person person) {
+        System.out.println("Change first name of the Person");
+        Scanner scanner1 = new Scanner(System.in);
+        person.setFirstName(scanner1.nextLine());
+
+        System.out.println("Change last name of the Person");
+        Scanner scanner2 = new Scanner(System.in);
+        person.setLastName(scanner2.nextLine());
+
+        System.out.println("Change phone of the Person");
+        Scanner scanner3 = new Scanner(System.in);
+        person.setPhone(scanner3.nextLine());
+
+        System.out.println("Change email of the Person");
+        Scanner scanner4 = new Scanner(System.in);
+        person.setEmail(scanner4.nextLine());
+
+        System.out.println("1. Change the role Student");
+        System.out.println("2. Change the role Teacher");
+        Scanner scanner5 = new Scanner(System.in);
+        int role = scanner5.nextInt();
+        if (role == 1) {
+            person.setRole(Role.STUDENT);
+        } else if (role == 2) {
+            person.setRole(Role.TEACHER);
+        } else {
+            System.out.println("Incorrect");
+        }
+
+        List<Course> courses = coursesForPerson();
+        person.setCourses(courses);
+
+        person.setLectures(createAndFillLecturesForPerson(courses.get(0), person));
+
+
+        return person;
+    }
+
+    private List<Course> coursesForPerson() {
+        List<Course> courses = new ArrayList<>();
+
+        System.out.println("How many courses?");
+        Scanner scanner = new Scanner(System.in);
+        int length = scanner.nextInt();
+
+        System.out.println("Choose courses: ");
+
+        courseRepo.getCourseList().forEach(System.out::println);
+        for (int i = 0; i < length; i++) {
+            Scanner scanner1 = new Scanner(System.in);
+            Course courseById = courseRepo.getCourseById(scanner1.nextInt());
+            courses.add(courseById);
+        }
+        return courses;
+    }
+
+    private List<Lecture> createAndFillLecturesForPerson(final Course course, final Person person) {
         List<Lecture> materials = new ArrayList<>();
         Random random = new Random();
         int lengthMas = random.nextInt(1, 5);
@@ -115,7 +168,7 @@ public class PersonService implements UniversalService<Person>, UniversalReposit
         return materials;
     }
 
-    public String generateRandomString() {
+    private String generateRandomString() {
         int length = 10;
         boolean useLetters = true;
         boolean useNumbers = false;
