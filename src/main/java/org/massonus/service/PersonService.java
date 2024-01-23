@@ -1,9 +1,6 @@
 package org.massonus.service;
 
 import org.apache.commons.lang3.RandomStringUtils;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-import org.apache.logging.log4j.core.LoggerContext;
 import org.massonus.entity.Course;
 import org.massonus.entity.Lecture;
 import org.massonus.entity.Person;
@@ -15,7 +12,6 @@ import org.springframework.stereotype.Service;
 
 import java.io.BufferedWriter;
 import java.io.IOException;
-import java.net.URISyntaxException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.*;
@@ -24,8 +20,6 @@ import java.util.stream.Collectors;
 @Service
 public class PersonService implements UniversalService<Person>, UniversalRepository {
 
-    private static final Logger logger = LogManager.getLogger(PersonService.class);
-
     private final PersonRepo personRepo;
     private final LectureService lectureService;
 
@@ -33,13 +27,6 @@ public class PersonService implements UniversalService<Person>, UniversalReposit
     public PersonService(PersonRepo personRepo, LectureService lectureService) {
         this.personRepo = personRepo;
         this.lectureService = lectureService;
-
-        LoggerContext context = (LoggerContext) LogManager.getContext(false);
-        try {
-            context.setConfigLocation(PersonService.class.getResource("/log4j.xml").toURI());
-        } catch (URISyntaxException e) {
-            throw new RuntimeException(e);
-        }
     }
 
     Person person;

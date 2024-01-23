@@ -34,8 +34,10 @@ public class AdditionalMaterialView {
 
     public void workWithMaterials() {
 
-        List<AdditionalMaterial> materials = materialRepo.getMaterialList();
         while (true) {
+            List<AdditionalMaterial> materials = materialRepo.getMaterialList();
+
+
             System.out.println("\n Make your choice (use only numbers)");
             System.out.println("1. Print all Materials");
             System.out.println("2. Add new Material");

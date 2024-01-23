@@ -5,9 +5,7 @@ import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.core.LoggerContext;
 import org.massonus.entity.Homework;
 import org.massonus.repo.HomeworkRepo;
-import org.massonus.service.CourseService;
 import org.massonus.service.HomeworkService;
-import org.massonus.service.LectureService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -36,8 +34,9 @@ public class HomeworkView {
 
     public void workWithHomework() {
 
-        List<Homework> homeworkList = homeworkRepo.getHomeworkList();
         while (true) {
+            List<Homework> homeworkList = homeworkRepo.getHomeworkList();
+
             System.out.println("\n Make your choice (use only numbers)");
             System.out.println("1. Print all Homeworks");
             System.out.println("2. Add new Homework");

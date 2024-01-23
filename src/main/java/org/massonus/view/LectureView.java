@@ -21,10 +21,13 @@ public class LectureView {
     }
 
     public void workWithLectures() {
-        List<Lecture> lectures = lectureRepo.getLectureList();
+
         /*Map<Person, List<Lecture>> lecturesAsMap = lectureService.groupLectureByPerson(lectures);*/
 
         while (true) {
+
+            List<Lecture> lectures = lectureRepo.getLectureList();
+
             System.out.println("\n What you want to do with Lecture?");
             System.out.println("1. Print all Lectures");
             System.out.println("2. Add new Lecture ");

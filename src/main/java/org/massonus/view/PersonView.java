@@ -2,7 +2,6 @@ package org.massonus.view;
 
 import org.massonus.entity.Person;
 import org.massonus.repo.PersonRepo;
-import org.massonus.service.CourseService;
 import org.massonus.service.PersonService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -23,8 +22,10 @@ public class PersonView {
     }
 
     public void workWithPeople() {
-        List<Person> people = personRepo.getPeopleList();
+
         while (true) {
+            List<Person> people = personRepo.getPeopleList();
+
             System.out.println("\n What you want to do?");
             System.out.println("1. Print all People");
             System.out.println("2. Add new Person");

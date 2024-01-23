@@ -9,7 +9,6 @@ import java.util.Objects;
 @Entity
 @Table (name = "additional_material")
 @Data
-@ToString
 public class AdditionalMaterial implements Comparable<AdditionalMaterial>, Serializable {
 
     @Id
@@ -29,6 +28,15 @@ public class AdditionalMaterial implements Comparable<AdditionalMaterial>, Seria
     private Lecture lecture;
 
     public AdditionalMaterial() {
+    }
+
+    @Override
+    public String toString() {
+        return "AdditionalMaterial{" +
+                "id=" + id +
+                ", task='" + task + '\'' +
+                ", resourceType=" + resourceType +
+                '}';
     }
 
     @Override

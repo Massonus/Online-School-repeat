@@ -10,7 +10,6 @@ import java.util.*;
 @Entity
 @Table(name = "course")
 @Data
-@ToString
 public class Course implements Comparable<Course>, Serializable {
 
     @Id
@@ -35,6 +34,14 @@ public class Course implements Comparable<Course>, Serializable {
 
     public Course(String courseName) {
         this.courseName = courseName;
+    }
+
+    @Override
+    public String toString() {
+        return "Course{" +
+                "id=" + id +
+                ", courseName='" + courseName + '\'' +
+                '}';
     }
 
     @Override

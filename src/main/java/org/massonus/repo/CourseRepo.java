@@ -1,30 +1,19 @@
 package org.massonus.repo;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.core.LoggerContext;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.hibernate.query.Query;
 import org.massonus.SessionCreator;
 import org.massonus.entity.Course;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import java.net.URISyntaxException;
 import java.util.List;
 
 @Repository
 public class CourseRepo implements UniversalRepository {
-    private static final org.apache.logging.log4j.Logger logger = LogManager.getLogger(CourseRepo.class);
 
     public CourseRepo() {
-        LoggerContext context = (LoggerContext) LogManager.getContext(false);
-        try {
-            context.setConfigLocation(CourseRepo.class.getResource("/log4j.xml").toURI());
-        } catch (URISyntaxException e) {
-            throw new RuntimeException(e);
-        }
     }
 
     public void addCourse(final Course course) {

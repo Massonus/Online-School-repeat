@@ -1,15 +1,11 @@
 package org.massonus.service;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-import org.apache.logging.log4j.core.LoggerContext;
 import org.massonus.entity.Homework;
 import org.massonus.repo.HomeworkRepo;
 import org.massonus.repo.UniversalRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.net.URISyntaxException;
 import java.util.Random;
 import java.util.Scanner;
 

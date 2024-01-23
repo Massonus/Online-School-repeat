@@ -47,8 +47,9 @@ public class CourseView {
     }
 
     public void mainMenu() {
-        List<Course> courses = courseRepo.getCourseList();
         while (true) {
+            List<Course> courses = courseRepo.getCourseList();
+
             System.out.println("\n What you want to do?");
             System.out.println("1. Print all Courses");
             System.out.println("2. To sort by id");

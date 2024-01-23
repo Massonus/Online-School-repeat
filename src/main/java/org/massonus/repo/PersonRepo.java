@@ -1,8 +1,5 @@
 package org.massonus.repo;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-import org.apache.logging.log4j.core.LoggerContext;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
@@ -11,21 +8,13 @@ import org.massonus.SessionCreator;
 import org.massonus.entity.Person;
 import org.springframework.stereotype.Repository;
 
-import java.net.URISyntaxException;
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Repository
 public class PersonRepo implements UniversalRepository {
-    private static final Logger logger = LogManager.getLogger(PersonRepo.class);
 
     public PersonRepo() {
-        LoggerContext context = (LoggerContext) LogManager.getContext(false);
-        try {
-            context.setConfigLocation(PersonRepo.class.getResource("/log4j.xml").toURI());
-        } catch (URISyntaxException e) {
-            throw new RuntimeException(e);
-        }
     }
 
     public void addPerson(final Person person) {
