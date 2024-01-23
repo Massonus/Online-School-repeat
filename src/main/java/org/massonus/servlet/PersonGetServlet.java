@@ -21,7 +21,7 @@ public class PersonGetServlet extends HttpServlet {
 
         final ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("ApplicationContext_oldExample.xml");
         final PersonRepo personRepo = context.getBean("personRepo", PersonRepo.class);
-        final List<Person> people = personRepo.getAllPeople();
+        final List<Person> people = personRepo.getPeopleList();
 
         resp.setContentType("text/html");
 

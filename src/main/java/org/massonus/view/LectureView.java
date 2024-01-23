@@ -1,42 +1,41 @@
 package org.massonus.view;
 
-import org.massonus.entity.Course;
 import org.massonus.entity.Lecture;
-import org.massonus.entity.Person;
-import org.massonus.service.CourseService;
+import org.massonus.repo.LectureRepo;
 import org.massonus.service.LectureService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
-import java.util.Map;
 import java.util.Scanner;
 
 @Component
 public class LectureView {
     private final LectureService lectureService;
-    private final CourseService courseService;
+    private final LectureRepo lectureRepo;
 
     @Autowired
-    public LectureView(LectureService lectureService, CourseService courseService) {
+    public LectureView(LectureService lectureService, LectureRepo lectureRepo) {
         this.lectureService = lectureService;
-        this.courseService = courseService;
+        this.lectureRepo = lectureRepo;
     }
 
-    public void workWithLectures(List<Course> courses) {
-        List<Lecture> lectures = courseService.getAllLectures(courses);
-        Map<Person, List<Lecture>> lecturesAsMap = lectureService.groupLectureByPerson(lectures);
+    public void workWithLectures() {
 
+        /*Map<Person, List<Lecture>> lecturesAsMap = lectureService.groupLectureByPerson(lectures);*/
+        List<Lecture> lectures = lectureRepo.getLectureList();
         while (true) {
+
             System.out.println("\n What you want to do with Lecture?");
             System.out.println("1. Print all Lectures");
             System.out.println("2. Add new Lecture ");
-            System.out.println("3. To remove Lecture");
-            System.out.println("4. To get size of array");
-            System.out.println("5. To sort by id");
-            System.out.println("6. To print the first lecture and what have the most amount of materials");
-            System.out.println("7. To print lectures grouping by teacher");
-            System.out.println("0. To return");
+            System.out.println("3. Change information about lecture by id");
+            System.out.println("4. Delete Lecture");
+            System.out.println("5. Get size of array");
+            System.out.println("6. Sort by id");
+            System.out.println("7. Print the first lecture and what have the most amount of materials");
+            System.out.println("8. Print lectures grouping by teacher");
+            System.out.println("0. Return");
 
             Scanner scanner = new Scanner(System.in);
             String choice = scanner.nextLine();
@@ -44,35 +43,42 @@ public class LectureView {
             switch (choice) {
 
                 case "1":
+                    lectures = lectureRepo.getLectureList();
                     lectureService.printAll(lectures);
                     break;
 
                 case "2":
                     Lecture newElement = lectureService.createElementByUser();
-                    lectureService.add(newElement, lectures);
+                    lectureRepo.addLecture(newElement);
                     break;
 
                 case "3":
                     int id = lectureService.choiceId();
-                    lectureService.removeById(lectures, id);
+                    Lecture lecture = lectureService.lectureRefactor(lectureRepo.getLectureById(id));
+                    lectureRepo.updateLecture(lecture);
                     break;
 
                 case "4":
-                    System.out.println(lectures.size());
+                    Lecture lectureById = lectureRepo.getLectureById(lectureService.choiceId());
+                    lectureRepo.deleteLecture(lectureById);
                     break;
 
                 case "5":
-                    lectures = lectureService.sortLectureById(lectures);
+                    System.out.println(lectures.size());
                     break;
 
                 case "6":
-                    Lecture firstLecture = lectureService.findFirstLecture(lectures);
-                    System.out.println(firstLecture);
-                    System.out.println(firstLecture.getMaterials().size());
+                    lectures = lectureService.sortLectureById(lectures);
+                    System.out.println(lectures);
                     break;
 
                 case "7":
-                    lecturesAsMap.forEach((k, v) -> System.out.println(k + " " + v));
+                    Lecture firstLecture = lectureService.findFirstLecture(lectures);
+                    System.out.println(firstLecture);
+                    break;
+
+                case "8":
+                    /*lecturesAsMap.forEach((k, v) -> System.out.println(k + " " + v));*/
                     break;
 
                 case "0":

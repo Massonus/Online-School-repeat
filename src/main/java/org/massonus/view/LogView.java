@@ -27,7 +27,7 @@ public class LogView {
             System.out.println("1. Print current logs");
             System.out.println("2. Print current logs (INFO only)");
             System.out.println("3. Print previous logs");
-            System.out.println("4. To delete line");
+            System.out.println("4. Delete line");
             System.out.println("5. Read half of lines");
             System.out.println("0 To return");
 

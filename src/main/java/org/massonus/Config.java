@@ -6,12 +6,16 @@ import org.massonus.service.*;
 import org.massonus.view.*;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.PropertySource;
 import org.springframework.context.annotation.Scope;
 
 @Configuration
-@PropertySource("classpath:onlineSchool.properties")
 public class Config {
+
+    @Scope("singleton")
+    @Bean
+    public Controller controller() {
+        return new Controller(courseView(), materialsView(), homeworkView(), lectureView(), personView(), logView(), courseService());
+    }
 
     @Scope("singleton")
     @Bean
@@ -22,7 +26,7 @@ public class Config {
     @Scope("singleton")
     @Bean
     public CourseRepo courseRepo() {
-        return new CourseRepo(personRepo(), lectureRepo());
+        return new CourseRepo();
     }
 
     @Scope("singleton")
@@ -40,37 +44,37 @@ public class Config {
     @Scope("singleton")
     @Bean
     public LectureRepo lectureRepo() {
-        return new LectureRepo(personRepo(), materialRepo(), homeworkRepo());
+        return new LectureRepo();
     }
 
     @Scope("singleton")
     @Bean
     public AdditionalMaterialService materialService() {
-        return new AdditionalMaterialService(materialRepo());
+        return new AdditionalMaterialService(materialRepo(), lectureRepo());
     }
 
     @Scope("singleton")
     @Bean
     public CourseService courseService() {
-        return new CourseService();
+        return new CourseService(courseRepo(), personService(), lectureRepo());
     }
 
     @Scope("singleton")
     @Bean
     public HomeworkService homeworkService() {
-        return new HomeworkService(homeworkRepo());
+        return new HomeworkService();
     }
 
     @Scope("singleton")
     @Bean
     public PersonService personService() {
-        return new PersonService(personRepo());
+        return new PersonService(personRepo(), lectureService(), courseRepo());
     }
 
     @Scope("singleton")
     @Bean
     public LectureService lectureService() {
-        return new LectureService(lectureRepo(), materialService(), homeworkService(), personService());
+        return new LectureService(lectureRepo(), materialService(), materialRepo(), homeworkService(), homeworkRepo(), personRepo(), courseRepo());
     }
 
     @Scope("singleton")
@@ -82,25 +86,31 @@ public class Config {
     @Scope("singleton")
     @Bean
     public AdditionalMaterialView materialsView() {
-        return new AdditionalMaterialView(materialService(), lectureService(), courseService());
+        return new AdditionalMaterialView(materialService(), materialRepo());
+    }
+
+    @Scope("singleton")
+    @Bean
+    public CourseView courseView() {
+        return new CourseView(courseService(), courseRepo());
     }
 
     @Scope("singleton")
     @Bean
     public HomeworkView homeworkView() {
-        return new HomeworkView(homeworkService(), lectureService(), courseService());
+        return new HomeworkView(homeworkService(), homeworkRepo());
     }
 
     @Scope("singleton")
     @Bean
     public PersonView personView() {
-        return new PersonView(personService(), courseService());
+        return new PersonView(personService(), personRepo());
     }
 
     @Scope("singleton")
     @Bean
     public LectureView lectureView() {
-        return new LectureView(lectureService(), courseService());
+        return new LectureView(lectureService(), lectureRepo());
     }
 
     @Scope("singleton")
@@ -109,9 +119,5 @@ public class Config {
         return new LogView(logService());
     }
 
-    @Scope("singleton")
-    @Bean
-    public CourseView courseView() {
-        return new CourseView(courseService(), courseRepo(), materialsView(), homeworkView(), lectureView(), personView(), logView());
-    }
+
 }

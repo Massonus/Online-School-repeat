@@ -22,10 +22,10 @@ public class LectureTheEarliest extends HttpServlet {
 
         resp.setContentType("text/html");
 
-        final Lecture lecture = lectureRepo.getTheEarliestLecture();
+        /*final Lecture lecture = lectureRepo.getTheEarliestLecture();*/
 
         PrintWriter writer = resp.getWriter();
-        writer.println("<h2>Hello " + lecture + "</h2>");
+        /*writer.println("<h2>Hello " + lecture + "</h2>");*/
 
         writer.close();
     }

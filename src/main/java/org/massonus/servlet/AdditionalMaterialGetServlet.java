@@ -17,8 +17,8 @@ public class AdditionalMaterialGetServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        final AdditionalMaterialRepo additionalMaterialRepo = new AdditionalMaterialRepo();
-        final List<AdditionalMaterial> materials = additionalMaterialRepo.getAllMaterials();
+        final AdditionalMaterialRepo materialRepo = new AdditionalMaterialRepo();
+        final List<AdditionalMaterial> materials = materialRepo.getMaterialList();
 
         resp.setContentType("text/html");
 

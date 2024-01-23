@@ -1,8 +1,7 @@
 package org.massonus.view;
 
-import org.massonus.entity.Course;
 import org.massonus.entity.Person;
-import org.massonus.service.CourseService;
+import org.massonus.repo.PersonRepo;
 import org.massonus.service.PersonService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -14,30 +13,30 @@ import java.util.Scanner;
 @Component
 public class PersonView {
     private final PersonService personService;
-    private final CourseService courseService;
+    private final PersonRepo personRepo;
 
     @Autowired
-    public PersonView(PersonService personService, CourseService courseService) {
+    public PersonView(PersonService personService, PersonRepo personRepo) {
         this.personService = personService;
-        this.courseService = courseService;
+        this.personRepo = personRepo;
     }
 
-    public void workWithPeople(List<Course> courses) {
-        List<Person> people = courseService.getAllPeople(courses);
-
+    public void workWithPeople() {
+        List<Person> people = personRepo.getPeopleList();
         while (true) {
+
             System.out.println("\n What you want to do?");
             System.out.println("1. Print all People");
             System.out.println("2. Add new Person");
-            System.out.println("3. To remove element");
-            System.out.println("4. To check that array is Empty");
-            System.out.println("5. To get size of array");
-            System.out.println("6. To sort by id");
-            System.out.println("7. To sort by last name");
-            System.out.println("8. To print all people where LastName until N");
-            System.out.println("9. To write emails to the file");
-            System.out.println("10. To print emails and First and Last name");
-            System.out.println("0. To return");
+            System.out.println("3. Change information about person by id");
+            System.out.println("3. Delete element");
+            System.out.println("4. Get size of array");
+            System.out.println("5. Sort by id");
+            System.out.println("6. Sort by last name");
+            System.out.println("7. Print all people where LastName until N");
+            System.out.println("8. Write emails to the file");
+            System.out.println("9. Print emails and First and Last name");
+            System.out.println("0. Return");
 
             Scanner scanner = new Scanner(System.in);
             String choice = scanner.nextLine();
@@ -45,21 +44,24 @@ public class PersonView {
             switch (choice) {
 
                 case "1":
+                    people = personRepo.getPeopleList();
                     personService.printAll(people);
                     break;
 
                 case "2":
                     Person newElement = personService.createElementByUser();
-                    personService.add(newElement, people);
+                    personRepo.addPerson(newElement);
                     break;
 
                 case "3":
                     int id = personService.choiceId();
-                    personService.removeById(people, id);
+                    Person person = personService.personRefactor(personRepo.getPersonById(id));
+                    personRepo.updatePerson(person);
                     break;
 
                 case "4":
-                    System.out.println(people.isEmpty());
+                    Person personById = personRepo.getPersonById(personService.choiceId());
+                    personRepo.deletePerson(personById);
                     break;
 
                 case "5":
@@ -68,10 +70,12 @@ public class PersonView {
 
                 case "6":
                     people = personService.sortPeopleById(people);
+                    System.out.println(people);
                     break;
 
                 case "7":
                     Collections.sort(people);
+                    System.out.println(people);
                     break;
 
                 case "8":

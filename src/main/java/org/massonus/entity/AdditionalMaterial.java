@@ -9,7 +9,6 @@ import java.util.Objects;
 @Entity
 @Table (name = "additional_material")
 @Data
-@ToString
 public class AdditionalMaterial implements Comparable<AdditionalMaterial>, Serializable {
 
     @Id
@@ -17,16 +16,27 @@ public class AdditionalMaterial implements Comparable<AdditionalMaterial>, Seria
     @Column(name = "material_id", nullable = false)
     private Integer id;
 
-    @Column(name = "task")
     private String task;
 
-    @Column(name = "type")
+    @Column(columnDefinition = "text", name = "resource_type")
+    @Enumerated(EnumType.STRING)
     private ResourceType resourceType;
 
-    @Column(name = "lecture_id")
-    private Integer lectureId;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "lecture_id")
+    @ToString.Exclude
+    private Lecture lecture;
 
     public AdditionalMaterial() {
+    }
+
+    @Override
+    public String toString() {
+        return "AdditionalMaterial{" +
+                "id=" + id +
+                ", task='" + task + '\'' +
+                ", resourceType=" + resourceType +
+                '}';
     }
 
     @Override
