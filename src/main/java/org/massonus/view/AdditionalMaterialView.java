@@ -37,19 +37,19 @@ public class AdditionalMaterialView {
         while (true) {
             List<AdditionalMaterial> materials = materialRepo.getMaterialList();
 
-
             System.out.println("\n Make your choice (use only numbers)");
             System.out.println("1. Print all Materials");
             System.out.println("2. Add new Material");
-            System.out.println("3. To delete material");
-            System.out.println("4. To get size of array");
-            System.out.println("5. To sort by id");
-            System.out.println("6. To sort by type");
-            System.out.println("7. To sort by name");
-            System.out.println("8. To sort all materials by lectureID");
-            System.out.println("9. To print all materials as Map");
-            System.out.println("10. To get key of map");
-            System.out.println("0. To return");
+            System.out.println("3. Change information about material by id");
+            System.out.println("4. Delete material");
+            System.out.println("5. Get size of array");
+            System.out.println("6. Sort by id");
+            System.out.println("7. Sort by type");
+            System.out.println("8. Sort by name");
+            System.out.println("9. Sort all materials by lectureID");
+            System.out.println("10. Print all materials as Map");
+            System.out.println("11. Get key of map");
+            System.out.println("0. Return");
 
             Scanner scanner = new Scanner(System.in);
             String select = scanner.nextLine();
@@ -65,42 +65,51 @@ public class AdditionalMaterialView {
                     break;
 
                 case "3":
+                    /*int id = materialService.choiceId();
+                    final AdditionalMaterial materialById = materialRepo.getMaterialById(id);
+                    materialRepo.deleteMaterial(materialById);
+                    break;*/
+
+                case "4":
                     int id = materialService.choiceId();
                     final AdditionalMaterial materialById = materialRepo.getMaterialById(id);
                     materialRepo.deleteMaterial(materialById);
                     break;
 
-                case "4":
+                case "5":
                     System.out.println(materials.size());
                     logger.info("checked size");
                     break;
 
-                case "5":
+                case "6":
                     materials = materialService.sortMaterialsById(materials);
+                    System.out.println(materials);
                     logger.info("sorted by id");
                     break;
 
-                case "6":
+                case "7":
                     materials = materialService.sortMaterialsByType(materials);
+                    System.out.println(materials);
                     logger.info("sorted by type");
                     break;
 
-                case "7":
+                case "8":
                     materials = materialService.sortMaterialsByName(materials);
+                    System.out.println(materials);
                     logger.info("sorted by name");
                     break;
 
-                /*case "8":
+                /*case "9":
                     allMaterials = materialService.sortMaterialsByLectureId(allMaterials);
                     logger.info("sorted by lectureId");
                     break;
 
-                case "9":
+                case "10":
                     materialsAsMap.forEach((k, v) -> System.out.println("lectureID: " + k + " " + v));
                     logger.info("printed");
                     break;
 
-                case "10":
+                case "11":
                     Scanner scanner1 = new Scanner(System.in);
                     int i = scanner1.nextInt();
                     List<AdditionalMaterial> materials = materialsAsMap.get(i);

@@ -47,21 +47,21 @@ public class CourseView {
     }
 
     public void mainMenu() {
+        List<Course> courses = courseRepo.getCourseList();
         while (true) {
-            List<Course> courses = courseRepo.getCourseList();
 
-            System.out.println("\n What you want to do?");
+            System.out.println("\n What do you want to do?");
             System.out.println("1. Print all Courses");
-            System.out.println("2. To sort by id");
-            System.out.println("3. To sort by name");
-            System.out.println("4. To work with lectures");
-            System.out.println("5. To work with people");
-            System.out.println("6. To work with materials");
-            System.out.println("7. To work with homework");
-            System.out.println("8. To work with logs");
-            System.out.println("9. To start control work");
-            System.out.println("10. To make serialization");
-            System.out.println("11. To print deserialization");
+            System.out.println("2. Sort by id");
+            System.out.println("3. Sort by name");
+            System.out.println("4. Work with lectures");
+            System.out.println("5. Work with people");
+            System.out.println("6. Work with materials");
+            System.out.println("7. Work with homework");
+            System.out.println("8. Work with logs");
+            System.out.println("9. Start control work");
+            System.out.println("10. Make serialization");
+            System.out.println("11. Print deserialization");
             System.out.println("0. Exit");
 
             Scanner scanner = new Scanner(System.in);
@@ -69,12 +69,14 @@ public class CourseView {
 
             switch (choice) {
                 case "1":
+                    courses = courseRepo.getCourseList();
                     courseService.printAll(courses);
                     break;
 
                 case "2":
                     try {
                         courses = courseService.sortCoursesById(courses);
+                        System.out.println(courses);
                     } catch (NullPointerException e) {
                         logger.warn("can't sort because array is empty ", e);
                         break;
@@ -84,6 +86,7 @@ public class CourseView {
                 case "3":
                     try {
                         Collections.sort(courses);
+                        System.out.println(courses);
                     } catch (NullPointerException e) {
                         logger.warn("can't sort because array is empty ", e);
                         break;

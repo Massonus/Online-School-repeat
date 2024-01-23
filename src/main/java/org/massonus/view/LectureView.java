@@ -23,20 +23,18 @@ public class LectureView {
     public void workWithLectures() {
 
         /*Map<Person, List<Lecture>> lecturesAsMap = lectureService.groupLectureByPerson(lectures);*/
-
+        List<Lecture> lectures = lectureRepo.getLectureList();
         while (true) {
-
-            List<Lecture> lectures = lectureRepo.getLectureList();
 
             System.out.println("\n What you want to do with Lecture?");
             System.out.println("1. Print all Lectures");
             System.out.println("2. Add new Lecture ");
-            System.out.println("3. To remove Lecture");
-            System.out.println("4. To get size of array");
-            System.out.println("5. To sort by id");
-            System.out.println("6. To print the first lecture and what have the most amount of materials");
-            System.out.println("7. To print lectures grouping by teacher");
-            System.out.println("0. To return");
+            System.out.println("3. Delete Lecture");
+            System.out.println("4. Get size of array");
+            System.out.println("5. Sort by id");
+            System.out.println("6. Print the first lecture and what have the most amount of materials");
+            System.out.println("7. Print lectures grouping by teacher");
+            System.out.println("0. Return");
 
             Scanner scanner = new Scanner(System.in);
             String choice = scanner.nextLine();
@@ -44,6 +42,7 @@ public class LectureView {
             switch (choice) {
 
                 case "1":
+                    lectures = lectureRepo.getLectureList();
                     lectureService.printAll(lectures);
                     break;
 
@@ -64,12 +63,12 @@ public class LectureView {
 
                 case "5":
                     lectures = lectureService.sortLectureById(lectures);
+                    System.out.println(lectures);
                     break;
 
                 case "6":
                     Lecture firstLecture = lectureService.findFirstLecture(lectures);
                     System.out.println(firstLecture);
-                    System.out.println(firstLecture.getMaterials().size());
                     break;
 
                 case "7":

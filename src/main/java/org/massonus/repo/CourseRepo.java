@@ -17,7 +17,6 @@ public class CourseRepo implements UniversalRepository {
     }
 
     public void addCourse(final Course course) {
-
         final SessionFactory sessionFactory = SessionCreator.getSessionFactory();
 
         try (Session session = sessionFactory.openSession()) {

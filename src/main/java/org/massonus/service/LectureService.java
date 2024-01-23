@@ -46,7 +46,8 @@ public class LectureService implements UniversalService<Lecture>, UniversalRepos
         System.out.println("Choose a teacher for Lecture" +
                 "Enter the id");
 
-        List<Person> allPeople = personRepo.getAllTeachers();
+        List<Person> allTeachers = personRepo.getAllTeachers();
+        allTeachers.forEach(System.out::println);
 
         Scanner scanner3 = new Scanner(System.in);
         int personId = scanner3.nextInt();

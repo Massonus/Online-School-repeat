@@ -40,11 +40,11 @@ public class HomeworkView {
             System.out.println("\n Make your choice (use only numbers)");
             System.out.println("1. Print all Homeworks");
             System.out.println("2. Add new Homework");
-            System.out.println("3. To remove element");
-            System.out.println("4. To get size of array");
-            System.out.println("5. To sort all homework by lectureId");
-            System.out.println("6. To print all homework as Map");
-            System.out.println("0. To return");
+            System.out.println("3. Delete element");
+            System.out.println("4. Get size of array");
+            System.out.println("5. Sort all homework by lectureId");
+            System.out.println("6. Print all homework as Map");
+            System.out.println("0. Return");
 
             Scanner scanner = new Scanner(System.in);
             String select = scanner.nextLine();

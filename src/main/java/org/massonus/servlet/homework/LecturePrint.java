@@ -24,10 +24,10 @@ public class LecturePrint extends HttpServlet implements UniversalRepository {
 
         resp.setContentType("text/html");
 
-        final List<Lecture> lectures = lectureRepo.getSortedLectures();
+        /*final List<Lecture> lectures = lectureRepo.getSortedLectures();*/
 
         PrintWriter writer = resp.getWriter();
-        writer.println("<h2>Hello " + lectures + "</h2>");
+        /*writer.println("<h2>Hello " + lectures + "</h2>");*/
 
         writer.close();
     }
