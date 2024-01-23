@@ -44,7 +44,7 @@ public class Config {
     @Scope("singleton")
     @Bean
     public AdditionalMaterialService materialService() {
-        return new AdditionalMaterialService(materialRepo());
+        return new AdditionalMaterialService(materialRepo(), lectureRepo());
     }
 
     @Scope("singleton")
@@ -56,7 +56,7 @@ public class Config {
     @Scope("singleton")
     @Bean
     public HomeworkService homeworkService() {
-        return new HomeworkService(homeworkRepo());
+        return new HomeworkService();
     }
 
     @Scope("singleton")
@@ -68,7 +68,7 @@ public class Config {
     @Scope("singleton")
     @Bean
     public LectureService lectureService() {
-        return new LectureService(lectureRepo(), materialService(), materialRepo(), homeworkService(), homeworkRepo(), personRepo());
+        return new LectureService(lectureRepo(), materialService(), materialRepo(), homeworkService(), homeworkRepo(), personRepo(), courseRepo());
     }
 
     @Scope("singleton")

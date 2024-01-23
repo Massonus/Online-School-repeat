@@ -76,7 +76,6 @@ public class PersonService implements UniversalService<Person>, UniversalReposit
         person = new Person();
         Random random = new Random();
         int id = random.nextInt(1, 50);
-        person.setId(id);
 
         if (id < 10 || id > 40) {
             person.setFirstName("John");
@@ -108,7 +107,7 @@ public class PersonService implements UniversalService<Person>, UniversalReposit
     public List<Lecture> createAndFillLecturesForPerson(final Course course, final Person person) {
         List<Lecture> materials = new ArrayList<>();
         Random random = new Random();
-        int lengthMas = random.nextInt(1, 6);
+        int lengthMas = random.nextInt(1, 5);
         for (int i = 0; i < lengthMas; i++) {
             Lecture elementAuto = lectureService.createElementAuto(course, person);
             materials.add(elementAuto);

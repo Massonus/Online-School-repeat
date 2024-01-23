@@ -1,8 +1,10 @@
 package org.massonus.service;
 
 import org.massonus.entity.AdditionalMaterial;
+import org.massonus.entity.Lecture;
 import org.massonus.entity.ResourceType;
 import org.massonus.repo.AdditionalMaterialRepo;
+import org.massonus.repo.LectureRepo;
 import org.massonus.repo.UniversalRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -16,18 +18,18 @@ import java.util.stream.Collectors;
 public class AdditionalMaterialService implements UniversalService<AdditionalMaterial>, UniversalRepository {
 
     private final AdditionalMaterialRepo materialsRepo;
+    private final LectureRepo lectureRepo;
 
     @Autowired
-    public AdditionalMaterialService(AdditionalMaterialRepo materialsRepo) {
+    public AdditionalMaterialService(AdditionalMaterialRepo materialsRepo, LectureRepo lectureRepo) {
         this.materialsRepo = materialsRepo;
+        this.lectureRepo = lectureRepo;
     }
 
     AdditionalMaterial material;
 
     public AdditionalMaterial createElementByUser() {
         material = new AdditionalMaterial();
-        int size = materialsRepo.getMaterialList().size();
-        material.setId(size + 1);
         System.out.println("Enter name of material");
         Scanner scanner1 = new Scanner(System.in);
         String name = scanner1.nextLine();
@@ -54,7 +56,6 @@ public class AdditionalMaterialService implements UniversalService<AdditionalMat
     AdditionalMaterial createElementAuto() {
         material = new AdditionalMaterial();
         int id = materialsRepo.getMaterialList().size() + 1;
-        material.setId(id);
 
         material.setTask("Material " + id);
 
@@ -65,6 +66,42 @@ public class AdditionalMaterialService implements UniversalService<AdditionalMat
         } else {
             material.setResourceType(ResourceType.BOOK);
         }
+
+        return material;
+    }
+
+    public AdditionalMaterial materialRefactor(final AdditionalMaterial material) {
+        System.out.println("Write down the new information: ");
+
+        System.out.println("Resource type: ");
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("1. To select the resourceType URL");
+        System.out.println("2. To select the resourceType VIDEO");
+        System.out.println("3. To select the resourceType BOOK");
+
+        int resourceType = scanner.nextInt();
+
+        if (resourceType == 1) {
+            material.setResourceType(ResourceType.URL);
+        } else if (resourceType == 2) {
+            material.setResourceType(ResourceType.VIDEO);
+        } else if (resourceType == 3) {
+            material.setResourceType(ResourceType.BOOK);
+        } else {
+            System.out.println("Incorrect");
+        }
+
+        System.out.println("Task: ");
+        Scanner scanner1 = new Scanner(System.in);
+        String task = scanner1.nextLine();
+        material.setTask(task);
+
+        System.out.println("Choose the lecture for the material");
+        lectureRepo.getLectureList().forEach(System.out::println);
+        Scanner scanner2 = new Scanner(System.in);
+        int id = scanner2.nextInt();
+        Lecture lectureById = lectureRepo.getLectureById(id);
+        material.setLecture(lectureById);
 
         return material;
     }

@@ -1,9 +1,7 @@
 package org.massonus.service;
 
 import org.massonus.entity.Homework;
-import org.massonus.repo.HomeworkRepo;
 import org.massonus.repo.UniversalRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Random;
@@ -11,19 +9,14 @@ import java.util.Scanner;
 
 @Service
 public class HomeworkService implements UniversalService<Homework>, UniversalRepository {
-    private final HomeworkRepo homeworkRepo;
 
-    @Autowired
-    public HomeworkService(HomeworkRepo homeworkRepo) {
-        this.homeworkRepo = homeworkRepo;
+    public HomeworkService() {
     }
 
     Homework homework;
 
     public Homework createElementByUser() {
         homework = new Homework();
-        int size = homeworkRepo.getHomeworkList().size();
-        homework.setId(size + 1);
 
         System.out.println("Enter task of homework");
         Scanner scanner2 = new Scanner(System.in);
