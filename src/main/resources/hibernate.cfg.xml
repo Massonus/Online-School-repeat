@@ -12,7 +12,7 @@
         </property>
 
         <property name="connection.url">
-            jdbc:postgresql://localhost:5432/Test
+            jdbc:postgresql://localhost:5432/Online School Repeat
         </property>
 
         <property name="connection.username">postgres</property>
