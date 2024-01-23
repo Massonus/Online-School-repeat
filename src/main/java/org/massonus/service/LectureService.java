@@ -90,6 +90,39 @@ public class LectureService implements UniversalService<Lecture>, UniversalRepos
         return lecture;
     }
 
+    public Lecture lectureRefactor(final Lecture lecture) {
+        System.out.println("Change name of lecture");
+        Scanner scanner = new Scanner(System.in);
+        String name = scanner.nextLine();
+        lecture.setSubject(name);
+
+        System.out.println("Change description of lecture");
+        Scanner scanner1 = new Scanner(System.in);
+        String description = scanner1.nextLine();
+        lecture.setDescription(description);
+
+        System.out.println("Change the course for lecture");
+        courseRepo.getCourseList().forEach(System.out::println);
+        Scanner scanner2 = new Scanner(System.in);
+        int courseId = scanner2.nextInt();
+        Course courseById = courseRepo.getCourseById(courseId);
+        lecture.setCourse(courseById);
+
+        System.out.println("Change a teacher for Lecture" +
+                "Enter the id");
+        Scanner scanner3 = new Scanner(System.in);
+
+        List<Person> allTeachers = personRepo.getAllTeachers();
+        allTeachers.forEach(System.out::println);
+
+        int teacherId = scanner3.nextInt();
+        Person personById = personRepo.getPersonById(teacherId);
+        lecture.setPerson(personById);
+
+        return lecture;
+
+    }
+
     public List<AdditionalMaterial> createAndFillMaterialsListForLecture(final Lecture lecture) {
         List<AdditionalMaterial> materials = new ArrayList<>();
         Random random = new Random();

@@ -29,6 +29,7 @@ public class LectureView {
             System.out.println("\n What you want to do with Lecture?");
             System.out.println("1. Print all Lectures");
             System.out.println("2. Add new Lecture ");
+            System.out.println("3. Change information about lecture by id");
             System.out.println("3. Delete Lecture");
             System.out.println("4. Get size of array");
             System.out.println("5. Sort by id");
@@ -53,25 +54,30 @@ public class LectureView {
 
                 case "3":
                     int id = lectureService.choiceId();
-                    Lecture lectureById = lectureRepo.getLectureById(id);
-                    lectureRepo.deleteLecture(lectureById);
+                    Lecture lecture = lectureService.lectureRefactor(lectureRepo.getLectureById(id));
+                    lectureRepo.updateLecture(lecture);
                     break;
 
                 case "4":
-                    System.out.println(lectures.size());
+                    Lecture lectureById = lectureRepo.getLectureById(lectureService.choiceId());
+                    lectureRepo.deleteLecture(lectureById);
                     break;
 
                 case "5":
+                    System.out.println(lectures.size());
+                    break;
+
+                case "6":
                     lectures = lectureService.sortLectureById(lectures);
                     System.out.println(lectures);
                     break;
 
-                case "6":
+                case "7":
                     Lecture firstLecture = lectureService.findFirstLecture(lectures);
                     System.out.println(firstLecture);
                     break;
 
-                case "7":
+                case "8":
                     /*lecturesAsMap.forEach((k, v) -> System.out.println(k + " " + v));*/
                     break;
 
