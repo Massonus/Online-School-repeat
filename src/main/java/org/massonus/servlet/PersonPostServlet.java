@@ -36,7 +36,7 @@ public class PersonPostServlet extends HttpServlet {
         person.setPhone(phone);
         person.setEmail(email);
         person.setRole(role);
-        personService.add(person);
+        /*personService.add(person);*/
 
         try (PrintWriter writer = response.getWriter()) {
             writer.println("<p>First Name: " + first_name + "</p>");

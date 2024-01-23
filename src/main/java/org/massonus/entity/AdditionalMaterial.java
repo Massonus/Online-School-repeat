@@ -19,6 +19,8 @@ public class AdditionalMaterial implements Comparable<AdditionalMaterial>, Seria
 
     private String task;
 
+    @Column(columnDefinition = "text", name = "resource_type")
+    @Enumerated(EnumType.STRING)
     private ResourceType resourceType;
 
     @ManyToOne(fetch = FetchType.LAZY)

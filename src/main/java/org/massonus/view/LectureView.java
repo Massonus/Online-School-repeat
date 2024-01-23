@@ -1,31 +1,28 @@
 package org.massonus.view;
 
-import org.massonus.entity.Course;
 import org.massonus.entity.Lecture;
-import org.massonus.entity.Person;
-import org.massonus.service.CourseService;
+import org.massonus.repo.LectureRepo;
 import org.massonus.service.LectureService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
-import java.util.Map;
 import java.util.Scanner;
 
 @Component
 public class LectureView {
     private final LectureService lectureService;
-    private final CourseService courseService;
+    private final LectureRepo lectureRepo;
 
     @Autowired
-    public LectureView(LectureService lectureService, CourseService courseService) {
+    public LectureView(LectureService lectureService, LectureRepo lectureRepo) {
         this.lectureService = lectureService;
-        this.courseService = courseService;
+        this.lectureRepo = lectureRepo;
     }
 
-    public void workWithLectures(List<Course> courses) {
-        List<Lecture> lectures = courseService.getAllLectures(courses);
-        Map<Person, List<Lecture>> lecturesAsMap = lectureService.groupLectureByPerson(lectures);
+    public void workWithLectures() {
+        List<Lecture> lectures = lectureRepo.getLectureList();
+        /*Map<Person, List<Lecture>> lecturesAsMap = lectureService.groupLectureByPerson(lectures);*/
 
         while (true) {
             System.out.println("\n What you want to do with Lecture?");
@@ -49,12 +46,13 @@ public class LectureView {
 
                 case "2":
                     Lecture newElement = lectureService.createElementByUser();
-                    lectureService.add(newElement, lectures);
+                    lectureRepo.addLecture(newElement);
                     break;
 
                 case "3":
                     int id = lectureService.choiceId();
-                    lectureService.removeById(lectures, id);
+                    Lecture lectureById = lectureRepo.getLectureById(id);
+                    lectureRepo.deleteLecture(lectureById);
                     break;
 
                 case "4":
@@ -72,7 +70,7 @@ public class LectureView {
                     break;
 
                 case "7":
-                    lecturesAsMap.forEach((k, v) -> System.out.println(k + " " + v));
+                    /*lecturesAsMap.forEach((k, v) -> System.out.println(k + " " + v));*/
                     break;
 
                 case "0":

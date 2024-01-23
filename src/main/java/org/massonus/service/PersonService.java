@@ -4,6 +4,8 @@ import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.core.LoggerContext;
+import org.massonus.entity.Course;
+import org.massonus.entity.Lecture;
 import org.massonus.entity.Person;
 import org.massonus.entity.Role;
 import org.massonus.repo.PersonRepo;
@@ -16,12 +18,7 @@ import java.io.IOException;
 import java.net.URISyntaxException;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.util.Comparator;
-import java.util.List;
-import java.util.Random;
-import java.util.Scanner;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -30,10 +27,12 @@ public class PersonService implements UniversalService<Person>, UniversalReposit
     private static final Logger logger = LogManager.getLogger(PersonService.class);
 
     private final PersonRepo personRepo;
+    private final LectureService lectureService;
 
     @Autowired
-    public PersonService(PersonRepo personRepo) {
+    public PersonService(PersonRepo personRepo, LectureService lectureService) {
         this.personRepo = personRepo;
+        this.lectureService = lectureService;
 
         LoggerContext context = (LoggerContext) LogManager.getContext(false);
         try {
@@ -49,7 +48,7 @@ public class PersonService implements UniversalService<Person>, UniversalReposit
         System.out.println("Then you must create the Person");
         person = new Person();
 
-        int size = personRepo.getAllPeople().size();
+        int size = personRepo.getPeopleList().size();
         person.setId(size + 1);
 
         System.out.println("Enter course id of the Person");
@@ -86,7 +85,7 @@ public class PersonService implements UniversalService<Person>, UniversalReposit
         return person;
     }
 
-    public Person createElementAuto() {
+    public Person createElementAuto(final Course course) {
         person = new Person();
         Random random = new Random();
         int id = random.nextInt(1, 50);
@@ -111,7 +110,23 @@ public class PersonService implements UniversalService<Person>, UniversalReposit
         }
         person.setEmail(generateRandomString() + "@gmail.com");
 
+        person.getCourses().add(course);
+        personRepo.addPerson(person);
+        List<Lecture> lecturesForPerson = createAndFillLecturesForPerson(course, person);
+        person.setLectures(lecturesForPerson);
+
         return person;
+    }
+
+    public List<Lecture> createAndFillLecturesForPerson(final Course course, final Person person) {
+        List<Lecture> materials = new ArrayList<>();
+        Random random = new Random();
+        int lengthMas = random.nextInt(1, 6);
+        for (int i = 0; i < lengthMas; i++) {
+            Lecture elementAuto = lectureService.createElementAuto(course, person);
+            materials.add(elementAuto);
+        }
+        return materials;
     }
 
     public String generateRandomString() {
@@ -121,89 +136,13 @@ public class PersonService implements UniversalService<Person>, UniversalReposit
         return RandomStringUtils.random(length, useLetters, useNumbers);
     }
 
-
-    public boolean add(Person elementByUser, List<Person> people) {
-        insertPersonIntoDatabase(elementByUser);
-        logger.info("added: " + elementByUser);
-        return people.add(elementByUser);
-    }
-
-    public void add(Person person) {
-        int size = personRepo.getAllPeople().size();
-        person.setId(size + 1);
-        insertPersonIntoDatabase(person);
-    }
-
-    public boolean removeById(List<Person> list, int id) {
-        for (int i = 0; i < list.size(); i++) {
-            Person element = list.get(i);
-            if (id == element.getId()) {
-                System.out.println(list.get(i));
-                Person remove = list.remove(i);
-                deletePersonFromDatabase(id);
-                logger.info("element removed " + remove);
-                return true;
-            }
-        }
-        return false;
-    }
-
-    private void insertPersonIntoDatabase(final Person person) {
-        try {
-            String sql = "INSERT INTO public.person(id, first_name, last_name, phone, email, role, course_id)VALUES (?, ?, ?, ?, ?, ?)";
-            try (Connection conn = createCon();
-                 PreparedStatement preparedStatement = conn.prepareStatement(sql)) {
-
-                preparedStatement.setInt(1, person.getId());
-                preparedStatement.setString(2, person.getFirstName());
-                preparedStatement.setString(3, person.getLastName());
-                preparedStatement.setString(4, person.getPhone());
-                preparedStatement.setString(5, person.getEmail());
-                preparedStatement.setString(6, person.getRole().toString());
-
-
-                int rows = preparedStatement.executeUpdate();
-                System.out.println("add Lines Person: " + rows);
-            }
-        } catch (Exception ex) {
-            System.out.println("Connection failed..." + ex);
-        }
-    }
-
-    private void deletePersonFromDatabase(int id) {
-        try {
-            final String sql = "DELETE FROM public.person WHERE id=" + id;
-            try (Connection conn = createCon();
-                 PreparedStatement preparedStatement = conn.prepareStatement(sql)) {
-                preparedStatement.executeUpdate();
-            }
-        } catch (Exception ex) {
-            System.out.println("Connection failed..." + ex);
-        }
-    }
-
     public Person getById(List<Person> list, int id) {
-        if (list == null) {
-            System.out.println("Please create an Array");
-            return null;
-        }
 
-        for (Person element : list) {
-            if (id == element.getId()) {
-                return element;
-            }
-        }
-        return null;
-    }
+        List<Person> collect = list.stream()
+                .filter(p -> p.getId().equals(id))
+                .toList();
 
-    public boolean writeEmailsToTheFile(List<String> collect) {
-        Path path = Path.of("src/org.massonus.view/emails.txt");
-        try (BufferedWriter writer = Files.newBufferedWriter(path)) {
-            writer.write(collect.toString());
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-        return true;
+        return collect.get(0);
     }
 
     public List<Person> sortPeopleById(List<Person> people) {
@@ -230,5 +169,14 @@ public class PersonService implements UniversalService<Person>, UniversalReposit
                 .forEach(System.out::println);
     }
 
+    public boolean writeEmailsToTheFile(List<String> collect) {
+        Path path = Path.of("src/org.massonus.view/emails.txt");
+        try (BufferedWriter writer = Files.newBufferedWriter(path)) {
+            writer.write(collect.toString());
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        return true;
+    }
 
 }

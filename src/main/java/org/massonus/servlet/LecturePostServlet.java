@@ -30,7 +30,7 @@ public class LecturePostServlet extends HttpServlet {
         final Lecture lecture = new Lecture();
         lecture.setSubject(subject);
         lecture.setDescription(description);
-        lectureService.add(lecture);
+        /*lectureService.add(lecture);*/
 
         try (PrintWriter writer = response.getWriter()) {
             writer.println("<p>Subject: " + subject + "</p>");

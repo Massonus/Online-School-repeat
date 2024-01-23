@@ -1,61 +1,76 @@
 package org.massonus.repo;
 
 import org.hibernate.Session;
+import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
+import org.hibernate.query.Query;
 import org.massonus.SessionCreator;
 import org.massonus.entity.AdditionalMaterial;
-import org.massonus.entity.ResourceType;
 import org.springframework.stereotype.Repository;
 
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.Statement;
-import java.util.ArrayList;
 import java.util.List;
+
 @Repository
 public class AdditionalMaterialRepo implements UniversalRepository {
 
-    public List<AdditionalMaterial> getAllMaterials() {
-        try {
-            final String sql = "SELECT * FROM additional_material";
-            try (Connection conn = createCon();
-                 Statement statement = conn.createStatement()) {
-                final ResultSet resultSet = statement.executeQuery(sql);
-
-                List<AdditionalMaterial> materials = new ArrayList<>();
-
-                while (resultSet.next()) {
-                    AdditionalMaterial material = new AdditionalMaterial();
-                    material.setId(resultSet.getInt("id"));
-                    material.setTask(resultSet.getString("task"));
-
-                    if (resultSet.getString("resource_type").equals("URL")) {
-                        material.setResourceType(ResourceType.URL);
-                    } else if (resultSet.getString("resource_type").equals("BOOK")) {
-                        material.setResourceType(ResourceType.BOOK);
-                    } else {
-                        material.setResourceType(ResourceType.VIDEO);
-                    }
-                    materials.add(material);
-                }
-
-                return materials;
-            }
-        } catch (Exception ex) {
-            System.out.println("Connection failed..." + ex);
-        }
-        throw new IllegalArgumentException();
+    public AdditionalMaterialRepo() {
     }
 
-    /*public static Boolean saveMaterial(final AdditionalMaterial material) {
-        try (final Session session = SessionCreator.getSessionFactory().openSession()) {
+    public void addMaterial(final AdditionalMaterial material) {
+        final SessionFactory sessionFactory = SessionCreator.getSessionFactory();
+
+        try (Session session = sessionFactory.openSession()) {
             final Transaction transaction = session.beginTransaction();
             session.save(material);
+            transaction.commit();
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
+    public List<AdditionalMaterial> getMaterialList() {
+        final SessionFactory sessionFactory = SessionCreator.getSessionFactory();
+        try (Session session = sessionFactory.openSession()) {
+            final Query<AdditionalMaterial> fromChild = session.createQuery("from AdditionalMaterial", AdditionalMaterial.class);
+            return fromChild.list();
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+        return null;
+    }
+
+    public AdditionalMaterial getMaterialById(int id) {
+        final SessionFactory sessionFactory = SessionCreator.getSessionFactory();
+        try (Session session = sessionFactory.openSession()) {
+            final Query<AdditionalMaterial> materialQuery = session.createQuery("from AdditionalMaterial where material_id = :id", AdditionalMaterial.class);
+            materialQuery.setParameter("id", id);
+            List<AdditionalMaterial> list = materialQuery.list();
+            return list.get(0);
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+        return null;
+    }
+
+    public Boolean updateMaterial(final AdditionalMaterial material) {
+        try (final Session session = SessionCreator.getSessionFactory().openSession()) {
+            final Transaction transaction = session.beginTransaction();
+            session.update(material);
             transaction.commit();
             return true;
         } catch (final Exception e) {
             throw new IllegalStateException(e);
         }
-    }*/
+    }
 
+    public Boolean deleteMaterial(final AdditionalMaterial material) {
+        try (final Session session = SessionCreator.getSessionFactory().openSession()) {
+            final Transaction transaction = session.beginTransaction();
+            session.delete(material);
+            transaction.commit();
+            return true;
+        } catch (final Exception e) {
+            throw new IllegalStateException(e);
+        }
+    }
 }

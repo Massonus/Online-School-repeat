@@ -11,11 +11,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.net.URISyntaxException;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
 import java.util.Comparator;
 import java.util.List;
-import java.util.Map;
 import java.util.Scanner;
 import java.util.stream.Collectors;
 
@@ -29,6 +26,7 @@ public class AdditionalMaterialService implements UniversalService<AdditionalMat
     @Autowired
     public AdditionalMaterialService(AdditionalMaterialRepo materialsRepo) {
         this.materialsRepo = materialsRepo;
+
         LoggerContext context = (LoggerContext) LogManager.getContext(false);
         try {
             context.setConfigLocation(AdditionalMaterialService.class.getResource("/log4j.xml").toURI());
@@ -39,9 +37,9 @@ public class AdditionalMaterialService implements UniversalService<AdditionalMat
 
     AdditionalMaterial material;
 
-    AdditionalMaterial createElementByUser() {
+    public AdditionalMaterial createElementByUser() {
         material = new AdditionalMaterial();
-        int size = materialsRepo.getAllMaterials().size();
+        int size = materialsRepo.getMaterialList().size();
         material.setId(size + 1);
         System.out.println("Enter name of material");
         Scanner scanner1 = new Scanner(System.in);
@@ -66,89 +64,22 @@ public class AdditionalMaterialService implements UniversalService<AdditionalMat
         return material;
     }
 
-    public boolean removeById(List<AdditionalMaterial> list, int id) {
-        for (int i = 0; i < list.size(); i++) {
-            AdditionalMaterial element = list.get(i);
-            if (id == element.getId()) {
-                System.out.println(list.get(i));
-                AdditionalMaterial remove = list.remove(i);
-                deleteMaterialFromDatabaseById(id);
-                logger.info("element removed " + remove);
-                return true;
-            }
-        }
-        return false;
-    }
+    AdditionalMaterial createElementAuto() {
+        material = new AdditionalMaterial();
+        int id = materialsRepo.getMaterialList().size() + 1;
+        material.setId(id);
 
-    public boolean add(List<AdditionalMaterial> materials) {
-        AdditionalMaterial elementByUser = createElementByUser();
-        insertMaterialIntoDatabase(elementByUser);
-        logger.info("added: " + elementByUser);
-        return materials.add(elementByUser);
-    }
+        material.setTask("Material " + id);
 
-    public void add(AdditionalMaterial material) {
-        int size = materialsRepo.getAllMaterials().size();
-        material.setId(size + 1);
-        insertMaterialIntoDatabase(material);
-    }
-
-    private void insertMaterialIntoDatabase(final AdditionalMaterial material) {
-        try {
-
-            String sql = "INSERT INTO public.additional_material(id, task, resource_type, lecture_id)VALUES (?, ?, ?)";
-
-            try (Connection conn = createCon();
-                 PreparedStatement preparedStatement = conn.prepareStatement(sql)) {
-
-                preparedStatement.setInt(1, material.getId());
-                preparedStatement.setString(2, material.getTask());
-                preparedStatement.setString(3, material.getResourceType().toString());
-
-                int rows = preparedStatement.executeUpdate();
-                System.out.println("add Lines Material: " + rows);
-            }
-        } catch (Exception ex) {
-            System.out.println("Connection failed..." + ex);
-        }
-    }
-
-    public void deleteMaterialFromDatabaseByLectureId(int id) {
-        try {
-            final String sql = "DELETE FROM public.additional_material WHERE lecture_id=" + id;
-            try (Connection conn = createCon();
-                 PreparedStatement preparedStatement = conn.prepareStatement(sql)) {
-                preparedStatement.executeUpdate();
-            }
-        } catch (Exception ex) {
-            System.out.println("Connection failed..." + ex);
-        }
-    }
-
-    private void deleteMaterialFromDatabaseById(int id) {
-        try {
-            final String sql = "DELETE FROM public.additional_material WHERE id=" + id;
-            try (Connection conn = createCon();
-                 PreparedStatement preparedStatement = conn.prepareStatement(sql)) {
-                preparedStatement.executeUpdate();
-            }
-        } catch (Exception ex) {
-            System.out.println("Connection failed..." + ex);
-        }
-    }
-
-    public AdditionalMaterial getById(List<AdditionalMaterial> list, int id) {
-        if (list == null) {
-            System.out.println("Please create an Array");
-            return null;
+        if (id % 2 == 0) {
+            material.setResourceType(ResourceType.URL);
+        } else if (id % 3 == 2) {
+            material.setResourceType(ResourceType.VIDEO);
+        } else {
+            material.setResourceType(ResourceType.BOOK);
         }
 
-        for (AdditionalMaterial element : list) {
-            if (id == element.getId()) {
-                return element;
-            }
-        }
-        return null;
+        return material;
     }
 
     public List<AdditionalMaterial> sortMaterialsById(List<AdditionalMaterial> materials) {

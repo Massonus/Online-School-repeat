@@ -46,8 +46,8 @@ public class CourseView {
         }
     }
 
-    public void mainMenu(List<Course> courses) {
-
+    public void mainMenu() {
+        List<Course> courses = courseRepo.getCourseList();
         while (true) {
             System.out.println("\n What you want to do?");
             System.out.println("1. Print all Courses");
@@ -90,19 +90,19 @@ public class CourseView {
                     break;
 
                 case "4":
-                    lectureView.workWithLectures(courses);
+                    lectureView.workWithLectures();
                     break;
 
                 case "5":
-                    personView.workWithPeople(courses);
+                    personView.workWithPeople();
                     break;
 
                 case "6":
-                    materialsView.workWithMaterials(courses);
+                    materialsView.workWithMaterials();
                     break;
 
                 case "7":
-                    homeworkView.workWithHomework(courses);
+                    homeworkView.workWithHomework();
                     break;
 
                 case "8":
@@ -115,8 +115,8 @@ public class CourseView {
 
                 case "10":
                     int id1 = courseService.choiceId();
-                    Course byId = courseService.getById(courses, id1);
-                    courseService.serial(byId);
+                    Course courseById = courseRepo.getCourseById(id1);
+                    courseService.serial(courseById);
                     break;
 
                 case "11":
@@ -135,8 +135,11 @@ public class CourseView {
         }
     }
 
-    public List<Course> firstCreate() {
+    public void firstInitialize() {
+        for (int i = 0; i < 4; i++) {
+            Course elementAuto = courseService.createElementAuto();
+            System.out.println(elementAuto);
+        }
 
-        return courseRepo.getAllCourses();
     }
 }

@@ -28,7 +28,7 @@ public class HomeworkPostServlet extends HttpServlet {
 
         final Homework homework = new Homework();
         homework.setTask(task);
-        homeworkService.add(homework);
+        /*homeworkService.add(homework);*/
 
         try (PrintWriter writer = response.getWriter()) {
             writer.println("<p>Task: " + task + "</p>");

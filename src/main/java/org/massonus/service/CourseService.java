@@ -1,17 +1,72 @@
 package org.massonus.service;
 
-import org.massonus.entity.*;
+import org.massonus.entity.Course;
+import org.massonus.entity.Lecture;
+import org.massonus.entity.Person;
+import org.massonus.repo.CourseRepo;
+import org.massonus.repo.LectureRepo;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.io.*;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Comparator;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
 public class CourseService implements UniversalService<Course> {
+
+    private final CourseRepo courseRepo;
+    private final PersonService personService;
+    private final LectureRepo lectureRepo;
+
+    @Autowired
+    public CourseService(CourseRepo courseRepo, PersonService personService, LectureRepo lectureRepo) {
+        this.courseRepo = courseRepo;
+        this.personService = personService;
+        this.lectureRepo = lectureRepo;
+    }
+
+    Course course;
+
+    public Course createElementAuto() {
+        course = new Course();
+        int id = courseRepo.getCourseList().size() + 1;
+        course.setId(id);
+
+        if (id == 1) {
+            course.setCourseName("First");
+        }
+        if (id == 2) {
+            course.setCourseName("Second");
+        }
+        if (id == 3) {
+            course.setCourseName("Third");
+        }
+        if (id == 4) {
+            course.setCourseName("Fourth");
+        }
+        courseRepo.addCourse(course);
+        course.setPeople(createAndFillPeopleListListForCourse(course));
+
+        List<Lecture> lecturesForCourse = lectureRepo.getLectureList().stream()
+                .filter(l -> l.getId().equals(id))
+                .collect(Collectors.toList());
+
+        course.setLectures(lecturesForCourse);
+
+        return course;
+    }
+
+    public List<Person> createAndFillPeopleListListForCourse(final Course course) {
+        List<Person> materials = new ArrayList<>();
+        Random random = new Random();
+        int lengthMas = random.nextInt(1, 9);
+        for (int i = 0; i < lengthMas; i++) {
+            Person elementAuto = personService.createElementAuto(course);
+            materials.add(elementAuto);
+        }
+        return materials;
+    }
 
     public boolean serial(Course course) {
         final File file = new File("src/main/java/org/massonus/service/serialization.txt");
@@ -34,72 +89,6 @@ public class CourseService implements UniversalService<Course> {
             Arrays.stream(e.getStackTrace()).forEach(System.out::println);
         }
         return deSer;
-    }
-
-    public boolean removeById(List<Course> list, int id) {
-        if (list == null) {
-            System.out.println("Please create the List");
-            logger.warning("array is empty");
-            return false;
-        }
-        for (int i = 0; i < list.size(); i++) {
-            Course element = list.get(i);
-            if (id == element.getId()) {
-                System.out.println(list.get(i));
-                Course remove = list.remove(i);
-                logger.info("element removed " + remove);
-                return true;
-            }
-        }
-        return false;
-    }
-
-    public Course getById(List<Course> list, int id) {
-        if (list == null) {
-            System.out.println("Please create an Array");
-            return null;
-        }
-
-        for (Course element : list) {
-            if (id == element.getId()) {
-                return element;
-            }
-        }
-        return null;
-    }
-
-    public List<AdditionalMaterial> getAllMaterials(List<Course> courses) {
-        List<AdditionalMaterial> materials = getAllLectures(courses).stream()
-                .map(Lecture::getMaterials)
-                .flatMap(Collection::stream).toList();
-        logger.info("List of materials created " + materials.size());
-        return materials;
-    }
-
-    public List<Homework> getAllHomework(List<Course> courses) {
-        List<Homework> homeworkList = getAllLectures(courses).stream()
-                .map(Lecture::getHomeworks)
-                .flatMap(Collection::stream).toList();
-        logger.info("List of homework created " + homeworkList.size());
-        return homeworkList;
-    }
-
-    public List<Lecture> getAllLectures(List<Course> courses) {
-        List<Lecture> lectures = courses.stream()
-                .map(Course::getLectures)
-                .flatMap(Collection::stream)
-                .collect(Collectors.toList());
-        logger.info("List of lectures created " + lectures.size());
-        return lectures;
-    }
-
-    public List<Person> getAllPeople(List<Course> courses) {
-        List<Person> people = courses.stream()
-                .map(Course::getPeople)
-                .flatMap(Collection::stream)
-                .collect(Collectors.toList());
-        logger.info("List of people created " + people.size());
-        return people;
     }
 
     public List<Course> sortCoursesById(List<Course> courses) {

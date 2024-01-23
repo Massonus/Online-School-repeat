@@ -1,6 +1,7 @@
 package org.massonus.entity;
 
 import lombok.Data;
+import lombok.ToString;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -26,6 +27,7 @@ public class Homework implements Serializable {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "lecture_id")
+    @ToString.Exclude
     private Lecture lecture;
 
     @Transient
@@ -34,29 +36,10 @@ public class Homework implements Serializable {
     @Column(name = "deadline")
     private Date deadline;
 
-
-
     public Homework() {
         localDateDeadline = LocalDate.of(LocalDate.now().getYear(), LocalDate.now().getMonth(), LocalDate.now().getDayOfMonth() + 2);
         formatterDeadline = DateTimeFormatter.ofPattern("MMM d, EEEE");
         deadline = Date.valueOf(localDateDeadline);
-    }
-
-    @Override
-    public String toString() {
-
-        if (Objects.isNull(formatterDeadline)) {
-            return "Homework{" +
-                    "id=" + id +
-                    ", task='" + task + '\'' +
-                    '}';
-        } else {
-            return "Homework{" +
-                    "id=" + id +
-                    ", task='" + task + '\'' +
-                    ", deadline=" + formatterDeadline.format(localDateDeadline) +
-                    '}';
-        }
     }
 
     @Override

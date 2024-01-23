@@ -5,10 +5,10 @@ import lombok.ToString;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.sql.Date;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 
@@ -29,8 +29,9 @@ public class Lecture implements Comparable<Lecture>, Serializable {
     @ToString.Exclude
     private Course course;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "person_id")
+    @ToString.Exclude
     private Person person;
 
     @OneToMany(mappedBy = "lecture",
@@ -40,8 +41,8 @@ public class Lecture implements Comparable<Lecture>, Serializable {
     private List<Homework> homeworks = new ArrayList<>();
 
     @OneToMany(mappedBy = "lecture",
-    cascade = CascadeType.ALL,
-    orphanRemoval = true)
+            cascade = CascadeType.ALL,
+            orphanRemoval = true)
     @ToString.Exclude
     private List<AdditionalMaterial> materials = new ArrayList<>();
 
@@ -59,6 +60,7 @@ public class Lecture implements Comparable<Lecture>, Serializable {
     public Lecture() {
         lectureDate = LocalDate.now();
         formatter = DateTimeFormatter.ofPattern("MMM d, EEEE");
+        lectureDateSql = Date.valueOf(lectureDate);
     }
 
     @Override
@@ -68,8 +70,8 @@ public class Lecture implements Comparable<Lecture>, Serializable {
             return "\n Lecture{" +
                     "id=" + id +
                     ", name='" + subject + '\'' +
-                    ", person=" + person +
-                    ", homeworks=" + homeworks +
+                    /*", person=" + person +
+                    ", homeworks=" + homeworks +*/
                     ", materials=" + materials +
                     ", description='" + description + '\'' +
                     '}';
@@ -78,8 +80,8 @@ public class Lecture implements Comparable<Lecture>, Serializable {
                     "id=" + id +
                     ", name='" + subject + '\'' +
                     ", lectureDate=" + formatter.format(lectureDate) +
-                    ", person=" + person +
-                    ", homeworks=" + homeworks +
+                    /*", person=" + person +
+                    ", homeworks=" + homeworks +*/
                     ", materials=" + materials +
                     ", description='" + description + '\'' +
                     '}';

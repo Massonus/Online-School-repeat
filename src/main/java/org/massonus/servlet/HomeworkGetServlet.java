@@ -21,7 +21,7 @@ public class HomeworkGetServlet extends HttpServlet {
 
         final ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("ApplicationContext_oldExample.xml");
         final HomeworkRepo homeworkRepo = context.getBean("homeworkRepo", HomeworkRepo.class);
-        final List<Homework> homeworkList = homeworkRepo.getAllHomework();
+        final List<Homework> homeworkList = homeworkRepo.getHomeworkList();
 
         resp.setContentType("text/html");
 

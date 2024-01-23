@@ -31,7 +31,7 @@ public class AdditionalMaterialPostServlet extends HttpServlet {
         final AdditionalMaterial material = new AdditionalMaterial();
         material.setTask(task);
         material.setResourceType(resourceType);
-        materialsService.add(material);
+        /*materialsService.add(material);*/
 
         try (PrintWriter writer = response.getWriter()) {
             writer.println("<p>Task: " + task + "</p>");

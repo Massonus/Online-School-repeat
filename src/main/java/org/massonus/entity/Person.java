@@ -1,6 +1,7 @@
 package org.massonus.entity;
 
 import lombok.Data;
+import lombok.ToString;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -26,13 +27,21 @@ public class Person implements Comparable<Person>, Serializable {
 
     private String email;
 
-    private Role role;
-
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "person_course",
-    joinColumns = @JoinColumn(name = "person_id"),
-    inverseJoinColumns = @JoinColumn(name = "course_id"))
+            joinColumns = @JoinColumn(name = "person_id"),
+            inverseJoinColumns = @JoinColumn(name = "course_id"))
     private List<Course> courses = new ArrayList<>();
+
+    @Column(columnDefinition = "text", name = "role")
+    @Enumerated(EnumType.STRING)
+    private Role role;
+
+    @OneToMany(mappedBy = "person",
+            cascade = CascadeType.ALL,
+            orphanRemoval = true)
+    @ToString.Exclude
+    private List<Lecture> lectures = new ArrayList<>();
 
     @Transient
     private transient Integer task;

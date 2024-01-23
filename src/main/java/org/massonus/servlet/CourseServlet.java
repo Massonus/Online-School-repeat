@@ -21,7 +21,7 @@ public class CourseServlet extends HttpServlet {
 
         final ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("ApplicationContext_oldExample.xml");
         final CourseRepo courseRepo = context.getBean("courseRepo", CourseRepo.class);
-        final List<Course> courses = courseRepo.getAllCourses();
+        final List<Course> courses = courseRepo.getCourseList();
 
         resp.setContentType("text/html");
 
