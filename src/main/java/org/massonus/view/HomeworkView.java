@@ -33,17 +33,18 @@ public class HomeworkView {
     }
 
     public void workWithHomework() {
-
+        List<Homework> homeworkList = homeworkRepo.getHomeworkList();
         while (true) {
-            List<Homework> homeworkList = homeworkRepo.getHomeworkList();
+
 
             System.out.println("\n Make your choice (use only numbers)");
             System.out.println("1. Print all Homeworks");
             System.out.println("2. Add new Homework");
-            System.out.println("3. Delete element");
-            System.out.println("4. Get size of array");
-            System.out.println("5. Sort all homework by lectureId");
-            System.out.println("6. Print all homework as Map");
+            System.out.println("3. Change information about homework by id");
+            System.out.println("4. Delete element");
+            System.out.println("5. Get size of array");
+            System.out.println("6. Sort all homework by lectureId");
+            System.out.println("7. Print all homework as Map");
             System.out.println("0. Return");
 
             Scanner scanner = new Scanner(System.in);
@@ -52,6 +53,7 @@ public class HomeworkView {
             switch (select) {
 
                 case "1":
+                    homeworkList = homeworkRepo.getHomeworkList();
                     homeworkService.printAll(homeworkList);
                     break;
 
@@ -62,19 +64,24 @@ public class HomeworkView {
 
                 case "3":
                     int id = homeworkService.choiceId();
-                    final Homework homeworkById = homeworkRepo.getHomeworkById(id);
-                    homeworkRepo.deleteHomework(homeworkById);
+                    Homework refactoredHomework = homeworkService.homeworkRefactor(homeworkRepo.getHomeworkById(id));
+                    homeworkRepo.updateHomework(refactoredHomework);
                     break;
 
                 case "4":
+                    final Homework homeworkById = homeworkRepo.getHomeworkById(homeworkService.choiceId());
+                    homeworkRepo.deleteHomework(homeworkById);
+                    break;
+
+                case "5":
                     System.out.println(homeworkList.size());
                     break;
 
-                /*case "5":
+                /*case "6":
                     allHomework = homeworkService.sortHomeworkByLectureId(allHomework);
                     break;
 
-                case "6":
+                case "7":
                     homeworksAsMap.forEach((k, v) -> System.out.println("lectureID " + k + " " + v));
                     break;*/
 

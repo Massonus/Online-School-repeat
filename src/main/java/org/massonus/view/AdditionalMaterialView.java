@@ -98,7 +98,8 @@ public class AdditionalMaterialView {
                     logger.info("sorted by name");
                     break;
 
-                /*case "9":
+                /*
+                case "9":
                     allMaterials = materialService.sortMaterialsByLectureId(allMaterials);
                     logger.info("sorted by lectureId");
                     break;

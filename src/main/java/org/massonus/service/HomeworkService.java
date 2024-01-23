@@ -42,6 +42,16 @@ public class HomeworkService implements UniversalService<Homework>, UniversalRep
         return homework;
     }
 
+    public Homework homeworkRefactor(final Homework homework) {
+        System.out.println("Change the task");
+        Scanner scanner = new Scanner(System.in);
+        String task = scanner.nextLine();
+        homework.setTask(task);
+
+        return homework;
+
+    }
+
     /*public List<Homework> sortHomeworkByLectureId(List<Homework> homeworks) {
         return homeworks.stream()
                 .sorted(Comparator.comparing(Homework::getLectureId))
