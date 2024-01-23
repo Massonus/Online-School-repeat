@@ -13,6 +13,12 @@ public class Config {
 
     @Scope("singleton")
     @Bean
+    public Controller controller() {
+        return new Controller(courseView(), materialsView(), homeworkView(), lectureView(), personView(), logView(), courseService());
+    }
+
+    @Scope("singleton")
+    @Bean
     public AdditionalMaterialRepo materialRepo() {
         return new AdditionalMaterialRepo();
     }
@@ -85,6 +91,12 @@ public class Config {
 
     @Scope("singleton")
     @Bean
+    public CourseView courseView() {
+        return new CourseView(courseService(), courseRepo());
+    }
+
+    @Scope("singleton")
+    @Bean
     public HomeworkView homeworkView() {
         return new HomeworkView(homeworkService(), homeworkRepo());
     }
@@ -107,9 +119,5 @@ public class Config {
         return new LogView(logService());
     }
 
-    @Scope("singleton")
-    @Bean
-    public CourseView courseView() {
-        return new CourseView(courseService(), courseRepo(), materialsView(), homeworkView(), lectureView(), personView(), logView());
-    }
+
 }

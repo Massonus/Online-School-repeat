@@ -30,11 +30,11 @@ public class LectureView {
             System.out.println("1. Print all Lectures");
             System.out.println("2. Add new Lecture ");
             System.out.println("3. Change information about lecture by id");
-            System.out.println("3. Delete Lecture");
-            System.out.println("4. Get size of array");
-            System.out.println("5. Sort by id");
-            System.out.println("6. Print the first lecture and what have the most amount of materials");
-            System.out.println("7. Print lectures grouping by teacher");
+            System.out.println("4. Delete Lecture");
+            System.out.println("5. Get size of array");
+            System.out.println("6. Sort by id");
+            System.out.println("7. Print the first lecture and what have the most amount of materials");
+            System.out.println("8. Print lectures grouping by teacher");
             System.out.println("0. Return");
 
             Scanner scanner = new Scanner(System.in);

@@ -5,8 +5,6 @@ import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.core.LoggerContext;
 import org.massonus.entity.Course;
 import org.massonus.repo.CourseRepo;
-import org.massonus.service.AdditionalMaterialService;
-import org.massonus.service.ControlWorkService;
 import org.massonus.service.CourseService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -21,32 +19,21 @@ public class CourseView {
     private static final Logger logger = LogManager.getLogger(CourseView.class);
     private final CourseService courseService;
     private final CourseRepo courseRepo;
-    private final AdditionalMaterialView materialsView;
-    private final HomeworkView homeworkView;
-    private final LectureView lectureView;
-    private final PersonView personView;
-    private final ControlWorkService workService = new ControlWorkService();
-    private final LogView logView;
 
     @Autowired
-    public CourseView(CourseService courseService, CourseRepo courseRepo, AdditionalMaterialView materialsView, HomeworkView homeworkView, LectureView lectureView, PersonView personView, LogView logView) {
+    public CourseView(CourseService courseService, CourseRepo courseRepo) {
         this.courseService = courseService;
         this.courseRepo = courseRepo;
-        this.materialsView = materialsView;
-        this.homeworkView = homeworkView;
-        this.lectureView = lectureView;
-        this.personView = personView;
-        this.logView = logView;
 
         LoggerContext context = (LoggerContext) LogManager.getContext(false);
         try {
-            context.setConfigLocation(AdditionalMaterialService.class.getResource("/log4j.xml").toURI());
+            context.setConfigLocation(CourseView.class.getResource("/log4j.xml").toURI());
         } catch (URISyntaxException e) {
             throw new RuntimeException(e);
         }
     }
 
-    public void mainMenu() {
+    public void workWithCourses() {
         List<Course> courses = courseRepo.getCourseList();
         while (true) {
 
@@ -54,15 +41,9 @@ public class CourseView {
             System.out.println("1. Print all Courses");
             System.out.println("2. Sort by id");
             System.out.println("3. Sort by name");
-            System.out.println("4. Work with lectures");
-            System.out.println("5. Work with people");
-            System.out.println("6. Work with materials");
-            System.out.println("7. Work with homework");
-            System.out.println("8. Work with logs");
-            System.out.println("9. Start control work");
-            System.out.println("10. Make serialization");
-            System.out.println("11. Print deserialization");
-            System.out.println("0. Exit");
+            System.out.println("4. Make serialization");
+            System.out.println("5. Print deserialization");
+            System.out.println("0. Return");
 
             Scanner scanner = new Scanner(System.in);
             String choice = scanner.nextLine();
@@ -94,56 +75,24 @@ public class CourseView {
                     break;
 
                 case "4":
-                    lectureView.workWithLectures();
-                    break;
-
-                case "5":
-                    personView.workWithPeople();
-                    break;
-
-                case "6":
-                    materialsView.workWithMaterials();
-                    break;
-
-                case "7":
-                    homeworkView.workWithHomework();
-                    break;
-
-                case "8":
-                    logView.loggerMenu();
-                    break;
-
-                case "9":
-                    workService.startControlWork();
-                    break;
-
-                case "10":
                     int id1 = courseService.choiceId();
                     Course courseById = courseRepo.getCourseById(id1);
                     courseService.serial(courseById);
                     break;
 
-                case "11":
+                case "5":
                     Course deSer = courseService.deSer();
                     System.out.println(deSer);
                     break;
 
                 case "0":
-                    logger.info("exit program");
-                    System.exit(0);
+                    logger.info("return");
+                    return;
 
                 default:
                     logger.warn("incorrect symbol: " + choice);
                     System.out.println("Incorrect");
             }
         }
-    }
-
-    public void firstInitialize() {
-        for (int i = 0; i < 4; i++) {
-            Course elementAuto = courseService.createElementAuto();
-            System.out.println(elementAuto);
-        }
-
     }
 }
