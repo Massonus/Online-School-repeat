@@ -5,11 +5,13 @@ import lombok.ToString;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
 
 @Entity
-@Table(name = "course")
 @Data
+@Table(name = "course")
 public class Course implements Comparable<Course>, Serializable {
 
     @Id
