@@ -69,7 +69,7 @@ public class LectureView {
 
                 case "6":
                     lectures = lectureService.sortLectureById(lectures);
-                    System.out.println(lectures);
+                    lectureService.printAll(lectures);
                     break;
 
                 case "7":

@@ -32,6 +32,12 @@
         <!--показывает правильный формат SQL-->
         <property name="format_sql">true</property>
 
+        <property name="hibernate.cache.use_second_level_cache">true</property>
+        <property name="hibernate.cache.region.factory_class">jcache</property>
+        <property name="hibernate.javax.cache.provider">
+            org.ehcache.jsr107.EhcacheCachingProvider
+        </property>
+
         <!--mapping есть обязательным, как и другие настройки-->
         <mapping class="org.massonus.entity.AdditionalMaterial"/>
         <mapping class="org.massonus.entity.Course"/>

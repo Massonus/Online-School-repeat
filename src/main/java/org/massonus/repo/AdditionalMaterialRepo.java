@@ -17,14 +17,23 @@ public class AdditionalMaterialRepo implements UniversalRepository {
     }
 
     public void addMaterial(final AdditionalMaterial material) {
-        final SessionFactory sessionFactory = SessionCreator.getSessionFactory();
 
-        try (Session session = sessionFactory.openSession()) {
-            final Transaction transaction = session.beginTransaction();
+        final SessionFactory sessionFactory = SessionCreator.getSessionFactory();
+        final Session session = sessionFactory.openSession();
+        final Transaction transaction = session.beginTransaction();
+
+        try {
+
             session.save(material);
             transaction.commit();
+
         } catch (Exception e) {
+
             System.out.println(e.getMessage());
+            transaction.rollback();
+
+        } finally {
+            session.close();
         }
     }
 
