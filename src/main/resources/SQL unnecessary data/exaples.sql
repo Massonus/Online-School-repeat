@@ -15,28 +15,28 @@ SELECT count(id) AS br, count(count_materials) AS cm
 FROM test_lectures
 
 SELECT min(lecture_date)
-FROM test_lectures
+FROM lecture
 
-SELECT name, COUNT(*) as count
-FROM test_lectures
-WHERE name = 'It'
-GROUP BY name
+SELECT subject, COUNT(*) as count
+FROM lecture
+WHERE subject = 'Geography'
+GROUP BY subject
 HAVING COUNT (*) > 1;
 
-SELECT foo.id
-FROM (SELECT id, name, lecture_date FROM test_lectures) AS foo
+SELECT foo.lecture_id
+FROM (SELECT lecture_id, subject, lecture_date FROM lecture) AS foo
 
 SELECT *
 FROM test_lectures
-WHERE id IN (SELECT id FROM lecture);
+WHERE lecture_id IN (SELECT lecture_id FROM lecture);
 
 SELECT *
 FROM test_lectures
-WHERE id > ALL (SELECT id FROM lecture);
+WHERE lecture_id > ALL (SELECT lecture_id FROM lecture);
 
 SELECT *
 FROM test_lectures
-WHERE id > ANY (SELECT id FROM lecture);
+WHERE lecture_id > ANY (SELECT lecture_id FROM lecture);
 
 SELECT *
 FROM lecture
