@@ -224,6 +224,7 @@ public class PersonService implements UniversalService<Person>, UniversalReposit
     public List<String> getEmailsFromFile() {
         List<String> emails = new ArrayList<>();
         Path path = Paths.get("src/main/resources/emails.txt");
+
         try {
             BufferedReader reader = Files.newBufferedReader(path, StandardCharsets.UTF_8);
             String currentValue;
