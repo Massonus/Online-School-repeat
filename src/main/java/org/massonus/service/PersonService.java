@@ -11,10 +11,13 @@ import org.massonus.repo.UniversalRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -209,13 +212,28 @@ public class PersonService implements UniversalService<Person>, UniversalReposit
     }
 
     public boolean writeEmailsToTheFile(List<String> collect) {
-        Path path = Path.of("src/org.massonus.view/emails.txt");
+        Path path = Path.of("src/main/resources/emails.txt");
         try (BufferedWriter writer = Files.newBufferedWriter(path)) {
             writer.write(collect.toString());
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
         return true;
+    }
+
+    public List<String> getEmailsFromFile() {
+        List<String> emails = new ArrayList<>();
+        Path path = Paths.get("src/main/resources/emails.txt");
+        try {
+            BufferedReader reader = Files.newBufferedReader(path, StandardCharsets.UTF_8);
+            String currentValue;
+            while ((currentValue = reader.readLine()) != null) {
+                emails.add(currentValue);
+            }
+        } catch (IOException e) {
+            Arrays.stream(e.getStackTrace()).forEach(System.out::println);
+        }
+        return emails;
     }
 
 }
