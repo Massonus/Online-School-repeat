@@ -43,7 +43,7 @@ public class PersonSorted extends HttpServlet implements UniversalRepository {
 
                 while (resultSet.next()) {
                     Person person = new Person();
-                    person.setId(resultSet.getInt("id"));
+                    /*person.setId(resultSet.getInt("id"));*/
                     person.setFirstName(resultSet.getString("first_name"));
                     person.setLastName(resultSet.getString("last_name"));
                     person.setRole(resultSet.getString("role").equals("TEACHER") ? Role.TEACHER : Role.STUDENT);

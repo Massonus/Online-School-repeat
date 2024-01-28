@@ -5,17 +5,19 @@ import lombok.ToString;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
 
 @Entity
-@Table (name = "person")
+@Table(name = "person")
 @Data
 public class Person implements Comparable<Person>, Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "person_id", nullable = false)
-    private Integer id;
+    private Long id;
 
     @Column(name = "first_name")
     private String firstName;

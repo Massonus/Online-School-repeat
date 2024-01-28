@@ -1,16 +1,23 @@
 package org.massonus.service;
 
 import org.massonus.entity.Homework;
+import org.massonus.repo.HomeworkRepo;
 import org.massonus.repo.UniversalRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+import java.util.Optional;
 import java.util.Random;
 import java.util.Scanner;
 
 @Service
 public class HomeworkService implements UniversalService<Homework>, UniversalRepository {
 
-    public HomeworkService() {
+
+    private final HomeworkRepo homeworkRepo;
+
+    public HomeworkService(HomeworkRepo homeworkRepo) {
+        this.homeworkRepo = homeworkRepo;
     }
 
     Homework homework;
@@ -29,8 +36,7 @@ public class HomeworkService implements UniversalService<Homework>, UniversalRep
     Homework createElementAuto() {
         homework = new Homework();
         Random random = new Random();
-        int id = random.nextInt(1, 50);
-        homework.setId(id);
+        long id = random.nextInt(1, 50);
 
         if (id < 10 || id > 40) {
             homework.setTask("Doing first and second");
@@ -50,6 +56,22 @@ public class HomeworkService implements UniversalService<Homework>, UniversalRep
 
         return homework;
 
+    }
+
+    public void saveHomework(final Homework homework) {
+        homeworkRepo.save(homework);
+    }
+
+    public List<Homework> getHomeworkList() {
+        return homeworkRepo.findAll();
+    }
+
+    public Optional<Homework> getHomeworkById(final long id) {
+        return homeworkRepo.findById(id);
+    }
+
+    public void deleteHomework(final long id) {
+        homeworkRepo.deleteById(id);
     }
 
     /*public List<Homework> sortHomeworkByLectureId(List<Homework> homeworks) {

@@ -21,7 +21,7 @@ class UniversalServiceTest {
         target = context.getBean("personService", PersonService.class);
         check = new ArrayList<>();
         Person person = new Person();
-        person.setId(1);
+        person.setId(1L);
         person.setRole(Role.TEACHER);
         check.add(person);
     }

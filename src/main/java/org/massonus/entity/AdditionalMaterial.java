@@ -6,15 +6,17 @@ import lombok.ToString;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Objects;
+
 @Entity
-@Table (name = "additional_material")
+@Table(name = "additional_material")
 @Data
-public class AdditionalMaterial implements Comparable<AdditionalMaterial>, Serializable {
+@ToString
+public class AdditionalMaterial implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "material_id", nullable = false)
-    private Integer id;
+    private Long id;
 
     private String task;
 
@@ -31,15 +33,6 @@ public class AdditionalMaterial implements Comparable<AdditionalMaterial>, Seria
     }
 
     @Override
-    public String toString() {
-        return "AdditionalMaterial{" +
-                "id=" + id +
-                ", task='" + task + '\'' +
-                ", resourceType=" + resourceType +
-                '}';
-    }
-
-    @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
@@ -50,10 +43,5 @@ public class AdditionalMaterial implements Comparable<AdditionalMaterial>, Seria
     @Override
     public int hashCode() {
         return Objects.hash(task);
-    }
-
-    @Override
-    public int compareTo(AdditionalMaterial o) {
-        return this.id - o.getId();
     }
 }

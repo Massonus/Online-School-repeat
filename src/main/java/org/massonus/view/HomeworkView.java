@@ -2,14 +2,11 @@ package org.massonus.view;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.apache.logging.log4j.core.LoggerContext;
 import org.massonus.entity.Homework;
-import org.massonus.repo.HomeworkRepo;
 import org.massonus.service.HomeworkService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.net.URISyntaxException;
 import java.util.List;
 import java.util.Scanner;
 
@@ -17,23 +14,14 @@ import java.util.Scanner;
 public class HomeworkView {
     private static final Logger logger = LogManager.getLogger(HomeworkView.class);
     private final HomeworkService homeworkService;
-    private final HomeworkRepo homeworkRepo;
 
     @Autowired
-    public HomeworkView(HomeworkService homeworkService, HomeworkRepo homeworkRepo) {
+    public HomeworkView(HomeworkService homeworkService) {
         this.homeworkService = homeworkService;
-        this.homeworkRepo = homeworkRepo;
-
-        LoggerContext context = (LoggerContext) LogManager.getContext(false);
-        try {
-            context.setConfigLocation(HomeworkView.class.getResource("/log4j.xml").toURI());
-        } catch (URISyntaxException e) {
-            throw new RuntimeException(e);
-        }
     }
 
     public void workWithHomework() {
-        List<Homework> homeworkList = homeworkRepo.getHomeworkList();
+        List<Homework> homeworkList = homeworkService.getHomeworkList();
         while (true) {
 
 
@@ -53,24 +41,23 @@ public class HomeworkView {
             switch (select) {
 
                 case "1":
-                    homeworkList = homeworkRepo.getHomeworkList();
+                    homeworkList = homeworkService.getHomeworkList();
                     homeworkService.printAll(homeworkList);
                     break;
 
                 case "2":
                     final Homework elementByUser = homeworkService.createElementByUser();
-                    homeworkRepo.addHomework(elementByUser);
+                    homeworkService.saveHomework(elementByUser);
                     break;
 
                 case "3":
                     int id = homeworkService.choiceId();
-                    Homework refactoredHomework = homeworkService.homeworkRefactor(homeworkRepo.getHomeworkById(id));
-                    homeworkRepo.updateHomework(refactoredHomework);
+                    Homework refactoredHomework = homeworkService.homeworkRefactor(homeworkService.getHomeworkById(id).orElse(new Homework()));
+                    homeworkService.saveHomework(refactoredHomework);
                     break;
 
                 case "4":
-                    final Homework homeworkById = homeworkRepo.getHomeworkById(homeworkService.choiceId());
-                    homeworkRepo.deleteHomework(homeworkById);
+                    homeworkService.deleteHomework(homeworkService.choiceId());
                     break;
 
                 case "5":

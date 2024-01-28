@@ -9,7 +9,7 @@
 
     <bean class="org.springframework.context.annotation.CommonAnnotationBeanPostProcessor"/>
 
-    <bean id="materialsRepo"
+    <!--<bean id="materialsRepo"
           class="org.massonus.repo.AdditionalMaterialRepo">
     </bean>
 
@@ -94,6 +94,6 @@
     <bean id="logView"
           class="org.massonus.view.LogView">
         <constructor-arg ref="logService"/>
-    </bean>
+    </bean>-->
 
 </beans>

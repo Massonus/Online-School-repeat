@@ -10,6 +10,7 @@ import org.springframework.context.annotation.Scope;
 
 @Configuration
 public class Config {
+/*
 
     @Scope("singleton")
     @Bean
@@ -119,5 +120,6 @@ public class Config {
         return new LogView(logService());
     }
 
+*/
 
 }

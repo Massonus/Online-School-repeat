@@ -2,14 +2,11 @@ package org.massonus.view;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.apache.logging.log4j.core.LoggerContext;
 import org.massonus.entity.AdditionalMaterial;
-import org.massonus.repo.AdditionalMaterialRepo;
 import org.massonus.service.AdditionalMaterialService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.net.URISyntaxException;
 import java.util.List;
 import java.util.Scanner;
 
@@ -17,23 +14,14 @@ import java.util.Scanner;
 public class AdditionalMaterialView {
     private static final Logger logger = LogManager.getLogger(AdditionalMaterialView.class);
     private final AdditionalMaterialService materialService;
-    private final AdditionalMaterialRepo materialRepo;
 
     @Autowired
-    public AdditionalMaterialView(AdditionalMaterialService materialService, AdditionalMaterialRepo materialRepo) {
+    public AdditionalMaterialView( AdditionalMaterialService materialService) {
         this.materialService = materialService;
-        this.materialRepo = materialRepo;
-
-        LoggerContext context = (LoggerContext) LogManager.getContext(false);
-        try {
-            context.setConfigLocation(AdditionalMaterialView.class.getResource("/log4j.xml").toURI());
-        } catch (URISyntaxException e) {
-            throw new RuntimeException(e);
-        }
     }
 
     public void workWithMaterials() {
-        List<AdditionalMaterial> materials = materialRepo.getMaterialList();
+        List<AdditionalMaterial> materials = materialService.getMaterialList();
         while (true) {
 
 
@@ -56,23 +44,23 @@ public class AdditionalMaterialView {
 
             switch (select) {
                 case "1":
-                    materials = materialRepo.getMaterialList();
+                    materials = materialService.getMaterialList();
                     materialService.printAll(materials);
                     break;
 
                 case "2":
                     final AdditionalMaterial elementByUser = materialService.createElementByUser();
-                    materialRepo.addMaterial(elementByUser);
+                    materialService.saveMaterial(elementByUser);
                     break;
 
                 case "3":
                     int id = materialService.choiceId();
-                    AdditionalMaterial refactoredMaterial = materialService.materialRefactor(materialRepo.getMaterialById(id));
-                    materialRepo.updateMaterial(refactoredMaterial);
+                    AdditionalMaterial refactoredMaterial = materialService.getMaterialById(id).orElse(new AdditionalMaterial());
+                    materialService.saveMaterial(refactoredMaterial);
                     break;
 
                 case "4":
-                    materialRepo.deleteMaterial(materialRepo.getMaterialById(materialService.choiceId()));
+                    materialService.deleteMaterial(materialService.choiceId());
                     break;
 
                 case "5":

@@ -10,14 +10,14 @@ import java.util.List;
 import java.util.Objects;
 
 @Entity
-@Data
 @Table(name = "course")
+@Data
 public class Course implements Comparable<Course>, Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "course_id", nullable = false)
-    private Integer id;
+    private Long id;
 
     @Column(name = "course_name")
     private String courseName;
@@ -32,10 +32,6 @@ public class Course implements Comparable<Course>, Serializable {
     private List<Lecture> lectures = new ArrayList<>();
 
     public Course() {
-    }
-
-    public Course(String courseName) {
-        this.courseName = courseName;
     }
 
     @Override

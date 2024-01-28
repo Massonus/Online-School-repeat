@@ -9,15 +9,16 @@ import java.sql.Date;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.Objects;
+
 @Entity
-@Table (name = "homework")
+@Table(name = "homework")
 @Data
 public class Homework implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "homework_id", nullable = false)
-    private Integer id;
+    private Long id;
 
     @Column(name = "task")
     private String task;
@@ -44,11 +45,19 @@ public class Homework implements Serializable {
 
     @Override
     public String toString() {
-        return "Homework{" +
-                "id=" + id +
-                ", task='" + task + '\'' +
-                ", deadline=" + deadline +
-                '}';
+
+        if (Objects.isNull(formatterDeadline)) {
+            return "Homework{" +
+                    "id=" + id +
+                    ", task='" + task + '\'' +
+                    '}';
+        } else {
+            return "Homework{" +
+                    "id=" + id +
+                    ", task='" + task + '\'' +
+                    ", deadline=" + formatterDeadline.format(localDateDeadline) +
+                    '}';
+        }
     }
 
     @Override

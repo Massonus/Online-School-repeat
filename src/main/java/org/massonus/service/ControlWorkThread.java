@@ -20,10 +20,10 @@ public class ControlWorkThread implements Runnable {
     @Override
     public void run() {
         Person person = new Person();
-        person.setId(id);
+        person.setId(id.longValue());
         person.setTask(task);
         person.setRole(Role.STUDENT);
         System.out.println("I am a " + person.getRole() + " with id: " + person.getId() + ". I have task number = " + person.getTask());
-        people.put(person.getId(), person);
+        people.put(Integer.valueOf(person.getId().toString()), person);
     }
 }

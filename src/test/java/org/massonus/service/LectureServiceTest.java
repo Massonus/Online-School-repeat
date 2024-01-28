@@ -25,19 +25,19 @@ class LectureServiceTest {
     void setUp() {
 
         expectedPerson = new Person();
-        expectedPerson.setId(2);
+        expectedPerson.setId(2L);
         expectedPerson.setRole(Role.TEACHER);
         expectedLecture = new Lecture();
-        expectedLecture.setId(1);
+        expectedLecture.setId(1L);
         expectedLecture.setSubject("Math");
         expectedLecture.setPerson(expectedPerson);
         expectedLecture.setMaterials(List.of(new AdditionalMaterial(), new AdditionalMaterial()));
 
         Lecture lecture = new Lecture();
-        lecture.setId(2);
+        lecture.setId(2L);
         lecture.setSubject("Math");
         Person person = new Person();
-        person.setId(1);
+        person.setId(1L);
         person.setRole(Role.TEACHER);
         lecture.setPerson(person);
         lecture.setMaterials(List.of(new AdditionalMaterial()));

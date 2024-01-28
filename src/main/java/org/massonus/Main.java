@@ -6,7 +6,7 @@ import org.springframework.context.annotation.AnnotationConfigApplicationContext
 public class Main {
     public static void main(String[] args) {
 
-        final ApplicationContext context = new AnnotationConfigApplicationContext(Config.class);
+        final ApplicationContext context = new AnnotationConfigApplicationContext(JpaConfig.class);
 
         final Controller controller = context.getBean(Controller.class);
         controller.firstInitialize();

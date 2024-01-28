@@ -13,14 +13,14 @@ import java.util.List;
 import java.util.Objects;
 
 @Entity
-@Table (name = "lecture")
+@Table(name = "lecture")
 @Data
 public class Lecture implements Comparable<Lecture>, Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "lecture_id", nullable = false)
-    private Integer id;
+    private Long id;
 
     private String subject;
 
@@ -65,12 +65,24 @@ public class Lecture implements Comparable<Lecture>, Serializable {
 
     @Override
     public String toString() {
-        return "Lecture{" +
-                "id=" + id +
-                ", subject='" + subject + '\'' +
-                ", description='" + description + '\'' +
-                ", lectureDateSql=" + lectureDateSql +
-                '}';
+
+        if (Objects.isNull(formatter)) {
+            return "\n Lecture{" +
+                    "id=" + id +
+                    ", name='" + subject + '\'' +
+                    ", materials=" + materials +
+                    ", homeworks=" + homeworks +
+                    ", description='" + description + '\'' +
+                    '}';
+        } else {
+            return "\n Lecture{" +
+                    "id=" + id +
+                    ", name='" + subject + '\'' +
+                    ", lectureDate=" + formatter.format(lectureDate) +
+                    ", materials=" + materials +
+                    ", description='" + description + '\'' +
+                    '}';
+        }
     }
 
     @Override

@@ -1,16 +1,15 @@
 package org.massonus.service;
 
 import org.massonus.entity.AdditionalMaterial;
-import org.massonus.entity.Lecture;
 import org.massonus.entity.ResourceType;
 import org.massonus.repo.AdditionalMaterialRepo;
-import org.massonus.repo.LectureRepo;
 import org.massonus.repo.UniversalRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Comparator;
 import java.util.List;
+import java.util.Optional;
 import java.util.Scanner;
 import java.util.stream.Collectors;
 
@@ -18,18 +17,18 @@ import java.util.stream.Collectors;
 public class AdditionalMaterialService implements UniversalService<AdditionalMaterial>, UniversalRepository {
 
     private final AdditionalMaterialRepo materialsRepo;
-    private final LectureRepo lectureRepo;
 
     @Autowired
-    public AdditionalMaterialService(AdditionalMaterialRepo materialsRepo, LectureRepo lectureRepo) {
+    public AdditionalMaterialService(AdditionalMaterialRepo materialsRepo) {
         this.materialsRepo = materialsRepo;
-        this.lectureRepo = lectureRepo;
     }
 
     AdditionalMaterial material;
 
     public AdditionalMaterial createElementByUser() {
         material = new AdditionalMaterial();
+        long size = materialsRepo.findAll().size();
+        material.setId(size + 1L);
         System.out.println("Enter name of material");
         Scanner scanner1 = new Scanner(System.in);
         String name = scanner1.nextLine();
@@ -55,7 +54,7 @@ public class AdditionalMaterialService implements UniversalService<AdditionalMat
 
     AdditionalMaterial createElementAuto() {
         material = new AdditionalMaterial();
-        int id = materialsRepo.getMaterialList().size() + 1;
+        long id = materialsRepo.findAll().size() + 1L;
 
         material.setTask("Material " + id);
 
@@ -96,16 +95,31 @@ public class AdditionalMaterialService implements UniversalService<AdditionalMat
         String task = scanner1.nextLine();
         material.setTask(task);
 
-        System.out.println("Choose the lecture for the material");
+        /*System.out.println("Choose the lecture for the material");
         lectureRepo.getLectureList().forEach(System.out::println);
         Scanner scanner2 = new Scanner(System.in);
         int id = scanner2.nextInt();
         Lecture lectureById = lectureRepo.getLectureById(id);
-        material.setLecture(lectureById);
+        material.setLecture(lectureById);*/
 
         return material;
     }
 
+    public void saveMaterial(final AdditionalMaterial material) {
+        materialsRepo.save(material);
+    }
+
+    public List<AdditionalMaterial> getMaterialList() {
+        return materialsRepo.findAll();
+    }
+
+    public Optional<AdditionalMaterial> getMaterialById(final long id) {
+        return materialsRepo.findById(id);
+    }
+
+    public void deleteMaterial(final long id) {
+        materialsRepo.deleteById(id);
+    }
     public List<AdditionalMaterial> sortMaterialsById(List<AdditionalMaterial> materials) {
         return materials.stream()
                 .sorted(Comparator.comparing(AdditionalMaterial::getId))

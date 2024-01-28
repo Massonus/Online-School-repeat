@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import java.net.URISyntaxException;
 import java.util.Scanner;
 
+@org.springframework.stereotype.Controller
 public class Controller {
 
     private static final Logger logger = LogManager.getLogger(Controller.class);
