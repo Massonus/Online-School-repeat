@@ -16,7 +16,7 @@ public class AdditionalMaterialView {
     private final AdditionalMaterialService materialService;
 
     @Autowired
-    public AdditionalMaterialView( AdditionalMaterialService materialService) {
+    public AdditionalMaterialView(AdditionalMaterialService materialService) {
         this.materialService = materialService;
     }
 
@@ -54,8 +54,8 @@ public class AdditionalMaterialView {
                     break;
 
                 case "3":
-                    int id = materialService.choiceId();
-                    AdditionalMaterial refactoredMaterial = materialService.getMaterialById(id).orElse(new AdditionalMaterial());
+                    long id = materialService.choiceId();
+                    AdditionalMaterial refactoredMaterial = materialService.materialRefactor(materialService.getMaterialById(id).get());
                     materialService.saveMaterial(refactoredMaterial);
                     break;
 

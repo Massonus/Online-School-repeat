@@ -34,7 +34,7 @@ public class JpaConfig {
     public DataSource dataSource() {
         BasicDataSource dataSource = new BasicDataSource();
         dataSource.setDriverClassName("org.postgresql.Driver");
-        dataSource.setUrl("jdbc:postgresql://localhost:5432/Test");
+        dataSource.setUrl("jdbc:postgresql://localhost:5432/Online School Repeat");
         dataSource.setUsername("postgres");
         dataSource.setPassword("root");
         return dataSource;

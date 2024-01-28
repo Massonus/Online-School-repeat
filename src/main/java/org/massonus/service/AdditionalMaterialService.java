@@ -1,8 +1,10 @@
 package org.massonus.service;
 
 import org.massonus.entity.AdditionalMaterial;
+import org.massonus.entity.Lecture;
 import org.massonus.entity.ResourceType;
 import org.massonus.repo.AdditionalMaterialRepo;
+import org.massonus.repo.LectureRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -16,10 +18,12 @@ import java.util.stream.Collectors;
 public class AdditionalMaterialService implements UniversalService<AdditionalMaterial> {
 
     private final AdditionalMaterialRepo materialsRepo;
+    private final LectureRepo lectureRepo;
 
     @Autowired
-    public AdditionalMaterialService(AdditionalMaterialRepo materialsRepo) {
+    public AdditionalMaterialService(AdditionalMaterialRepo materialsRepo, LectureRepo lectureRepo) {
         this.materialsRepo = materialsRepo;
+        this.lectureRepo = lectureRepo;
     }
 
     AdditionalMaterial material;
@@ -47,6 +51,13 @@ public class AdditionalMaterialService implements UniversalService<AdditionalMat
         } else {
             System.out.println("Incorrect");
         }
+
+        System.out.println("Choose the lecture for the material");
+        lectureRepo.findAll().forEach(System.out::println);
+        Scanner scanner3 = new Scanner(System.in);
+        Long id = scanner3.nextLong();
+        Lecture lectureById = lectureRepo.findById(id).get();
+        material.setLecture(lectureById);
 
         return material;
     }
@@ -94,12 +105,12 @@ public class AdditionalMaterialService implements UniversalService<AdditionalMat
         String task = scanner1.nextLine();
         material.setTask(task);
 
-        /*System.out.println("Choose the lecture for the material");
-        lectureRepo.getLectureList().forEach(System.out::println);
+        System.out.println("Choose the lecture for the material");
+        lectureRepo.findAll().forEach(System.out::println);
         Scanner scanner2 = new Scanner(System.in);
-        int id = scanner2.nextInt();
-        Lecture lectureById = lectureRepo.getLectureById(id);
-        material.setLecture(lectureById);*/
+        Long id = scanner2.nextLong();
+        Lecture lectureById = lectureRepo.findById(id).get();
+        material.setLecture(lectureById);
 
         return material;
     }
@@ -119,6 +130,7 @@ public class AdditionalMaterialService implements UniversalService<AdditionalMat
     public void deleteMaterial(final long id) {
         materialsRepo.deleteById(id);
     }
+
     public List<AdditionalMaterial> sortMaterialsById(List<AdditionalMaterial> materials) {
         return materials.stream()
                 .sorted(Comparator.comparing(AdditionalMaterial::getId))

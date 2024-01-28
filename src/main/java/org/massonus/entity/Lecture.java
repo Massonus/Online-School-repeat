@@ -70,8 +70,6 @@ public class Lecture implements Comparable<Lecture>, Serializable {
             return "\n Lecture{" +
                     "id=" + id +
                     ", name='" + subject + '\'' +
-                    ", materials=" + materials +
-                    ", homeworks=" + homeworks +
                     ", description='" + description + '\'' +
                     '}';
         } else {
@@ -79,7 +77,6 @@ public class Lecture implements Comparable<Lecture>, Serializable {
                     "id=" + id +
                     ", name='" + subject + '\'' +
                     ", lectureDate=" + formatter.format(lectureDate) +
-                    ", materials=" + materials +
                     ", description='" + description + '\'' +
                     '}';
         }

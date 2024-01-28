@@ -52,7 +52,7 @@ public class HomeworkView {
 
                 case "3":
                     int id = homeworkService.choiceId();
-                    Homework refactoredHomework = homeworkService.homeworkRefactor(homeworkService.getHomeworkById(id).orElse(new Homework()));
+                    Homework refactoredHomework = homeworkService.homeworkRefactor(homeworkService.getHomeworkById(id).get());
                     homeworkService.saveHomework(refactoredHomework);
                     break;
 

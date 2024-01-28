@@ -1,7 +1,10 @@
 package org.massonus.service;
 
 import org.massonus.entity.Homework;
+import org.massonus.entity.Lecture;
 import org.massonus.repo.HomeworkRepo;
+import org.massonus.repo.LectureRepo;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -14,9 +17,12 @@ public class HomeworkService implements UniversalService<Homework> {
 
 
     private final HomeworkRepo homeworkRepo;
+    private final LectureRepo lectureRepo;
 
-    public HomeworkService(HomeworkRepo homeworkRepo) {
+    @Autowired
+    public HomeworkService(HomeworkRepo homeworkRepo, LectureRepo lectureRepo) {
         this.homeworkRepo = homeworkRepo;
+        this.lectureRepo = lectureRepo;
     }
 
     Homework homework;
@@ -28,6 +34,13 @@ public class HomeworkService implements UniversalService<Homework> {
         Scanner scanner2 = new Scanner(System.in);
         String task = scanner2.nextLine();
         homework.setTask(task);
+
+        System.out.println("Choose the lecture for the homework");
+        lectureRepo.findAll().forEach(System.out::println);
+        Scanner scanner3 = new Scanner(System.in);
+        Long id = scanner3.nextLong();
+        Lecture lectureById = lectureRepo.findById(id).get();
+        homework.setLecture(lectureById);
 
         return homework;
     }
@@ -52,6 +65,13 @@ public class HomeworkService implements UniversalService<Homework> {
         Scanner scanner = new Scanner(System.in);
         String task = scanner.nextLine();
         homework.setTask(task);
+
+        System.out.println("Change the lecture for the homework");
+        lectureRepo.findAll().forEach(System.out::println);
+        Scanner scanner3 = new Scanner(System.in);
+        Long id = scanner3.nextLong();
+        Lecture lectureById = lectureRepo.findById(id).get();
+        homework.setLecture(lectureById);
 
         return homework;
 

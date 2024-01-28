@@ -33,6 +33,7 @@ public class Person implements Comparable<Person>, Serializable {
     @JoinTable(name = "person_course",
             joinColumns = @JoinColumn(name = "person_id"),
             inverseJoinColumns = @JoinColumn(name = "course_id"))
+    @ToString.Exclude
     private List<Course> courses = new ArrayList<>();
 
     @Column(columnDefinition = "text", name = "role")
