@@ -10,7 +10,6 @@ import java.util.Objects;
 @Entity
 @Table(name = "additional_material")
 @Data
-@ToString
 public class AdditionalMaterial implements Serializable {
 
     @Id
