@@ -45,19 +45,11 @@ public class Homework implements Serializable {
 
     @Override
     public String toString() {
-
-        if (Objects.isNull(formatterDeadline)) {
-            return "Homework{" +
-                    "id=" + id +
-                    ", task='" + task + '\'' +
-                    '}';
-        } else {
-            return "Homework{" +
-                    "id=" + id +
-                    ", task='" + task + '\'' +
-                    ", deadline=" + formatterDeadline.format(localDateDeadline) +
-                    '}';
-        }
+        return "Homework{" +
+                "id=" + id +
+                ", task='" + task + '\'' +
+                ", deadline=" + deadline +
+                '}';
     }
 
     @Override
