@@ -8,9 +8,9 @@ public class Main {
 
         final ApplicationContext context = new AnnotationConfigApplicationContext(JpaConfig.class);
 
-        final Controller controller = context.getBean(Controller.class);
-        controller.firstInitialize();
-        controller.mainMenu();
+        final ConsoleController consoleController = context.getBean(ConsoleController.class);
+        consoleController.firstInitialize();
+        consoleController.mainMenu();
 
     }
 }

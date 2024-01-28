@@ -8,14 +8,16 @@ import org.massonus.service.ControlWorkService;
 import org.massonus.service.CourseService;
 import org.massonus.view.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Controller;
 
 import java.net.URISyntaxException;
 import java.util.Scanner;
 
-@org.springframework.stereotype.Controller
-public class Controller {
+@Controller
+public class ConsoleController {
 
-    private static final Logger logger = LogManager.getLogger(Controller.class);
+    private static final Logger logger = LogManager.getLogger(ConsoleController.class);
     private final CourseView courseView;
     private final AdditionalMaterialView materialsView;
     private final HomeworkView homeworkView;
@@ -26,7 +28,7 @@ public class Controller {
     private final ControlWorkService workService = new ControlWorkService();
 
     @Autowired
-    public Controller(CourseView courseView, AdditionalMaterialView materialsView, HomeworkView homeworkView, LectureView lectureView, PersonView personView, LogView logView, CourseService courseService) {
+    public ConsoleController(CourseView courseView, AdditionalMaterialView materialsView, HomeworkView homeworkView, LectureView lectureView, PersonView personView, LogView logView, CourseService courseService) {
         this.courseView = courseView;
         this.materialsView = materialsView;
         this.homeworkView = homeworkView;
@@ -37,7 +39,7 @@ public class Controller {
 
         LoggerContext context = (LoggerContext) LogManager.getContext(false);
         try {
-            context.setConfigLocation(Controller.class.getResource("/log4j.xml").toURI());
+            context.setConfigLocation(ConsoleController.class.getResource("/log4j.xml").toURI());
         } catch (URISyntaxException e) {
             throw new RuntimeException(e);
         }
