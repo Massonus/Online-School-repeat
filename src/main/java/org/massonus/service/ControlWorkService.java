@@ -11,7 +11,7 @@ public class ControlWorkService {
         for (int i = 1; i < 10; i++) {
             Random random = new Random();
             time = random.nextInt(8, 14);
-            timesOfWork.put(Integer.valueOf(people.get(i).getId().toString()), time);
+            timesOfWork.put(people.get(i).getId().intValue(), time);
             System.out.println("Student " + people.get(i).getId() + " did the control work in " + time);
         }
     }

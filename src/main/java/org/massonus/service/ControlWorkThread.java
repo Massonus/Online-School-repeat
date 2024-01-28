@@ -24,6 +24,6 @@ public class ControlWorkThread implements Runnable {
         person.setTask(task);
         person.setRole(Role.STUDENT);
         System.out.println("I am a " + person.getRole() + " with id: " + person.getId() + ". I have task number = " + person.getTask());
-        people.put(Integer.valueOf(person.getId().toString()), person);
+        people.put(person.getId().intValue(), person);
     }
 }
