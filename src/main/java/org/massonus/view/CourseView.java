@@ -4,7 +4,6 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.core.LoggerContext;
 import org.massonus.entity.Course;
-import org.massonus.repo.CourseRepo;
 import org.massonus.service.CourseService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -18,12 +17,10 @@ import java.util.Scanner;
 public class CourseView {
     private static final Logger logger = LogManager.getLogger(CourseView.class);
     private final CourseService courseService;
-    private final CourseRepo courseRepo;
 
     @Autowired
-    public CourseView(CourseService courseService, CourseRepo courseRepo) {
+    public CourseView(CourseService courseService) {
         this.courseService = courseService;
-        this.courseRepo = courseRepo;
 
         LoggerContext context = (LoggerContext) LogManager.getContext(false);
         try {
@@ -34,7 +31,7 @@ public class CourseView {
     }
 
     public void workWithCourses() {
-        List<Course> courses = courseRepo.getCourseList();
+        List<Course> courses = courseService.getCourseList();
         while (true) {
 
             System.out.println("\n What do you want to do?");
@@ -50,7 +47,7 @@ public class CourseView {
 
             switch (choice) {
                 case "1":
-                    courses = courseRepo.getCourseList();
+                    courses = courseService.getCourseList();
                     courseService.printAll(courses);
                     break;
 
@@ -76,7 +73,7 @@ public class CourseView {
 
                 case "4":
                     int id1 = courseService.choiceId();
-                    Course courseById = courseRepo.getCourseById(id1);
+                    Course courseById = courseService.getCourseById(id1).orElse(new Course());
                     courseService.serial(courseById);
                     break;
 

@@ -6,8 +6,8 @@ import org.massonus.entity.Lecture;
 import org.massonus.entity.Person;
 import org.massonus.entity.Role;
 import org.massonus.repo.CourseRepo;
+import org.massonus.repo.LectureRepo;
 import org.massonus.repo.PersonRepo;
-import org.massonus.repo.UniversalRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -22,17 +22,19 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
-public class PersonService implements UniversalService<Person>, UniversalRepository {
+public class PersonService implements UniversalService<Person> {
 
     private final PersonRepo personRepo;
-    private final LectureService lectureService;
     private final CourseRepo courseRepo;
+    private final LectureService lectureService;
+    private final LectureRepo lectureRepo;
 
     @Autowired
-    public PersonService(PersonRepo personRepo, LectureService lectureService, CourseRepo courseRepo) {
+    public PersonService(PersonRepo personRepo, CourseRepo courseRepo, LectureService lectureService, LectureRepo lectureRepo) {
         this.personRepo = personRepo;
-        this.lectureService = lectureService;
         this.courseRepo = courseRepo;
+        this.lectureService = lectureService;
+        this.lectureRepo = lectureRepo;
     }
 
     Person person;
@@ -69,13 +71,21 @@ public class PersonService implements UniversalService<Person>, UniversalReposit
             System.out.println("Incorrect");
         }
 
+        personRepo.save(person);
+
+        List<Lecture> lectures = lecturesForPerson(person);
+        person.setLectures(lectures);
+
+        List<Course> courses = coursesForPerson(person);
+        person.setCourses(courses);
+
         return person;
     }
 
     public Person createElementAuto(final Course course) {
         person = new Person();
         Random random = new Random();
-        int id = random.nextInt(1, 50);
+        long id = random.nextInt(1, 50);
 
         if (id < 10 || id > 40) {
             person.setFirstName("John");
@@ -97,9 +107,8 @@ public class PersonService implements UniversalService<Person>, UniversalReposit
         person.setEmail(generateRandomString() + "@gmail.com");
 
         person.getCourses().add(course);
-        personRepo.addPerson(person);
-        List<Lecture> lecturesForPerson = createAndFillLecturesForPerson(course, person);
-        person.setLectures(lecturesForPerson);
+        personRepo.save(person);
+        person.setLectures(createAndFillLecturesForPerson(course, person));
 
         return person;
     }
@@ -133,16 +142,18 @@ public class PersonService implements UniversalService<Person>, UniversalReposit
             System.out.println("Incorrect");
         }
 
-        List<Course> courses = coursesForPerson();
+        List<Lecture> lectures = lecturesForPerson(person);
+        person.setLectures(lectures);
+
+        List<Course> courses = coursesForPerson(person);
         person.setCourses(courses);
 
-        person.setLectures(createAndFillLecturesForPerson(courses.get(0), person));
-
+        personRepo.save(person);
 
         return person;
     }
 
-    private List<Course> coursesForPerson() {
+    private List<Course> coursesForPerson(Person person) {
         List<Course> courses = new ArrayList<>();
 
         System.out.println("How many courses?");
@@ -151,13 +162,36 @@ public class PersonService implements UniversalService<Person>, UniversalReposit
 
         System.out.println("Choose courses: ");
 
-        courseRepo.getCourseList().forEach(System.out::println);
+        courseRepo.findAll().forEach(System.out::println);
         for (int i = 0; i < length; i++) {
             Scanner scanner1 = new Scanner(System.in);
-            Course courseById = courseRepo.getCourseById(scanner1.nextInt());
+            Course courseById = courseRepo.findById(scanner1.nextLong()).get();
+            courseById.getPeople().add(person);
+            courseRepo.save(courseById);
             courses.add(courseById);
         }
         return courses;
+    }
+
+    private List<Lecture> lecturesForPerson(final Person person) {
+        List<Lecture> lectures = new ArrayList<>();
+
+        System.out.println("How many lectures?");
+        Scanner scanner = new Scanner(System.in);
+        int length = scanner.nextInt();
+
+        System.out.println("Choose lectures: ");
+
+        lectureRepo.findAll().forEach(System.out::println);
+
+        for (int i = 0; i < length; i++) {
+            Scanner scanner1 = new Scanner(System.in);
+            Lecture lectureById = lectureRepo.findById(scanner1.nextLong()).get();
+            lectureById.setPerson(person);
+            lectureRepo.save(lectureById);
+            lectures.add(lectureById);
+        }
+        return lectures;
     }
 
     private List<Lecture> createAndFillLecturesForPerson(final Course course, final Person person) {
@@ -178,13 +212,29 @@ public class PersonService implements UniversalService<Person>, UniversalReposit
         return RandomStringUtils.random(length, useLetters, useNumbers);
     }
 
-    public Person getById(List<Person> list, int id) {
+    public Person getById(List<Person> list, long id) {
 
         List<Person> collect = list.stream()
                 .filter(p -> p.getId().equals(id))
                 .toList();
 
         return collect.get(0);
+    }
+
+    public void savePerson(final Person person) {
+        personRepo.save(person);
+    }
+
+    public List<Person> getPeopleList() {
+        return personRepo.findAll();
+    }
+
+    public Optional<Person> getPersonById(final long id) {
+        return personRepo.findById(id);
+    }
+
+    public void deletePerson(final long id) {
+        personRepo.deleteById(id);
     }
 
     public List<Person> sortPeopleById(List<Person> people) {

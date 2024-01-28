@@ -1,16 +1,28 @@
 package org.massonus.service;
 
 import org.massonus.entity.Homework;
-import org.massonus.repo.UniversalRepository;
+import org.massonus.entity.Lecture;
+import org.massonus.repo.HomeworkRepo;
+import org.massonus.repo.LectureRepo;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+import java.util.Optional;
 import java.util.Random;
 import java.util.Scanner;
 
 @Service
-public class HomeworkService implements UniversalService<Homework>, UniversalRepository {
+public class HomeworkService implements UniversalService<Homework> {
 
-    public HomeworkService() {
+
+    private final HomeworkRepo homeworkRepo;
+    private final LectureRepo lectureRepo;
+
+    @Autowired
+    public HomeworkService(HomeworkRepo homeworkRepo, LectureRepo lectureRepo) {
+        this.homeworkRepo = homeworkRepo;
+        this.lectureRepo = lectureRepo;
     }
 
     Homework homework;
@@ -23,14 +35,20 @@ public class HomeworkService implements UniversalService<Homework>, UniversalRep
         String task = scanner2.nextLine();
         homework.setTask(task);
 
+        System.out.println("Choose the lecture for the homework");
+        lectureRepo.findAll().forEach(System.out::println);
+        Scanner scanner3 = new Scanner(System.in);
+        Long id = scanner3.nextLong();
+        Lecture lectureById = lectureRepo.findById(id).get();
+        homework.setLecture(lectureById);
+
         return homework;
     }
 
     Homework createElementAuto() {
         homework = new Homework();
         Random random = new Random();
-        int id = random.nextInt(1, 50);
-        homework.setId(id);
+        long id = random.nextInt(1, 50);
 
         if (id < 10 || id > 40) {
             homework.setTask("Doing first and second");
@@ -48,8 +66,31 @@ public class HomeworkService implements UniversalService<Homework>, UniversalRep
         String task = scanner.nextLine();
         homework.setTask(task);
 
+        System.out.println("Change the lecture for the homework");
+        lectureRepo.findAll().forEach(System.out::println);
+        Scanner scanner3 = new Scanner(System.in);
+        Long id = scanner3.nextLong();
+        Lecture lectureById = lectureRepo.findById(id).get();
+        homework.setLecture(lectureById);
+
         return homework;
 
+    }
+
+    public void saveHomework(final Homework homework) {
+        homeworkRepo.save(homework);
+    }
+
+    public List<Homework> getHomeworkList() {
+        return homeworkRepo.findAll();
+    }
+
+    public Optional<Homework> getHomeworkById(final long id) {
+        return homeworkRepo.findById(id);
+    }
+
+    public void deleteHomework(final long id) {
+        homeworkRepo.deleteById(id);
     }
 
     /*public List<Homework> sortHomeworkByLectureId(List<Homework> homeworks) {

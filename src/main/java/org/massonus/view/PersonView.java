@@ -1,7 +1,6 @@
 package org.massonus.view;
 
 import org.massonus.entity.Person;
-import org.massonus.repo.PersonRepo;
 import org.massonus.service.PersonService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -13,16 +12,14 @@ import java.util.Scanner;
 @Component
 public class PersonView {
     private final PersonService personService;
-    private final PersonRepo personRepo;
 
     @Autowired
-    public PersonView(PersonService personService, PersonRepo personRepo) {
+    public PersonView(PersonService personService) {
         this.personService = personService;
-        this.personRepo = personRepo;
     }
 
     public void workWithPeople() {
-        List<Person> people = personRepo.getPeopleList();
+        List<Person> people = personService.getPeopleList();
         while (true) {
 
             System.out.println("\n What you want to do?");
@@ -45,24 +42,23 @@ public class PersonView {
             switch (choice) {
 
                 case "1":
-                    people = personRepo.getPeopleList();
+                    people = personService.getPeopleList();
                     personService.printAll(people);
                     break;
 
                 case "2":
                     Person newElement = personService.createElementByUser();
-                    personRepo.addPerson(newElement);
+                    personService.savePerson(newElement);
                     break;
 
                 case "3":
                     int id = personService.choiceId();
-                    Person person = personService.personRefactor(personRepo.getPersonById(id));
-                    personRepo.updatePerson(person);
+                    Person person = personService.personRefactor(personService.getPersonById(id).orElse(new Person()));
+                    personService.savePerson(person);
                     break;
 
                 case "4":
-                    Person personById = personRepo.getPersonById(personService.choiceId());
-                    personRepo.deletePerson(personById);
+                    personService.deletePerson(personService.choiceId());
                     break;
 
                 case "5":

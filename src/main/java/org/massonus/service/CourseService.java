@@ -30,8 +30,7 @@ public class CourseService implements UniversalService<Course> {
 
     public Course createElementAuto() {
         course = new Course();
-        int id = courseRepo.getCourseList().size() + 1;
-        course.setId(id);
+        long id = courseRepo.findAll().size() + 1;
 
         if (id == 1) {
             course.setCourseName("First");
@@ -45,10 +44,10 @@ public class CourseService implements UniversalService<Course> {
         if (id == 4) {
             course.setCourseName("Fourth");
         }
-        courseRepo.addCourse(course);
+        courseRepo.save(course);
         course.setPeople(createAndFillPeopleListListForCourse(course));
 
-        List<Lecture> lecturesForCourse = lectureRepo.getLectureList().stream()
+        List<Lecture> lecturesForCourse = lectureRepo.findAll().stream()
                 .filter(l -> l.getId().equals(id))
                 .collect(Collectors.toList());
 
@@ -68,8 +67,16 @@ public class CourseService implements UniversalService<Course> {
         return materials;
     }
 
+    public List<Course> getCourseList() {
+        return courseRepo.findAll();
+    }
+
+    public Optional<Course> getCourseById(final long id) {
+        return courseRepo.findById(id);
+    }
+
     public boolean serial(Course course) {
-        final File file = new File("src/main/java/org/massonus/service/serialization.txt");
+        final File file = new File("src/main/resources/serialization.txt");
         try (ObjectOutputStream outputStream = new ObjectOutputStream(new FileOutputStream(file))) {
             outputStream.writeObject(course);
             System.out.println("serial completed successfully \n" + course);
@@ -80,7 +87,7 @@ public class CourseService implements UniversalService<Course> {
     }
 
     public Course deSer() {
-        final File file = new File("src/main/java/org/massonus/service/serialization.txt");
+        final File file = new File("src/main/resources/serialization.txt");
         Course deSer = null;
         try (ObjectInputStream inputStream = new ObjectInputStream(new FileInputStream(file))) {
             deSer = (Course) inputStream.readObject();

@@ -5,8 +5,6 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import org.massonus.entity.Lecture;
-import org.massonus.repo.LectureRepo;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import java.io.IOException;
@@ -18,7 +16,7 @@ public class LectureTheEarliest extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         final ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("ApplicationContext_oldExample.xml");
-        final LectureRepo lectureRepo = context.getBean("lectureRepo", LectureRepo.class);
+        /*final LectureRepo lectureRepo = context.getBean("lectureRepo", LectureRepo.class);*/
 
         resp.setContentType("text/html");
 

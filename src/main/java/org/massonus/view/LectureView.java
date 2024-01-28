@@ -1,7 +1,6 @@
 package org.massonus.view;
 
 import org.massonus.entity.Lecture;
-import org.massonus.repo.LectureRepo;
 import org.massonus.service.LectureService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -12,18 +11,16 @@ import java.util.Scanner;
 @Component
 public class LectureView {
     private final LectureService lectureService;
-    private final LectureRepo lectureRepo;
 
     @Autowired
-    public LectureView(LectureService lectureService, LectureRepo lectureRepo) {
+    public LectureView(LectureService lectureService) {
         this.lectureService = lectureService;
-        this.lectureRepo = lectureRepo;
     }
 
     public void workWithLectures() {
 
         /*Map<Person, List<Lecture>> lecturesAsMap = lectureService.groupLectureByPerson(lectures);*/
-        List<Lecture> lectures = lectureRepo.getLectureList();
+        List<Lecture> lectures = lectureService.getLectureList();
         while (true) {
 
             System.out.println("\n What you want to do with Lecture?");
@@ -43,24 +40,23 @@ public class LectureView {
             switch (choice) {
 
                 case "1":
-                    lectures = lectureRepo.getLectureList();
+                    lectures = lectureService.getLectureList();
                     lectureService.printAll(lectures);
                     break;
 
                 case "2":
                     Lecture newElement = lectureService.createElementByUser();
-                    lectureRepo.addLecture(newElement);
+                    lectureService.saveLecture(newElement);
                     break;
 
                 case "3":
                     int id = lectureService.choiceId();
-                    Lecture lecture = lectureService.lectureRefactor(lectureRepo.getLectureById(id));
-                    lectureRepo.updateLecture(lecture);
+                    Lecture lecture = lectureService.lectureRefactor(lectureService.getLectureById(id).orElse(new Lecture()));
+                    lectureService.saveLecture(lecture);
                     break;
 
                 case "4":
-                    Lecture lectureById = lectureRepo.getLectureById(lectureService.choiceId());
-                    lectureRepo.deleteLecture(lectureById);
+                    lectureService.deleteLecture(lectureService.choiceId());
                     break;
 
                 case "5":

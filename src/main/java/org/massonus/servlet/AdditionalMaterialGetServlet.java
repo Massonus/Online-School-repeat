@@ -6,7 +6,6 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.massonus.entity.AdditionalMaterial;
-import org.massonus.repo.AdditionalMaterialRepo;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -17,9 +16,9 @@ public class AdditionalMaterialGetServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        final AdditionalMaterialRepo materialRepo = new AdditionalMaterialRepo();
+        /*final AdditionalMaterialRepo materialRepo = new AdditionalMaterialRepo();
         final List<AdditionalMaterial> materials = materialRepo.getMaterialList();
-
+*/
         resp.setContentType("text/html");
 
         PrintWriter writer = resp.getWriter();
@@ -34,7 +33,7 @@ public class AdditionalMaterialGetServlet extends HttpServlet {
                 "    <title>Document</title>\n" +
                 "</head>\n" +
                 "<body>\n" +
-                "<h2 class=\"materials\">" + materials + "</h2>\n" +
+                "<h2 class=\"materials\">" + /*materials +*/ "</h2>\n" +
                 "</body>\n" +
                 "</html>");
 
