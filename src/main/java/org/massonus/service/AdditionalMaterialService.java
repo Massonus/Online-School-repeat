@@ -3,7 +3,6 @@ package org.massonus.service;
 import org.massonus.entity.AdditionalMaterial;
 import org.massonus.entity.ResourceType;
 import org.massonus.repo.AdditionalMaterialRepo;
-import org.massonus.repo.UniversalRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -14,7 +13,7 @@ import java.util.Scanner;
 import java.util.stream.Collectors;
 
 @Service
-public class AdditionalMaterialService implements UniversalService<AdditionalMaterial>, UniversalRepository {
+public class AdditionalMaterialService implements UniversalService<AdditionalMaterial> {
 
     private final AdditionalMaterialRepo materialsRepo;
 

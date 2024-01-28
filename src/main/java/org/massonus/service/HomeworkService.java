@@ -2,7 +2,6 @@ package org.massonus.service;
 
 import org.massonus.entity.Homework;
 import org.massonus.repo.HomeworkRepo;
-import org.massonus.repo.UniversalRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -11,7 +10,7 @@ import java.util.Random;
 import java.util.Scanner;
 
 @Service
-public class HomeworkService implements UniversalService<Homework>, UniversalRepository {
+public class HomeworkService implements UniversalService<Homework> {
 
 
     private final HomeworkRepo homeworkRepo;

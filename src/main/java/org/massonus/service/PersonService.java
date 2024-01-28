@@ -6,7 +6,6 @@ import org.massonus.entity.Lecture;
 import org.massonus.entity.Person;
 import org.massonus.entity.Role;
 import org.massonus.repo.PersonRepo;
-import org.massonus.repo.UniversalRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -21,7 +20,7 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
-public class PersonService implements UniversalService<Person>, UniversalRepository {
+public class PersonService implements UniversalService<Person> {
 
     private final PersonRepo personRepo;
     private final LectureService lectureService;

@@ -1,7 +1,8 @@
 package org.massonus.service;
 
 import org.massonus.entity.*;
-import org.massonus.repo.*;
+import org.massonus.repo.LectureRepo;
+import org.massonus.repo.PersonRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -9,7 +10,7 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
-public class LectureService implements UniversalService<Lecture>, UniversalRepository {
+public class LectureService implements UniversalService<Lecture> {
     private final LectureRepo lectureRepo;
     private final AdditionalMaterialService materialsService;
     private final HomeworkService homeworkService;
