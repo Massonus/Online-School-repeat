@@ -10,11 +10,9 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Optional;
 import java.util.Random;
-import java.util.Scanner;
 
 @Service
 public class HomeworkService implements UniversalService<Homework> {
-
 
     private final HomeworkRepo homeworkRepo;
     private final LectureRepo lectureRepo;
@@ -27,19 +25,11 @@ public class HomeworkService implements UniversalService<Homework> {
 
     Homework homework;
 
-    public Homework createElementByUser() {
+    public Homework createElementByUserForm(final String task, final Long lectureId) {
         homework = new Homework();
 
-        System.out.println("Enter task of homework");
-        Scanner scanner2 = new Scanner(System.in);
-        String task = scanner2.nextLine();
         homework.setTask(task);
-
-        System.out.println("Choose the lecture for the homework");
-        lectureRepo.findAll().forEach(System.out::println);
-        Scanner scanner3 = new Scanner(System.in);
-        Long id = scanner3.nextLong();
-        Lecture lectureById = lectureRepo.findById(id).get();
+        Lecture lectureById = lectureRepo.findById(lectureId).orElse(null);
         homework.setLecture(lectureById);
 
         return homework;
@@ -58,23 +48,6 @@ public class HomeworkService implements UniversalService<Homework> {
             homework.setTask("No homework!!!");
         }
         return homework;
-    }
-
-    public Homework homeworkRefactor(final Homework homework) {
-        System.out.println("Change the task");
-        Scanner scanner = new Scanner(System.in);
-        String task = scanner.nextLine();
-        homework.setTask(task);
-
-        System.out.println("Change the lecture for the homework");
-        lectureRepo.findAll().forEach(System.out::println);
-        Scanner scanner3 = new Scanner(System.in);
-        Long id = scanner3.nextLong();
-        Lecture lectureById = lectureRepo.findById(id).get();
-        homework.setLecture(lectureById);
-
-        return homework;
-
     }
 
     public void saveHomework(final Homework homework) {

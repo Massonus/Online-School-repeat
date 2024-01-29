@@ -28,7 +28,7 @@ public class CourseService implements UniversalService<Course> {
 
     Course course;
 
-    public Course createElementAuto() {
+    public void createElementAuto() {
         course = new Course();
         long id = courseRepo.findAll().size() + 1;
 
@@ -53,7 +53,6 @@ public class CourseService implements UniversalService<Course> {
 
         course.setLectures(lecturesForCourse);
 
-        return course;
     }
 
     public List<Person> createAndFillPeopleListListForCourse(final Course course) {
