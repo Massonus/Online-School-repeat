@@ -11,7 +11,6 @@ import org.springframework.stereotype.Service;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
-import java.util.Scanner;
 import java.util.stream.Collectors;
 
 @Service
@@ -39,38 +38,6 @@ public class AdditionalMaterialService implements UniversalService<AdditionalMat
         return material;
     }
 
-    public AdditionalMaterial createElementByUser() {
-        material = new AdditionalMaterial();
-        System.out.println("Enter name of material");
-        Scanner scanner1 = new Scanner(System.in);
-        String name = scanner1.nextLine();
-        material.setTask(name);
-
-        System.out.println("1. To select the resourceType URL");
-        System.out.println("2. To select the resourceType VIDEO");
-        System.out.println("3. To select the resourceType BOOK");
-        Scanner scanner2 = new Scanner(System.in);
-        int resourceType = scanner2.nextInt();
-        if (resourceType == 1) {
-            material.setResourceType(ResourceType.URL);
-        } else if (resourceType == 2) {
-            material.setResourceType(ResourceType.VIDEO);
-        } else if (resourceType == 3) {
-            material.setResourceType(ResourceType.BOOK);
-        } else {
-            System.out.println("Incorrect");
-        }
-
-        System.out.println("Choose the lecture for the material");
-        lectureRepo.findAll().forEach(System.out::println);
-        Scanner scanner3 = new Scanner(System.in);
-        Long id = scanner3.nextLong();
-        Lecture lectureById = lectureRepo.findById(id).get();
-        material.setLecture(lectureById);
-
-        return material;
-    }
-
     AdditionalMaterial createElementAuto() {
         material = new AdditionalMaterial();
         long id = materialsRepo.findAll().size() + 1L;
@@ -84,42 +51,6 @@ public class AdditionalMaterialService implements UniversalService<AdditionalMat
         } else {
             material.setResourceType(ResourceType.BOOK);
         }
-
-        return material;
-    }
-
-    public AdditionalMaterial materialRefactor(final AdditionalMaterial material) {
-        System.out.println("Write down the new information: ");
-
-        System.out.println("Resource type: ");
-        Scanner scanner = new Scanner(System.in);
-        System.out.println("1. To select the resourceType URL");
-        System.out.println("2. To select the resourceType VIDEO");
-        System.out.println("3. To select the resourceType BOOK");
-
-        int resourceType = scanner.nextInt();
-
-        if (resourceType == 1) {
-            material.setResourceType(ResourceType.URL);
-        } else if (resourceType == 2) {
-            material.setResourceType(ResourceType.VIDEO);
-        } else if (resourceType == 3) {
-            material.setResourceType(ResourceType.BOOK);
-        } else {
-            System.out.println("Incorrect");
-        }
-
-        System.out.println("Task: ");
-        Scanner scanner1 = new Scanner(System.in);
-        String task = scanner1.nextLine();
-        material.setTask(task);
-
-        System.out.println("Choose the lecture for the material");
-        lectureRepo.findAll().forEach(System.out::println);
-        Scanner scanner2 = new Scanner(System.in);
-        Long id = scanner2.nextLong();
-        Lecture lectureById = lectureRepo.findById(id).get();
-        material.setLecture(lectureById);
 
         return material;
     }

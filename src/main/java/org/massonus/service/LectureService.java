@@ -45,42 +45,6 @@ public class LectureService implements UniversalService<Lecture> {
         return lecture;
     }
 
-
-    public Lecture createElementByUser() {
-
-        lecture = new Lecture();
-        System.out.println("Now create the Lecture");
-        System.out.println("Enter name of lecture");
-        Scanner scanner1 = new Scanner(System.in);
-        String name = scanner1.nextLine();
-        lecture.setSubject(name);
-
-        System.out.println("Enter description of lecture");
-        Scanner scanner2 = new Scanner(System.in);
-        String description = scanner2.nextLine();
-        lecture.setDescription(description);
-
-        System.out.println("Choose the course for lecture");
-        courseRepo.findAll().forEach(System.out::println);
-        Scanner scanner3 = new Scanner(System.in);
-        Long courseId = scanner3.nextLong();
-        Course courseById = courseRepo.getById(courseId);
-        lecture.setCourse(courseById);
-
-        System.out.println("Choose a teacher for Lecture" +
-                "Enter the id");
-
-        List<Person> allPeople = getAllTeachers();
-        allPeople.forEach(System.out::println);
-
-        Scanner scanner4 = new Scanner(System.in);
-        Long personId = scanner4.nextLong();
-        Person personForLecture = personRepo.findById(personId).get();
-        lecture.setPerson(personForLecture);
-
-        return lecture;
-    }
-
     public Lecture createElementAuto(final Course course, final Person person) {
         lecture = new Lecture();
         long size = lectureRepo.findAll().size();
@@ -103,39 +67,6 @@ public class LectureService implements UniversalService<Lecture> {
         lecture.setHomeworks(createAndFillHomeworkListListForLecture(lecture));
 
         return lecture;
-    }
-
-    public Lecture lectureRefactor(final Lecture lecture) {
-        System.out.println("Change name of lecture");
-        Scanner scanner = new Scanner(System.in);
-        String name = scanner.nextLine();
-        lecture.setSubject(name);
-
-        System.out.println("Change description of lecture");
-        Scanner scanner1 = new Scanner(System.in);
-        String description = scanner1.nextLine();
-        lecture.setDescription(description);
-
-        System.out.println("Change the course for lecture");
-        courseRepo.findAll().forEach(System.out::println);
-        Scanner scanner2 = new Scanner(System.in);
-        Long courseId = scanner2.nextLong();
-        Course courseById = courseRepo.getById(courseId);
-        lecture.setCourse(courseById);
-
-        System.out.println("Change a teacher for Lecture" +
-                "Enter the id");
-        Scanner scanner3 = new Scanner(System.in);
-
-        List<Person> allTeachers = getAllTeachers();
-        allTeachers.forEach(System.out::println);
-
-        Long teacherId = scanner3.nextLong();
-        Person personById = personRepo.getById(teacherId);
-        lecture.setPerson(personById);
-
-        return lecture;
-
     }
 
     public List<AdditionalMaterial> createAndFillMaterialsListForLecture(final Lecture lecture) {

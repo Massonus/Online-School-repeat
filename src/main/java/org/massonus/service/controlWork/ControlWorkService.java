@@ -1,4 +1,4 @@
-package org.massonus.service;
+package org.massonus.service.controlWork;
 
 import org.massonus.entity.Person;
 
