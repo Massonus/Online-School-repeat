@@ -28,10 +28,19 @@ public class AdditionalMaterialService implements UniversalService<AdditionalMat
 
     AdditionalMaterial material;
 
+    public AdditionalMaterial createElementByUserForm(String task, ResourceType resourceType, Long lectureId) {
+        material = new AdditionalMaterial();
+
+        material.setTask(task);
+        material.setResourceType(resourceType);
+        Lecture lectureById = lectureRepo.findById(lectureId).orElse(null);
+        material.setLecture(lectureById);
+
+        return material;
+    }
+
     public AdditionalMaterial createElementByUser() {
         material = new AdditionalMaterial();
-        long size = materialsRepo.findAll().size();
-        material.setId(size + 1L);
         System.out.println("Enter name of material");
         Scanner scanner1 = new Scanner(System.in);
         String name = scanner1.nextLine();

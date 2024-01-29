@@ -29,6 +29,23 @@ public class LectureService implements UniversalService<Lecture> {
 
     private Lecture lecture;
 
+    public Lecture createElementByUserForm(final String name, final String description, final Long courseId, final Long personId) {
+
+        lecture = new Lecture();
+        lecture.setSubject(name);
+
+        lecture.setDescription(description);
+
+        Course courseById = courseRepo.getById(courseId);
+        lecture.setCourse(courseById);
+
+        Person personForLecture = personRepo.findById(personId).orElse(null);
+        lecture.setPerson(personForLecture);
+
+        return lecture;
+    }
+
+
     public Lecture createElementByUser() {
 
         lecture = new Lecture();

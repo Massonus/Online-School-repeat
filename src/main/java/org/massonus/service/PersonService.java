@@ -39,6 +39,30 @@ public class PersonService implements UniversalService<Person> {
 
     Person person;
 
+    public Person createElementByUserForm(final String firstName, final String lastName, final String phone, final String email, Role role, final List<Integer> lectureIdList, final List<Integer> courseIdList) {
+        person = new Person();
+
+        person.setFirstName(firstName);
+
+        person.setLastName(lastName);
+
+        person.setPhone(phone);
+
+        person.setEmail(email);
+
+        person.setRole(role);
+
+        personRepo.save(person);
+
+        final List<Lecture> lectures = lecturesForPerson(person, lectureIdList);
+        person.setLectures(lectures);
+
+        final List<Course> courses = coursesForPerson(person, courseIdList);
+        person.setCourses(courses);
+
+        return person;
+    }
+
     public Person createElementByUser() {
         System.out.println("Then you must create the Person");
         person = new Person();
@@ -171,6 +195,29 @@ public class PersonService implements UniversalService<Person> {
             courses.add(courseById);
         }
         return courses;
+    }
+    private List<Course> coursesForPerson(final Person person, final List<Integer> courseIdList) {
+        List<Course> courses = new ArrayList<>();
+
+        for (Integer id : courseIdList) {
+            Course courseById = courseRepo.findById(id.longValue()).get();
+            courseById.getPeople().add(person);
+            courseRepo.save(courseById);
+            courses.add(courseById);
+        }
+        return courses;
+    }
+
+    private List<Lecture> lecturesForPerson(final Person person, final List<Integer> lectureIdList) {
+        List<Lecture> lectures = new ArrayList<>();
+
+        for (Integer id : lectureIdList) {
+            Lecture lectureById = lectureService.getLectureById(id).get();
+            lectureById.setPerson(person);
+            lectureService.saveLecture(lectureById);
+            lectures.add(lectureById);
+        }
+        return lectures;
     }
 
     private List<Lecture> lecturesForPerson(final Person person) {

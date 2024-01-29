@@ -6,9 +6,8 @@ import org.apache.logging.log4j.core.LoggerContext;
 import org.massonus.entity.Course;
 import org.massonus.service.ControlWorkService;
 import org.massonus.service.CourseService;
-import org.massonus.view.*;
+import org.massonus.view_toDelete.*;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Controller;
 
 import java.net.URISyntaxException;

@@ -27,6 +27,16 @@ public class HomeworkService implements UniversalService<Homework> {
 
     Homework homework;
 
+    public Homework createElementByUserForm(final String task, final Long lectureId) {
+        homework = new Homework();
+
+        homework.setTask(task);
+        Lecture lectureById = lectureRepo.findById(lectureId).orElse(null);
+        homework.setLecture(lectureById);
+
+        return homework;
+    }
+
     public Homework createElementByUser() {
         homework = new Homework();
 
