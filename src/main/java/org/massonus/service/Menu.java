@@ -12,7 +12,6 @@ import java.util.List;
 public class Menu {
 
     private final List<MenuItem> menuItems = new ArrayList<>();
-
     {
         menuItems.add(new MenuItem("/OnlineSchool_repeat_war_exploded/", "Main"));
         menuItems.add(new MenuItem("/OnlineSchool_repeat_war_exploded/all-courses", "All courses"));
